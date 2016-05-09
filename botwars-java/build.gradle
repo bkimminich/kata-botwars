@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'jacoco'
+apply plugin: 'org.junit.gen5.gradle'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.junit:junit-gradle:5.0.0-ALPHA'
+    }
+}
+
+
+junit5 {
+    version '5.0.0-ALPHA'
+    runJunit4 false
+    matchClassName '.*Test'
+}
+
+run {
+    standardInput = System.in
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+mainClassName = 'de.kimminich.kata.botwars.Game'
