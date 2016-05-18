@@ -59,12 +59,10 @@ loop:
     turn meter += speed of bot
     if (turn meter >= 1000) {
       turn meter -= 1000
-      attack random opponent bot
-      if (opponent bot(integrity <= 0)) {immediately remove opponent bot from battle)
+      attack opponent bot
     }
   )
-:loop until(one bot left)
-post: declare last bot as winner
+:loop
 ```
 
 ### Feature 4: Team Battles
