@@ -74,17 +74,14 @@ loop:
 * When it is a bot's turn the player chooses one opponent bot to attack
 * The game ends when one player's team has been eliminated
 
-The complete battle loop looks like this (in pseudo-code):
+The battle loop looks like this (in pseudo-code):
 
 ```
-pre: for all bots(turn meter = 0)
+pre: both players send 3 bots into arena
 loop:
-  for all bots(turn meter += speed of bot)
-  if (any bot(turn meter >= 1000)) {
-    attackers = all bots with(turn meter >= 1000)
+    determine potential attackers
     randomize order(attackers)
     for all attackers(
-      turn meter -= 1000
       choose opponent bot to attack
       attack opponent bot
       if (opponent bot(integrity <= 0)) {immediately remove opponent bot from battle)
