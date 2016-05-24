@@ -1,36 +1,41 @@
 package de.kimminich.kata.botwars;
 
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
 
+import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
 
 public class BotTest {
 
-    @Test
-    void calculatesDamagePotentialFromPower() {
-        Bot bot = new Bot();
-        bot.setPower(100);
+    private Bot bot = new Bot();
+    private Bot opponent = new Bot();
 
-        for (int i = 0; i<100000; i++) {
-            int damage = bot.calculateDamage(new Bot());
-            assertTrue(damage >= 50);
-            assertTrue(damage <= 100);
-        }
+    @Test
+    void damageTakenIsReducedByArmor() {
+        bot.setIntegrity(100);
+        bot.setArmor(10);
+
+        bot.takeDamage(20);
+        assertEquals(90, bot.getIntegrity());
+
+        bot.takeDamage(60);
+        assertEquals(40, bot.getIntegrity());
+
+        bot.takeDamage(5);
+        assertEquals(40, bot.getIntegrity(), "Armor will not reduce damage below zero");
+
     }
 
     @Test
-    void reduceDamageTakenByArmor() {
-        Bot bot = new Bot();
+    void randomDamageIsBetweenHalfAndFullPowerOfAttacker() {
         bot.setPower(100);
-
-        Bot opponent = new Bot();
-        opponent.setArmor(10);
+        opponent.setArmor(0);
 
         for (int i = 0; i<100000; i++) {
-            int damage = bot.calculateDamage(opponent);
-            assertTrue(damage >= 40);
-            assertTrue(damage <= 90);
+            opponent.setIntegrity(200);
+            bot.causeDamage(opponent);
+            assertTrue(opponent.getIntegrity() <= 150);
+            assertTrue(opponent.getIntegrity() >= 100);
         }
     }
 

@@ -8,9 +8,14 @@ public class Bot {
 
     private int power;
     private int armor;
+    private int integrity;
 
-    public int calculateDamage(Bot target) {
-        return random.nextInt(power/2)+power/2 - target.getArmor();
+    public void causeDamage(Bot target) {
+        target.takeDamage(random.nextInt(power/2) + power/2);
+    }
+
+    public void takeDamage(int damage) {
+        integrity -= Math.max(0, damage - armor);
     }
 
     public void setPower(int power) {
@@ -21,7 +26,11 @@ public class Bot {
         this.armor = armor;
     }
 
-    public int getArmor() {
-        return armor;
+    public void setIntegrity(int integrity) {
+        this.integrity = integrity;
+    }
+
+    public int getIntegrity() {
+        return integrity;
     }
 }
