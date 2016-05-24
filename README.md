@@ -1,4 +1,4 @@
-# Code/Architecture Kata: Bot Wars - Factory of Heroes
+# Kata: Bot Wars - Factory of Heroes
 
 In this Code/Architecture Kata you will be implementing a strategy/role-playing game using loosely based on the popular mobile game [Star Wars™ Galaxy of Heroes](http://starwars.ea.com/en_GB/starwars/galaxy-of-heroes). This Kata is supposed to be more complex than most of the well-known traditional Katas (e.g. Roman Numbers, Bowling Game or FizzBuzz) including even the [EverCraft Kata](https://github.com/PuttingTheDnDInTDD/EverCraft-Kata) or my own [Kata TCG](https://github.com/bkimminich/kata-tcg). It offers many possibilities for different focuses depending on learning goals and can be approached iteratively with TDD from different angles. The Kata is especially well suited for building extensible software because the gameplay could be extended or modified in many ways. While it is not recommended to use this Kata for TDD introduction-trainings, it should offer challenges for developers of higher experience levels.
 
@@ -59,12 +59,10 @@ loop:
     turn meter += speed of bot
     if (turn meter >= 1000) {
       turn meter -= 1000
-      attack random opponent bot
-      if (opponent bot(integrity <= 0)) {immediately remove opponent bot from battle)
+      attack opponent bot
     }
   )
-:loop until(one bot left)
-post: declare last bot as winner
+:loop
 ```
 
 ### Feature 4: Team Battles
@@ -76,17 +74,14 @@ post: declare last bot as winner
 * When it is a bot's turn the player chooses one opponent bot to attack
 * The game ends when one player's team has been eliminated
 
-The complete battle loop looks like this (in pseudo-code):
+The battle loop looks like this (in pseudo-code):
 
 ```
-pre: for all bots(turn meter = 0)
+pre: both players send 3 bots into arena
 loop:
-  for all bots(turn meter += speed of bot)
-  if (any bot(turn meter >= 1000)) {
-    attackers = all bots with(turn meter >= 1000)
+    determine potential attackers
     randomize order(attackers)
     for all attackers(
-      turn meter -= 1000
       choose opponent bot to attack
       attack opponent bot
       if (opponent bot(integrity <= 0)) {immediately remove opponent bot from battle)
