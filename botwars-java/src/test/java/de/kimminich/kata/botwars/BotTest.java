@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars;
 import org.junit.gen5.api.Test;
 
 import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.gen5.api.Assertions.assertFalse;
 import static org.junit.gen5.api.Assertions.assertTrue;
 
 public class BotTest {
@@ -37,6 +38,18 @@ public class BotTest {
             assertTrue(opponent.getIntegrity() <= 150);
             assertTrue(opponent.getIntegrity() >= 100);
         }
+    }
+
+    @Test
+    void botWithZeroIntegrityIsDestroyed() {
+        bot.setIntegrity(100);
+        bot.setArmor(0);
+
+        bot.takeDamage(90);
+        assertFalse(bot.isDestroyed());
+
+        bot.takeDamage(10);
+        assertTrue(bot.isDestroyed());
     }
 
 }

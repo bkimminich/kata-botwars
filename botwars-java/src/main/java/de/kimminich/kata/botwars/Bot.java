@@ -33,4 +33,8 @@ public class Bot {
     public int getIntegrity() {
         return integrity;
     }
+
+    public boolean isDestroyed() {
+        return integrity == 0;
+    }
 }
