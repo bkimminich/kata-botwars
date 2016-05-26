@@ -28,7 +28,7 @@ task wrapper(type: Wrapper) {
 evaluationDependsOnChildren()
 
 def publishedProjects = subprojects.findAll {
-    (it.path == ':tcg-java')
+    (it.path == ':botwars-java')
 }
 
 task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
