@@ -49,4 +49,12 @@ public class BotTest {
         assertTrue(bot.isDestroyed());
     }
 
+    @Test
+    void integrityCannotDropBelowZero() {
+        bot = aBot().withIntegrity(100).build();
+
+        bot.takeDamage(9999);
+        assertEquals(0, bot.getIntegrity());
+    }
+
 }

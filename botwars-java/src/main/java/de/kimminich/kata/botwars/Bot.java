@@ -21,7 +21,8 @@ public class Bot {
     }
 
     public void takeDamage(int damage) {
-        integrity -= Math.max(0, damage - armor);
+        damage = Math.max(0, damage - armor);
+        integrity = Math.max(0, integrity - damage);
     }
 
     public int getIntegrity() {
