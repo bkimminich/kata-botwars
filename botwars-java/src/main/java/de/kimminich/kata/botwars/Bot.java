@@ -4,7 +4,13 @@ import java.util.Random;
 
 public class Bot {
 
-    Random random = new Random();
+    private Random random = new Random();
+
+    public Bot(int power, int armor, int integrity) {
+        this.power = power;
+        this.armor = armor;
+        this.integrity = integrity;
+    }
 
     private int power;
     private int armor;
@@ -16,18 +22,6 @@ public class Bot {
 
     public void takeDamage(int damage) {
         integrity -= Math.max(0, damage - armor);
-    }
-
-    public void setPower(int power) {
-        this.power = power;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
-    public void setIntegrity(int integrity) {
-        this.integrity = integrity;
     }
 
     public int getIntegrity() {
