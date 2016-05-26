@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'org.junit.gen5.gradle'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
 
