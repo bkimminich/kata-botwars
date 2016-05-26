@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars;
 public final class BotBuilder {
     private int power = 100;
     private int armor = 10;
+    private int speed = 30;
     private int integrity = 500;
 
     private BotBuilder() {
@@ -22,12 +23,17 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withSpeed(int speed) {
+        this.speed = speed;
+        return this;
+    }
+
     public BotBuilder withIntegrity(int integrity) {
         this.integrity = integrity;
         return this;
     }
 
     public Bot build() {
-        return new Bot(power, armor, integrity);
+        return new Bot(power, armor, speed, integrity);
     }
 }
