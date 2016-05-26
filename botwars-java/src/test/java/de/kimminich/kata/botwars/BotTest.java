@@ -30,7 +30,7 @@ public class BotTest {
     void randomDamageIsBetweenHalfAndFullPowerOfAttacker() {
         bot = aBot().withPower(100).build();
 
-        for (int i = 0; i<1000; i++) {
+        for (int i = 0; i < 1000; i++) {
             Bot opponent = aBot().withIntegrity(200).withArmor(0).build();
             bot.causeDamage(opponent);
             assertTrue(opponent.getIntegrity() <= 150);

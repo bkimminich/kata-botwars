@@ -12,12 +12,12 @@ public class Bot {
         this.integrity = integrity;
     }
 
-    private int power;
-    private int armor;
+    private final int power;
+    private final int armor;
     private int integrity;
 
     public void causeDamage(Bot target) {
-        target.takeDamage(random.nextInt(power/2) + power/2);
+        target.takeDamage(random.nextInt(power / 2) + power / 2);
     }
 
     public void takeDamage(int damage) {
