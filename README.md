@@ -84,7 +84,7 @@ loop:
     for all attackers(
       choose opponent bot to attack
       attack opponent bot
-      if (opponent bot(integrity <= 0)) {immediately remove opponent bot from battle)
+      if (opponent bot(integrity <= 0)) {immediately remove opponent bot from battle}
     )
   }
 :loop until(all remaining bots belong to one player)
