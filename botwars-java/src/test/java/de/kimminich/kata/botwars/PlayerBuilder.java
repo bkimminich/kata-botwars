@@ -1,10 +1,10 @@
 package de.kimminich.kata.botwars;
 
-import static de.kimminich.kata.botwars.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.BotBuilder.anyBot;
 
 public final class PlayerBuilder {
 
-    private Bot[] team = {aBot().build(), aBot().build(), aBot().build()};
+    private Bot[] team = {anyBot(), anyBot(), anyBot()};
 
     private PlayerBuilder() {
     }

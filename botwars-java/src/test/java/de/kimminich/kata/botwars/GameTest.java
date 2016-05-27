@@ -1,8 +1,10 @@
 package de.kimminich.kata.botwars;
 
+import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.PlayerBuilder.aPlayer;
 import static org.junit.gen5.api.Assertions.*;
 
@@ -12,8 +14,8 @@ public class GameTest {
 
     @Test
     void allBotsStartGameWithEmptyTurnMeter() {
-        Bot bot1 = aBot().build();
-        Bot bot2 = aBot().build();
+        Bot bot1 = anyBot();
+        Bot bot2 = anyBot();
 
         game = new Game(bot1, bot2);
 
@@ -79,8 +81,8 @@ public class GameTest {
 
     @Test
     void cannotCreateGameWithIncompleteTeamSetup() {
-        Player playerWithCompleteTeam = aPlayer().withTeam(aBot().build(), aBot().build(), aBot().build()).build();
-        Player playerWithIncompleteTeam = aPlayer().withTeam(aBot().build(), aBot().build()).build();
+        Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
+        Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();
 
         Throwable exception = expectThrows(IllegalArgumentException.class, () -> {
             new Game(playerWithCompleteTeam, playerWithIncompleteTeam);
@@ -92,5 +94,17 @@ public class GameTest {
         );
 
     }
+
+    @Test
+    @Disabled
+    void playerCanChooseTargetBotFromOpponentTeam() {
+        Player player = aPlayer().build();
+
+        Bot[] opponentTeam = {anyBot(), anyBot(), anyBot()};
+        Player opponent = aPlayer().withTeam(opponentTeam).build();
+
+        game = new Game(player, opponent);
+    }
+
 
 }
