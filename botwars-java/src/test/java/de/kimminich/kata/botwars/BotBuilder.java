@@ -2,8 +2,6 @@ package de.kimminich.kata.botwars;
 
 public final class BotBuilder {
 
-    // ************************************************************************************* OVERLONG LINE ****************************************************************************************************************************************
-
     private int power = 2;
     private int armor = 0;
     private int speed = 0;
