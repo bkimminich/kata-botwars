@@ -41,7 +41,7 @@ public class Bot {
         return turnMeter;
     }
 
-    public void increaseTurnMeter() {
+    public void fillTurnMeter() {
         turnMeter += speed;
     }
 
@@ -49,7 +49,11 @@ public class Bot {
         turnMeter = 0;
     }
 
-    public void takeTurn() {
+    public void depleteTurnMeter() {
         turnMeter -= 1000;
+    }
+
+    public boolean canTakeTurn() {
+        return turnMeter >= 1000;
     }
 }

@@ -17,9 +17,10 @@ public class Game {
 
     public void turn() {
         for (Bot bot : bots) {
-            bot.increaseTurnMeter();
-            if (bot.getTurnMeter() >= 1000) {
-              bot.takeTurn();
+            bot.fillTurnMeter();
+            if (bot.canTakeTurn()) {
+              bot.depleteTurnMeter();
+              // TODO Attack another bot!
             }
         }
     }
