@@ -2,6 +2,8 @@ package de.kimminich.kata.botwars;
 
 import org.junit.gen5.api.Test;
 
+import de.kimminich.kata.botwars.GameTest.*;
+
 import static de.kimminich.kata.botwars.BotBuilder.aBot;
 import static org.junit.gen5.api.Assertions.*;
 
