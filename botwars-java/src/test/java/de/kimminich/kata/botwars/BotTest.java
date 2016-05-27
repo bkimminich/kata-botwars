@@ -3,9 +3,7 @@ package de.kimminich.kata.botwars;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.BotBuilder.aBot;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.gen5.api.Assertions.*;
 
 public class BotTest {
 

@@ -3,8 +3,8 @@ package de.kimminich.kata.botwars;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.BotBuilder.aBot;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertTrue;
+import static de.kimminich.kata.botwars.PlayerBuilder.aPlayer;
+import static org.junit.gen5.api.Assertions.*;
 
 public class GameTest {
 
@@ -74,6 +74,22 @@ public class GameTest {
         assertEquals(100, opponent.getIntegrity(), "Bot has not attacked in first turn");
         game.turn();
         assertTrue(opponent.getIntegrity() < 100, "Bot has attacked and damaged opponent");
+
+    }
+
+    @Test
+    void cannotCreateGameWithIncompleteTeamSetup() {
+        Player playerWithCompleteTeam = aPlayer().withTeam(aBot().build(), aBot().build(), aBot().build()).build();
+        Player playerWithIncompleteTeam = aPlayer().withTeam(aBot().build(), aBot().build()).build();
+
+        Throwable exception = expectThrows(IllegalArgumentException.class, () -> {
+            new Game(playerWithCompleteTeam, playerWithIncompleteTeam);
+        });
+
+        assertAll(
+                () -> assertTrue(exception.getMessage().contains(playerWithIncompleteTeam.toString())),
+                () -> assertFalse(exception.getMessage().contains(playerWithCompleteTeam.toString()))
+        );
 
     }
 

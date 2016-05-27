@@ -15,6 +15,18 @@ public class Game {
         this.bots.forEach(Bot::resetBot);
     }
 
+    public Game(Player player1, Player player2) throws IllegalArgumentException {
+        super();
+        validate(player1);
+        validate(player2);
+    }
+
+    private void validate(Player player) throws IllegalArgumentException {
+        if (player.getTeam().length != 3) {
+            throw new IllegalArgumentException(player + " team size is invalid: " + player.getTeam().length);
+        }
+    }
+
     public void turn() {
         for (Bot bot : bots) {
             bot.fillTurnMeter();

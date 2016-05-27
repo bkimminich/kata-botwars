@@ -7,4 +7,5 @@
 <suppressions>
     <suppress checks="MagicNumberCheck" files=".*[Test|Builder].java"/>
     <suppress checks="HiddenField" files=".*Builder.java"/>
+    <suppress checks="StarImport" files=".*Test.java"/>
 </suppressions>
