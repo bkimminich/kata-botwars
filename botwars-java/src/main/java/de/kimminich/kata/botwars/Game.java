@@ -20,7 +20,8 @@ public class Game {
             bot.fillTurnMeter();
             if (bot.canTakeTurn()) {
               bot.depleteTurnMeter();
-              // TODO Attack another bot!
+              // FIXME Only damage one other bot, not all at once!
+                bots.forEach(bot::causeDamage);
             }
         }
     }

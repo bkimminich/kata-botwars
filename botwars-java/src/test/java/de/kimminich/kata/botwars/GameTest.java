@@ -1,6 +1,5 @@
 package de.kimminich.kata.botwars;
 
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.BotBuilder.aBot;
@@ -66,7 +65,6 @@ public class GameTest {
     }
 
     @Test
-    @Disabled
     void botAttacksWhenReaching1000TurnMeter() {
         Bot bot = aBot().withSpeed(500).build();
         Bot opponent = aBot().withIntegrity(100).build();
