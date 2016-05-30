@@ -133,14 +133,14 @@ Stun | Stunned bots will miss their next turn.
 * If more than one effect is listed for a bot one of the effects is randomly inflicted. The only exception here is Kamikaze Bot who can potentially inflict three negative effects with just one attack.
 * Remember that only some negative effects can be stacked multiple times on the same bot.
 
-Bot | Effect Chance | Negative Effect(s) | Duration
---- | ------------- | ------------------ | --------
-Aggro Bot | 30% | Defense Down _or_ Stun | 1
-Stealth Bot | 40% | Speed Down _or_ Defense Down _or_ Offense Down | 2
-Glass Bot | 65% | Continuous Damage | 2
-Tank Bot | 25% | Bomb | 3
-Beaverette Bot | n/a | n/a | n/a
-Kamikaze Bot | 65% / 50% / 35 | Bomb / Defense Down / Speed Down | 1 / 2 / 1
+Bot | Resistance | Effect Chance | Negative Effect(s) | Duration
+--- | ---------- | ------------- | ------------------ | --------
+Aggro Bot | 10% | 30% | Defense Down _or_ Stun | 1
+Stealth Bot | 0% | 40% | Speed Down _or_ Defense Down _or_ Offense Down | 2
+Glass Bot | 5% | 65% | Continuous Damage | 2
+Tank Bot | 20% | 25% | Bomb | 3
+Beaverette Bot | 10% | n/a | n/a | n/a
+Kamikaze Bot | 0% | 65% / 50% / 35 | Bomb / Defense Down / Speed Down | 1 / 2 / 1
 
 ### Feature 7: Positive Status Effects
 
