@@ -21,7 +21,7 @@ For training purposes the game offers AI opponents to battle against. This allow
 
 > Create a high-level solution design or architecture sketch for the game, based only on what you learned from the Product Vision!
 
-## Sprint 1: Bots & Basic Combat
+## Sprint 1: Basic Combat
 
 ### Feature 1: Damage Calculation
 
@@ -49,6 +49,7 @@ damage to opponent = (random(1/2*power of attacker - 1*power of attacker) - armo
 
 * Bots have _Speed_ stat which influences how early and often they can attack
 * Bots that participate in a battle use a _Turn Meter_ to determine the attack order among themselves
+* Bots have an ```Evasion%```-chance based on the _Evasion_ stat of the bot to completely prevent an incoming attack.
 
 The attack sequence should be determined and executed like this (in pseudo-code):
 
@@ -91,15 +92,60 @@ loop:
 post: declare player with remaining bots as winner
 ```
 
-## Sprint 2: Primary Attacks & Negative Status Effects
+### Feature 5: Bot Types
+
+> As a strategy game player I want to have different kinds of bots at my disposal to assemble my team from so that I can best counter my opponent's team composition.
+
+* Bots need a _Name_ attribute that describes the type of bot they are.
+* Both players have their own pool of Bots available to assemble their team from before each battle.
+* A player cannot put a bot more than once into his/her team.
+
+Name | Integrity | Power | Speed | Armor | Evasion
+---- | --------- | ----- | ----- | ----- | -------
+Aggro Bot | 800 | 100 | 40 | 20 | 0%
+Stealth Bot | 500 | 70 | 90 | 20 | 20%
+Glass Bot | 300 | 180 | 20 | 0 | 30%
+Tank Bot | 1200 | 50 | 30 | 40 | 5%
+Beaverette Bot | 1000 | 70 | 35 | 30 | 5%
+Kamikaze Bot | 500 | 50 | 40 | 0 | 0%
+
+## Sprint 2: Status Effects
+
+### Feature 6: Negative Status Effects
+
+> As a malevolent fighter I want my attacks to put negative effects over time on my victims so that they get less useful in battle
+
+* Some bot's attacks have a chance to inflict a _Negative Status Effect_ on the target that lasts for a certain number of turns.
+* A negative effect expires when its _Duration_ counter reaches zero.
+* The _Duration_ counter is set in the turn where the effect was inflicted and decreases by one with every turn the affected bot takes.
+* Negative Status Effects have a ```Resistance%```-chance to be prevented based on the _Resistance_ stat of the target bot.
+
+Negative Effect | Description
+--------------- | -----------
+Defense Down | Reduces the _Armor_ and _Resistance_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
+Offense Down | Reduces all caused _Damage_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
+Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by '''power of attacker - armor of affected bot''' each turn until it expires. Can be stacked multiple times on the same bot.
+Bomb | Performs a delayed _Standard Attack_ on the affected bot when its duration expires. Can be stacked multiple times on the same bot.
+Speed Down | Slows the Turn Meter down by 25% which reduces the amount of actions a bot can take during battle.
+Stun | Stunned bots will miss their next turn.
+
+* The attacking bot first needs to beat his own _Effect Chance_ and then beat the _Resistance_ of its target to actually inflict an effect.
+* If more than one effect is listed for a bot one of the effects is randomly inflicted. The only exception here is Kamikaze Bot who can potentially inflict three negative effects with just one attack.
+* Remember that only some negative effects can be stacked multiple times on the same bot.
+
+Bot | Effect Chance | Negative Effect(s) | Duration
+Aggro Bot | 30% | Defense Down _or_ Stun | 1
+Stealth Bot | 40% | Speed Down _or_ Defense Down _or_ Offense Down | 2
+Glass Bot | 65% | Continuous Damage | 2
+Tank Bot | 25% | Bomb | 3
+Beaverette Bot | n/a | n/a
+Kamikaze Bot | 65% / 50% / 35 | Bomb / Defense Down / Speed Down | 1 / 2 / 1
+
+### Feature 7: Positive Status Effects
 
 > Coming soon...
 
-## Sprint 3: Special Skills & Positive Status Effects
-
-> Coming soon...
-
-## Sprint 4: Player Progression & Bot Upgrades
+## Sprint 3: Player Progression & Bot Upgrades
 
 > Coming soon...
 
