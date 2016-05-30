@@ -124,7 +124,7 @@ Negative Effect | Description
 --------------- | -----------
 Defense Down | Reduces the _Armor_ and _Resistance_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
 Offense Down | Reduces all caused _Damage_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
-Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by '''power of attacker - armor of affected bot''' each turn until it expires. Can be stacked multiple times on the same bot.
+Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker - armor of affected bot``` each turn until it expires. Can be stacked multiple times on the same bot.
 Bomb | Performs a delayed _Standard Attack_ on the affected bot when its duration expires. Can be stacked multiple times on the same bot.
 Speed Down | Slows the Turn Meter down by 25% which reduces the amount of actions a bot can take during battle.
 Stun | Stunned bots will miss their next turn.
@@ -139,7 +139,7 @@ Aggro Bot | 30% | Defense Down _or_ Stun | 1
 Stealth Bot | 40% | Speed Down _or_ Defense Down _or_ Offense Down | 2
 Glass Bot | 65% | Continuous Damage | 2
 Tank Bot | 25% | Bomb | 3
-Beaverette Bot | n/a | n/a
+Beaverette Bot | n/a | n/a | n/a
 Kamikaze Bot | 65% / 50% / 35 | Bomb / Defense Down / Speed Down | 1 / 2 / 1
 
 ### Feature 7: Positive Status Effects
