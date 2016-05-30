@@ -134,6 +134,7 @@ Stun | Stunned bots will miss their next turn.
 * Remember that only some negative effects can be stacked multiple times on the same bot.
 
 Bot | Effect Chance | Negative Effect(s) | Duration
+--- | ------------- | ------------------ | --------
 Aggro Bot | 30% | Defense Down _or_ Stun | 1
 Stealth Bot | 40% | Speed Down _or_ Defense Down _or_ Offense Down | 2
 Glass Bot | 65% | Continuous Damage | 2
