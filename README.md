@@ -113,7 +113,7 @@ Kamikaze Bot | 500 | 50 | 40 | 0 | 0%
 
 ### Feature 6: Negative Status Effects
 
-> As a malevolent fighter I want my attacks to put negative effects over time on my victims so that they get less useful in battle
+> As a malevolent bot I want my attacks to put negative effects over time on my victims so that they get less useful in battle
 
 * Some bot's attacks have a chance to inflict a _Negative Status Effect_ on the target that lasts for a certain number of turns.
 * A negative effect expires when its _Duration_ counter reaches zero.
@@ -144,23 +144,37 @@ Kamikaze Bot | 65% / 50% / 35 | Bomb / Defense Down / Speed Down | 1 / 2 / 1
 
 ### Feature 7: Positive Status Effects
 
-> Coming soon...
+> As a benevolent support bot I want special skills with positive status effects so that I can buff my team in combat
+
+* Some bots have secondary skills that buff themselves and/or teammates with a _Positive Status Effect_ that lasts for a certain number of turns.
+* A positive effect expires when its _Duration_ counter reaches zero.
+* The _Duration_ counter is set in the turn where the effect was cast and decreases by one with every turn the affected bot takes.
+
+Positive Effect | Description
+--------------- | -----------
+Defense Up | Increases the _Armor_ and _Resistance_ of a bot by 50%.
+Offense Up | Increases all caused _Damage_ of a bot by 50%.
+Speed Up | Grants a bot +25% speed providing faster refilling turn meters for more actions per battle.
+Taunt | Bots with taunt will force all opponents to target them until the effect expires.
+Stealth | Stealthed bots are not directly targetable unless only stealthed bots are remaining. Stealthed bots cause +30% damage.
+Retribution | A bot under this effect will immediately counter attack when attacked himself (given he survives that attack).
+
+* Positive effects cannot be stacked but when cast on a bot under the same effect the Duration will be reset.
+* Secondary skills have a _Cooldown_ which is the number of turns after they become available for usage again.
+
+Bot | Cooldown | Positive Effect(s) | Duration
+--- | ------------- | ------------------ | --------
+Aggro Bot | 4 | Offense Up  | 2
+Stealth Bot | 4 | Stealth | 3
+Glass Bot | n/a | n/a | n/a
+Tank Bot | 3 | Taunt _and_ Defense Up | 2
+Beaverette Bot | 3 | Defense Up _and_ Speed Up | 2
+Kamikaze Bot | 4 | Retribution | 1
 
 ## Sprint 3: Player Progression & Bot Upgrades
 
 > Coming soon...
 
-### Non-Functional Requirements
-
-#### NFR 1: Anti-Cheater Protection
-
-> As an honest player I want the game data to be protected against external manipulation so that I can do not waste time playing with cheaters.
-
-#### NFR 2: Transportable Game-State
-
-> As an addicted player I want to carry my game data with me so that I can play games with other players whenever I meet them.
-
-## Sprint X: Training Games against AI-Bots
+## Sprint 4: Training Games against AI-Bots
 
 > Coming soon...
-
