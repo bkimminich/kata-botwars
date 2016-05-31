@@ -20,7 +20,7 @@ public class Bot {
     private int integrity;
     private int turnMeter = 0;
 
-    public void causeDamage(Bot target) {
+    public void attack(Bot target) {
         target.takeDamage(random.nextInt(power / 2) + power / 2);
     }
 

@@ -30,7 +30,7 @@ public class BotTest {
 
         for (int i = 0; i < 1000; i++) {
             Bot opponent = aBot().withIntegrity(200).withArmor(0).build();
-            bot.causeDamage(opponent);
+            bot.attack(opponent);
             assertTrue(opponent.getIntegrity() <= 150);
             assertTrue(opponent.getIntegrity() >= 100);
         }

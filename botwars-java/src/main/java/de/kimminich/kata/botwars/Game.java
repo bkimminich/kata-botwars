@@ -33,7 +33,7 @@ public class Game {
             if (bot.canTakeTurn()) {
               bot.depleteTurnMeter();
               // FIXME Only damage one other bot, not all at once!
-                bots.forEach(bot::causeDamage);
+                bots.forEach(bot::attack);
             }
         }
     }
