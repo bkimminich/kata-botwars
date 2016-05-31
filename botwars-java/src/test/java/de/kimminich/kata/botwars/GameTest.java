@@ -1,11 +1,12 @@
 package de.kimminich.kata.botwars;
 
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.PlayerBuilder.aPlayer;
+import static de.kimminich.kata.botwars.PlayerBuilder.anyPlayer;
+import static de.kimminich.kata.botwars.ui.MockUI.mockTargetChoice;
 import static org.junit.gen5.api.Assertions.*;
 
 public class GameTest {
@@ -17,7 +18,7 @@ public class GameTest {
         Bot bot1 = anyBot();
         Bot bot2 = anyBot();
 
-        game = new Game(bot1, bot2);
+        game = new Game(aPlayer().withTeam(bot1, bot2, anyBot()).build(), anyPlayer());
 
         assertEquals(0, bot1.getTurnMeter());
         assertEquals(0, bot2.getTurnMeter());
@@ -28,7 +29,7 @@ public class GameTest {
         Bot bot1 = aBot().withSpeed(30).build();
         Bot bot2 = aBot().withSpeed(45).build();
 
-        game = new Game(bot1, bot2);
+        game = new Game(aPlayer().withTeam(bot1, bot2, anyBot()).build(), anyPlayer());
 
         game.turn();
         assertEquals(30, bot1.getTurnMeter());
@@ -42,12 +43,13 @@ public class GameTest {
     @Test
     void turnMeterGetsResetBetweenGames() {
         Bot bot = aBot().withSpeed(30).build();
+        Player player = aPlayer().withTeam(bot, anyBot(), anyBot()).build();
 
-        game = new Game(bot);
+        game = new Game(player, anyPlayer());
         game.turn();
         assertEquals(30, bot.getTurnMeter());
 
-        game = new Game(bot);
+        game = new Game(player, anyPlayer());
         assertEquals(0, bot.getTurnMeter());
     }
 
@@ -55,7 +57,7 @@ public class GameTest {
     void turnMeterIsReducedBy1000WhenTurnMeterPasses1000() {
         Bot bot = aBot().withSpeed(501).build();
 
-        game = new Game(bot);
+        game = new Game(aPlayer().withTeam(bot, anyBot(), anyBot()).build(), anyPlayer());
         game.turn();
         assertEquals(501, bot.getTurnMeter());
         game.turn();
@@ -71,7 +73,8 @@ public class GameTest {
         Bot bot = aBot().withSpeed(500).build();
         Bot opponent = aBot().withIntegrity(100).build();
 
-        game = new Game(bot, opponent);
+        game = new Game(aPlayer().withUI(mockTargetChoice(opponent)).withTeam(bot, anyBot(), anyBot()).build(),
+                        aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
         game.turn();
         assertEquals(100, opponent.getIntegrity(), "Bot has not attacked in first turn");
         game.turn();
@@ -94,17 +97,5 @@ public class GameTest {
         );
 
     }
-
-    @Test
-    @Disabled
-    void playerCanChooseTargetBotFromOpponentTeam() {
-        Player player = aPlayer().build();
-
-        Bot[] opponentTeam = {anyBot(), anyBot(), anyBot()};
-        Player opponent = aPlayer().withTeam(opponentTeam).build();
-
-        game = new Game(player, opponent);
-    }
-
 
 }

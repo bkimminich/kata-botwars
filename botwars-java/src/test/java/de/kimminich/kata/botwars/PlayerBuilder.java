@@ -38,4 +38,8 @@ public final class PlayerBuilder {
     public Player build() {
         return new Player(ui, team);
     }
+
+    public static Player anyPlayer() {
+        return aPlayer().build();
+    }
 }
