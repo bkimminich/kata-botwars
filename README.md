@@ -49,7 +49,6 @@ damage to opponent = (random(1/2*power of attacker - 1*power of attacker) - armo
 
 * Bots have _Speed_ stat which influences how early and often they can attack
 * Bots that participate in a battle use a _Turn Meter_ to determine the attack order among themselves
-* Bots have an ```Evasion%```-chance based on the _Evasion_ stat of the bot to completely prevent an incoming attack.
 
 The attack sequence should be determined and executed like this (in pseudo-code):
 
@@ -96,18 +95,20 @@ post: declare player with remaining bots as winner
 
 > As a strategy game player I want to have different kinds of bots at my disposal to assemble my team from so that I can best counter my opponent's team composition.
 
-* Bots need a _Name_ attribute that describes the type of bot they are.
+* Bots have a _Name_ attribute that describes the type of bot they are.
 * Both players have their own pool of Bots available to assemble their team from before each battle.
 * A player cannot put a bot more than once into his/her team.
+* Bots have an ```Evasion%```-chance based on their _Evasion_ stat to completely prevent an incoming attack from hitting them.
+* Bots also have a ```Critical Hit%```-chance based on their _Critical Hit_ stat to cause double damage when hitting an opponent.
 
-Name | Integrity | Power | Speed | Armor | Evasion
----- | --------- | ----- | ----- | ----- | -------
-Aggro Bot | 800 | 100 | 40 | 20 | 0%
-Stealth Bot | 500 | 70 | 90 | 20 | 20%
-Glass Bot | 300 | 180 | 20 | 0 | 30%
-Tank Bot | 1200 | 50 | 30 | 40 | 5%
-Beaverette Bot | 1000 | 70 | 35 | 30 | 5%
-Kamikaze Bot | 500 | 50 | 40 | 0 | 0%
+Name | Integrity | Power | Speed | Armor | Evasion | Critical Hit
+---- | --------- | ----- | ----- | ----- | ------- | ------------
+Aggro Bot | 800 | 100 | 40 | 20 | 0% | 10%
+Stealth Bot | 500 | 70 | 90 | 20 | 20% | 20%
+Glass Bot | 300 | 180 | 20 | 0 | 30% | 10%
+Tank Bot | 1200 | 50 | 30 | 40 | 5% | 10%
+Beaverette Bot | 1000 | 70 | 35 | 30 | 5% | 15%
+Kamikaze Bot | 500 | 50 | 40 | 0 | 0% | 20%
 
 ## Sprint 2: Status Effects
 
@@ -130,17 +131,19 @@ Speed Down | Slows the Turn Meter down by 25% which reduces the amount of action
 Stun | Stunned bots will miss their next turn.
 
 * The attacking bot first needs to beat his own _Effect Chance_ and then beat the _Resistance_ of its target to actually inflict an effect.
-* If more than one effect is listed for a bot one of the effects is randomly inflicted. The only exception here is Kamikaze Bot who can potentially inflict three negative effects with just one attack.
 * Remember that only some negative effects can be stacked multiple times on the same bot.
 
 Bot | Resistance | Effect Chance | Negative Effect(s) | Duration
 --- | ---------- | ------------- | ------------------ | --------
 Aggro Bot | 10% | 30% | Defense Down _or_ Stun | 1
-Stealth Bot | 0% | 40% | Speed Down _or_ Defense Down _or_ Offense Down | 2
-Glass Bot | 5% | 65% | Continuous Damage | 2
+Stealth Bot | 0% | 40% | Speed Down _or_ Offense Down | 2
+Glass Bot | 5% | 65% | Continuous Damage_(*)_ | 2
 Tank Bot | 20% | 25% | Bomb | 3
 Beaverette Bot | 10% | n/a | n/a | n/a
-Kamikaze Bot | 0% | 65% / 50% / 35 | Bomb / Defense Down / Speed Down | 1 / 2 / 1
+Kamikaze Bot | 0% | 65% | Bomb_(*)_ | 1
+
+* Effects marked with a _(*)_ in the table above are inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
+* If more than one effect is listed for a bot in the table above, one of the effects is randomly inflicted.
 
 ### Feature 7: Positive Status Effects
 
@@ -167,9 +170,11 @@ Bot | Cooldown | Positive Effect(s) | Duration
 Aggro Bot | 4 | Offense Up  | 2
 Stealth Bot | 4 | Stealth | 3
 Glass Bot | n/a | n/a | n/a
-Tank Bot | 3 | Taunt _and_ Defense Up | 2
-Beaverette Bot | 3 | Defense Up _and_ Speed Up | 2
+Tank Bot | 3 | Taunt _and_ Defense Up_(*)_ | 2
+Beaverette Bot | 3 | Defense Up _and_ Speed Up_(*)_ | 2
 Kamikaze Bot | 4 | Retribution | 1
+
+* Effects marked with a _(*)_ in the table above are cast on the whole team instead of just the bot itself.
 
 ## Sprint 3: Player Progression & Bot Upgrades
 
