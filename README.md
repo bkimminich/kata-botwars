@@ -137,10 +137,10 @@ Bot | Resistance | Effect Chance | Negative Effect(s) | Duration
 --- | ---------- | ------------- | ------------------ | --------
 Aggro Bot | 10% | 30% | Defense Down _or_ Stun | 1
 Stealth Bot | 0% | 40% | Speed Down _or_ Offense Down | 2
-Glass Bot | 5% | 65% | Continuous Damage_(*)_ | 2
+Glass Bot | 5% | 65% | Continuous Damage _(*)_ | 2
 Tank Bot | 20% | 25% | Bomb | 3
 Beaverette Bot | 10% | n/a | n/a | n/a
-Kamikaze Bot | 0% | 65% | Bomb_(*)_ | 1
+Kamikaze Bot | 0% | 65% | Bomb _(*)_ | 1
 
 * Effects marked with a _(*)_ in the table above are inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
 * If more than one effect is listed for a bot in the table above, one of the effects is randomly inflicted.
@@ -170,8 +170,8 @@ Bot | Cooldown | Positive Effect(s) | Duration
 Aggro Bot | 4 | Offense Up  | 2
 Stealth Bot | 4 | Stealth | 3
 Glass Bot | n/a | n/a | n/a
-Tank Bot | 3 | Taunt _and_ Defense Up_(*)_ | 2
-Beaverette Bot | 3 | Defense Up _and_ Speed Up_(*)_ | 2
+Tank Bot | 3 | Taunt _and_ Defense Up _(*)_ | 2
+Beaverette Bot | 3 | Defense Up _and_ Speed Up _(*)_ | 2
 Kamikaze Bot | 4 | Retribution | 1
 
 * Effects marked with a _(*)_ in the table above are cast on the whole team instead of just the bot itself.
