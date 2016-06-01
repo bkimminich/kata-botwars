@@ -182,7 +182,7 @@ Kamikaze Bot | 4 | Retribution | 1
 > As a tinkerer bot I want to repair my damaged teammates so that they can keep on fighting
 
 * The new bot type _Nurse Bot_ can cast _Repair_ as his secondary skill which immediately repairs himself and all teammates that have not been destroyed by a considerable amount of integrity.
-* _Repair_ also comes with a chance for a _Continuous Repair_ effect which keep repairing a bot over the next few rounds by a small amount of integrity
+* _Repair_ also comes with a chance for a _Continuous Repair_ positive effect which keeps repairing a bot by a small amount of integrity in each turn where the effect lasts
 * Furthermore the bot type _Doctor Bot_ is introduced. He can _Redistribute_ the team's sum of current integrity equally among all teammates and then _Repair_ all bots by a small amount. (This is great for healing a single severely damaged bot.)
 
 The repair mechanics work like this (in pseudo-code):
@@ -191,7 +191,7 @@ The repair mechanics work like this (in pseudo-code):
 # Nurse Bot
     for all bots on team(
       integrity += 30% of nurse bots maximum integrity
-      random(0,5) -> bot receives positive effect(continuous repair)
+      random(0,5) -> bot receives positive effect(continuous repair -> integrity+= 10% of nurse bots maximum integrity)
     )
 
 # Doctor Bot
@@ -209,8 +209,10 @@ The two new repair bots have the following stats:
 
 Name | Integrity | Power | Speed | Armor | Evasion | Critical Hit | Resistance | Negative Effect / Chance / Duration | Positive Effect / Cooldown / Duration
 ---- | --------- | ----- | ----- | ----- | ------- | ------------ | ---------- | ----------------------------------- | -------------------------------------
-Nurse Bot | 700 | 80 | 50 | 15 | 15% | 10% | 20% | Speed Down / 30% / 1 | Repair _and_ Continuous Repair _(*)_ / 4 / 2
-Doctor Bot | 950 | 30 | 35 | 25 | 10% | 10% | 25%  | - | Redistribute _and_ Repair / 5 / -
+Nurse Bot | 700 | 80 | 50 | 15 | 15% | 10% | 20% | Speed Down / 30% / 1 | Repair _(*) and_ Continuous Repair _(*)_ / 4 / 2
+Doctor Bot | 950 | 30 | 35 | 25 | 10% | 10% | 25%  | - | Redistribute _(*) and_ Repair _(*)_ / 5 / -
+
+* Effects marked with a _(*)_ in the table above are cast on the whole team instead of just the bot itself.
 
 ## Sprint 3: Player Progression & Bot Upgrades
 
