@@ -209,8 +209,8 @@ The two new repair bots have the following stats:
 
 Name | Integrity | Power | Speed | Armor | Evasion | Critical Hit | Resistance | Negative Effect / Chance / Duration | Positive Effect / Cooldown / Duration
 ---- | --------- | ----- | ----- | ----- | ------- | ------------ | ---------- | ----------------------------------- | -------------------------------------
-Nurse Bot | 700 | 80 | 50 | 15 | 15% | 10% | 20% | Speed Down / 30% / 1 | Repair _(*) and_ Continuous Repair _(*)_ / 4 / 2
-Doctor Bot | 950 | 30 | 35 | 25 | 10% | 10% | 25%  | - | Redistribute _(*) and_ Repair _(*)_ / 5 / -
+Nurse Bot | 700 | 80 | 50 | 15 | 15% | 10% | 20% | Speed Down / 30% / 1 | Repair _and_ Continuous Repair _(*)_ / 4 / 2
+Doctor Bot | 950 | 30 | 35 | 25 | 10% | 10% | 25%  | - | Redistribute _and_ Repair / 5 / -
 
 * Effects marked with a _(*)_ in the table above are cast on the whole team instead of just the bot itself.
 
