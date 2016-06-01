@@ -83,6 +83,37 @@ public class GameTest {
     }
 
     @Test
+    void botAttacksOnlyTheSelectedTarget() {
+        Bot bot = aBot().withSpeed(1000).build();
+        Bot opponent1 = aBot().withIntegrity(100).build();
+        Bot opponent2 = aBot().withIntegrity(100).build();
+        Bot opponent3 = aBot().withIntegrity(100).build();
+
+        game = new Game(aPlayer().withUI(mockTargetChoice(opponent1)).withTeam(bot, anyBot(), anyBot()).build(),
+                aPlayer().withTeam(opponent1, opponent2, opponent3).build());
+        game.turn();
+        assertAll(
+                () -> assertTrue(opponent1.getIntegrity() < 100),
+                () -> assertTrue(opponent2.getIntegrity() == 100, "Opponent 2 was not attacked"),
+                () -> assertTrue(opponent3.getIntegrity() == 100, "Opponent 3 was not attacked")
+        );
+
+    }
+
+    @Test
+    void botDestroyedFromAttackIsRemovedFromTeam() {
+        Bot bot = aBot().withPower(100).withSpeed(1000).build();
+        Bot opponent = aBot().withIntegrity(1).build();
+
+        game = new Game(aPlayer().withUI(mockTargetChoice(opponent)).withTeam(bot, anyBot(), anyBot()).build(),
+                aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
+
+        assertEquals(3, opponent.getOwner().getTeam().size());
+        game.turn();
+        assertEquals(2, opponent.getOwner().getTeam().size());
+    }
+
+    @Test
     void cannotCreateGameWithIncompleteTeamSetup() {
         Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
         Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();

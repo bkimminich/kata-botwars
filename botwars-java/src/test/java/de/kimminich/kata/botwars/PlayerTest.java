@@ -2,6 +2,9 @@ package de.kimminich.kata.botwars;
 
 import org.junit.gen5.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static de.kimminich.kata.botwars.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.PlayerBuilder.aPlayer;
 import static de.kimminich.kata.botwars.ui.MockUI.mockTargetChoice;
@@ -15,7 +18,7 @@ public class PlayerTest {
 
         Player player = aPlayer().withUI(mockTargetChoice(bot)).build();
 
-        Bot[] opponentTeam = {bot, anyBot(), anyBot()};
+        List<Bot> opponentTeam = Arrays.asList(bot, anyBot(), anyBot());
 
         assertEquals(bot, player.chooseTarget(opponentTeam));
     }

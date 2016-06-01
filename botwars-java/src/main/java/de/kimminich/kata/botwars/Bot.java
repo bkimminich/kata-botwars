@@ -13,6 +13,8 @@ public class Bot {
         this.integrity = integrity;
     }
 
+    private Player owner;
+
     private final int power;
     private final int armor;
     private final int speed;
@@ -55,5 +57,13 @@ public class Bot {
 
     public boolean canTakeTurn() {
         return turnMeter >= 1000;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 }

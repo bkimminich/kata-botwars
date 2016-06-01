@@ -3,9 +3,13 @@ package de.kimminich.kata.botwars;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Player {
 
-    private final Bot[] team;
+    private final List<Bot> team = new ArrayList<>(3);
     private final UserInteraction ui;
 
     public Player(Bot... team) {
@@ -14,14 +18,14 @@ public class Player {
 
     Player(UserInteraction ui, Bot... team) {
         this.ui = ui;
-        this.team = team;
+        this.team.addAll(Arrays.asList(team));
     }
 
-    public Bot[] getTeam() {
+    public List<Bot> getTeam() {
         return team;
     }
 
-    public Bot chooseTarget(Bot[] opponentTeam) {
+    public Bot chooseTarget(List<Bot> opponentTeam) {
         return ui.chooseTarget(opponentTeam);
     }
 }
