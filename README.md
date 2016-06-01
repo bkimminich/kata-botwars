@@ -41,7 +41,8 @@ damage to opponent = (random(1/2*power of attacker - 1*power of attacker) - armo
 > As a resilient bot I want to be able to take several hits before being destroyed to that I am more useful to my player in matches!
 
 * Bots have an _Integrity_ stat which is reduced by the damage received in combat.
-* A bot with zero or less _Integrity_ is considered destroyed.
+* A bot with zero _Integrity_ is considered destroyed.
+* Bots cannot have less than zero _Integrity_.
 
 ### Feature 3: Attack Sequence
 
@@ -110,7 +111,7 @@ Tank Bot | 1200 | 50 | 30 | 40 | 5% | 10%
 Beaverette Bot | 1000 | 70 | 35 | 30 | 5% | 15%
 Kamikaze Bot | 500 | 50 | 40 | 0 | 0% | 20%
 
-## Sprint 2: Status Effects
+## Sprint 2: Advanced Combat Mechanics
 
 ### Feature 6: Negative Status Effects
 
@@ -133,13 +134,13 @@ Stun | Stunned bots will miss their next turn.
 * The attacking bot first needs to beat his own _Effect Chance_ and then beat the _Resistance_ of its target to actually inflict an effect.
 * Remember that only some negative effects can be stacked multiple times on the same bot.
 
-Bot | Resistance | Effect Chance | Negative Effect(s) | Duration
+Bot | Resistance | Effect Chance | Negative Effect | Duration
 --- | ---------- | ------------- | ------------------ | --------
 Aggro Bot | 10% | 30% | Defense Down _or_ Stun | 1
 Stealth Bot | 0% | 40% | Speed Down _or_ Offense Down | 2
 Glass Bot | 5% | 65% | Continuous Damage _(*)_ | 2
 Tank Bot | 20% | 25% | Bomb | 3
-Beaverette Bot | 10% | n/a | n/a | n/a
+Beaverette Bot | 10% | - | - | -
 Kamikaze Bot | 0% | 65% | Bomb _(*)_ | 1
 
 * Effects marked with a _(*)_ in the table above are inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
@@ -165,16 +166,51 @@ Retribution | A bot under this effect will immediately counter attack when attac
 * Positive effects cannot be stacked but when cast on a bot under the same effect the Duration will be reset.
 * Secondary skills have a _Cooldown_ which is the number of turns after they become available for usage again.
 
-Bot | Cooldown | Positive Effect(s) | Duration
+Bot | Cooldown | Positive Effect | Duration
 --- | ------------- | ------------------ | --------
 Aggro Bot | 4 | Offense Up  | 2
 Stealth Bot | 4 | Stealth | 3
-Glass Bot | n/a | n/a | n/a
+Glass Bot | - | - | -
 Tank Bot | 3 | Taunt _and_ Defense Up _(*)_ | 2
 Beaverette Bot | 3 | Defense Up _and_ Speed Up _(*)_ | 2
 Kamikaze Bot | 4 | Retribution | 1
 
 * Effects marked with a _(*)_ in the table above are cast on the whole team instead of just the bot itself.
+
+### Feature 8: Repairing
+
+> As a tinkerer bot I want to repair my damaged teammates so that they can keep on fighting
+
+* The new bot type _Nurse Bot_ can cast _Repair_ as his secondary skill which immediately repairs himself and all teammates that have not been destroyed by a considerable amount of integrity.
+* _Repair_ also comes with a chance for a _Continuous Repair_ effect which keep repairing a bot over the next few rounds by a small amount of integrity
+* Furthermore the bot type _Doctor Bot_ is introduced. He can _Redistribute_ the team's sum of current integrity equally among all teammates and then _Repair_ all bots by a small amount. (This is great for healing a single severely damaged bot.)
+
+The repair mechanics work like this (in pseudo-code):
+
+```
+# Nurse Bot
+    for all bots on team(
+      integrity += 30% of nurse bots maximum integrity
+      random(0,5) -> bot receives positive effect(continuous repair)
+    )
+
+# Doctor Bot
+    team integrity = 0;
+    for all bots on team(
+      team integrity += integrity
+    )
+    for all bots on team(
+      integrity = team integrity / team size
+      integrity += 10% of doctor bots maximum integrity
+    )
+```
+
+The two new repair bots have the following stats:
+
+Name | Integrity | Power | Speed | Armor | Evasion | Critical Hit | Resistance | Negative Effect / Chance / Duration | Positive Effect / Cooldown / Duration
+---- | --------- | ----- | ----- | ----- | ------- | ------------ | ---------- | ----------------------------------- | -------------------------------------
+Nurse Bot | 700 | 80 | 50 | 15 | 15% | 10% | 20% | Speed Down / 30% / 1 | Repair _and_ Continuous Repair _(*)_ / 4 / 2
+Doctor Bot | 950 | 30 | 35 | 25 | 10% | 10% | 25%  | - | Redistribute _and_ Repair / 5 / -
 
 ## Sprint 3: Player Progression & Bot Upgrades
 
