@@ -2,25 +2,28 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'org.junit.gen5.gradle'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
 
 repositories {
     jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
-        classpath 'org.junit:junit-gradle:5.0.0-ALPHA'
+        classpath 'org.junit:junit-gradle:5.0.0-SNAPSHOT'
     }
 }
 
 
 junit5 {
-    version '5.0.0-ALPHA'
+    version '5.0.0-SNAPSHOT'
     runJunit4 false
     matchClassName '.*Test'
 }
