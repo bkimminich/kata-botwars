@@ -1,4 +1,6 @@
-package de.kimminich.kata.botwars;
+package de.kimminich.kata.botwars.builders;
+
+import de.kimminich.kata.botwars.Bot;
 
 public final class BotBuilder {
 

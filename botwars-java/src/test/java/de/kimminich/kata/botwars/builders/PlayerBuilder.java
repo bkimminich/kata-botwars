@@ -1,22 +1,21 @@
-package de.kimminich.kata.botwars;
+package de.kimminich.kata.botwars.builders;
 
+import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 
 import java.util.List;
 
-import static de.kimminich.kata.botwars.BotBuilder.anyBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 
 public final class PlayerBuilder {
 
     private Bot[] team = {anyBot(), anyBot(), anyBot()};
-    private UserInteraction ui = new UserInteraction() {
-        @Override
-        public Bot chooseTarget(List<Bot> bots) {
-            if (bots != null && bots.size() != 0) {
-                return bots.get(0);
-            } else {
-                return null;
-            }
+    private UserInteraction ui = bots -> {
+        if (bots != null && bots.size() != 0) {
+            return bots.get(0);
+        } else {
+            return null;
         }
     };
 

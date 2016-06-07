@@ -2,7 +2,7 @@ package de.kimminich.kata.botwars;
 
 import org.junit.gen5.api.Test;
 
-import static de.kimminich.kata.botwars.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static org.junit.gen5.api.Assertions.*;
 
 public class BotTest {

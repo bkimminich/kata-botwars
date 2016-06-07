@@ -16,16 +16,16 @@ public class Player {
         this(new SwingUI(), team);
     }
 
-    Player(UserInteraction ui, Bot... team) {
+    public Player(UserInteraction ui, Bot... team) {
         this.ui = ui;
         this.team.addAll(Arrays.asList(team));
     }
 
-    public List<Bot> getTeam() {
+    List<Bot> getTeam() {
         return team;
     }
 
-    public Bot chooseTarget(List<Bot> opponentTeam) {
+    Bot chooseTarget(List<Bot> opponentTeam) {
         return ui.chooseTarget(opponentTeam);
     }
 }

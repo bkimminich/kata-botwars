@@ -5,8 +5,8 @@ import org.junit.gen5.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static de.kimminich.kata.botwars.BotBuilder.anyBot;
-import static de.kimminich.kata.botwars.PlayerBuilder.aPlayer;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
+import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
 import static de.kimminich.kata.botwars.ui.MockUI.mockTargetChoice;
 import static org.junit.gen5.api.Assertions.assertEquals;
 

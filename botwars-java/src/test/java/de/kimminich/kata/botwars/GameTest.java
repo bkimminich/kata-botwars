@@ -2,10 +2,10 @@ package de.kimminich.kata.botwars;
 
 import org.junit.gen5.api.Test;
 
-import static de.kimminich.kata.botwars.BotBuilder.aBot;
-import static de.kimminich.kata.botwars.BotBuilder.anyBot;
-import static de.kimminich.kata.botwars.PlayerBuilder.aPlayer;
-import static de.kimminich.kata.botwars.PlayerBuilder.anyPlayer;
+import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
+import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
+import static de.kimminich.kata.botwars.builders.PlayerBuilder.anyPlayer;
 import static de.kimminich.kata.botwars.ui.MockUI.mockTargetChoice;
 import static org.junit.gen5.api.Assertions.*;
 
@@ -113,14 +113,13 @@ public class GameTest {
         assertEquals(2, opponent.getOwner().getTeam().size());
     }
 
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     @Test
     void cannotCreateGameWithIncompleteTeamSetup() {
         Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
         Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();
 
-        Throwable exception = expectThrows(IllegalArgumentException.class, () -> {
-            new Game(playerWithCompleteTeam, playerWithIncompleteTeam);
-        });
+        Throwable exception = expectThrows(IllegalArgumentException.class, () -> new Game(playerWithCompleteTeam, playerWithIncompleteTeam));
 
         assertAll(
                 () -> assertTrue(exception.getMessage().contains(playerWithIncompleteTeam.toString())),
