@@ -6,11 +6,12 @@ public class Bot {
 
     private Random random = new Random();
 
-    public Bot(int power, int armor, int speed, int integrity) {
+    public Bot(int power, int armor, int speed, int integrity, double evasion) {
         this.power = power;
         this.armor = armor;
         this.speed = speed;
         this.integrity = integrity;
+        this.evasion = evasion;
     }
 
     private Player owner;
@@ -18,6 +19,7 @@ public class Bot {
     private final int power;
     private final int armor;
     private final int speed;
+    private final double evasion;
 
     private int integrity;
     private int turnMeter = 0;
@@ -27,8 +29,10 @@ public class Bot {
     }
 
     public void takeDamage(int damage) {
-        damage = Math.max(0, damage - armor);
-        integrity = Math.max(0, integrity - damage);
+        if (random.nextDouble() > evasion) {
+            damage = Math.max(0, damage - armor);
+            integrity = Math.max(0, integrity - damage);
+        }
     }
 
     public int getIntegrity() {

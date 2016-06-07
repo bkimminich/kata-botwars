@@ -8,6 +8,7 @@ public final class BotBuilder {
     private int armor = 10;
     private int speed = 100;
     private int integrity = 100;
+    private double evasion = 0.0;
 
     private BotBuilder() {
     }
@@ -36,12 +37,16 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withEvasion(double evasion) {
+        this.evasion = evasion;
+        return this;
+    }
+
     public Bot build() {
-        return new Bot(power, armor, speed, integrity);
+        return new Bot(power, armor, speed, integrity, evasion);
     }
 
     public static Bot anyBot() {
         return aBot().build();
     }
-
 }

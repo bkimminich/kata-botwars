@@ -10,6 +10,15 @@ public class BotTest {
     private Bot bot;
 
     @Test
+    void evasionMitigatesAllDamage() {
+        bot = aBot().withIntegrity(10).withArmor(0).withEvasion(1.0).build();
+
+        bot.takeDamage(3);
+
+        assertEquals(10, bot.getIntegrity());
+    }
+
+    @Test
     void damageTakenIsReducedByArmor() {
         bot = aBot().withIntegrity(100).withArmor(10).build();
 
