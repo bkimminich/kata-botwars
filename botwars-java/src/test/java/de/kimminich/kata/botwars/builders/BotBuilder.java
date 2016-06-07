@@ -9,6 +9,7 @@ public final class BotBuilder {
     private int speed = 100;
     private int integrity = 100;
     private double evasion = 0.0;
+    private double criticalHit = 0.0;
 
     private BotBuilder() {
     }
@@ -42,8 +43,13 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withCriticalHit(double criticalHit) {
+        this.criticalHit = criticalHit;
+        return this;
+    }
+
     public Bot build() {
-        return new Bot(power, armor, speed, integrity, evasion);
+        return new Bot(power, armor, speed, integrity, evasion, criticalHit);
     }
 
     public static Bot anyBot() {

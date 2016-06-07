@@ -100,7 +100,7 @@ post: declare player with remaining bots as winner
 * Both players have their own pool of Bots available to assemble their team from before each battle.
 * A player cannot put a bot more than once into his/her team.
 * Bots have an ```Evasion%```-chance based on their _Evasion_ stat to completely prevent an incoming attack from hitting them.
-* Bots also have a ```Critical Hit%```-chance based on their _Critical Hit_ stat to cause double damage when hitting an opponent.
+* Bots also have a ```Critical Hit%```-chance based on their _Critical Hit_ stat to cause double damage when hitting an opponent. Critical damage multiplication happens before target armor is subtracted.
 
 Name | Integrity | Power | Speed | Armor | Evasion | Critical Hit
 ---- | --------- | ----- | ----- | ----- | ------- | ------------

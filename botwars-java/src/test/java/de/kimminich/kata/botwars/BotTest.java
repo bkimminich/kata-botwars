@@ -35,12 +35,24 @@ public class BotTest {
 
     @Test
     void randomDamageIsBetweenHalfAndFullPowerOfAttacker() {
-        bot = aBot().withPower(100).build();
+        bot = aBot().withPower(100).withCriticalHit(0.0).build();
 
         for (int i = 0; i < 1000; i++) {
             Bot opponent = aBot().withIntegrity(200).withArmor(0).build();
             bot.attack(opponent);
             assertTrue(opponent.getIntegrity() <= 150);
+            assertTrue(opponent.getIntegrity() >= 100);
+        }
+    }
+
+    @Test
+    void criticalHitsCauseDoubleDamage() {
+        bot = aBot().withCriticalHit(1.0).withPower(100).build();
+
+        for (int i = 0; i < 1000; i++) {
+            Bot opponent = aBot().withIntegrity(300).withArmor(0).build();
+            bot.attack(opponent);
+            assertTrue(opponent.getIntegrity() <= 200);
             assertTrue(opponent.getIntegrity() >= 100);
         }
     }
