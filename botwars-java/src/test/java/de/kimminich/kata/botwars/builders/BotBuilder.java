@@ -4,6 +4,7 @@ import de.kimminich.kata.botwars.Bot;
 
 public final class BotBuilder {
 
+    private String name = "Horst Bot";
     private int power = 50;
     private int armor = 10;
     private int speed = 100;
@@ -48,8 +49,13 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public Bot build() {
-        return new Bot(power, armor, speed, integrity, evasion, criticalHit);
+        return new Bot(name, power, armor, speed, integrity, evasion, criticalHit);
     }
 
     public static Bot anyBot() {

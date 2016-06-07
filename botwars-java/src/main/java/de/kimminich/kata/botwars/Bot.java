@@ -6,7 +6,8 @@ public class Bot {
 
     private Random random = new Random();
 
-    public Bot(int power, int armor, int speed, int integrity, double evasion, double criticalHit) {
+    public Bot(String name, int power, int armor, int speed, int integrity, double evasion, double criticalHit) {
+        this.name = name;
         this.power = power;
         this.armor = armor;
         this.speed = speed;
@@ -17,6 +18,7 @@ public class Bot {
 
     private Player owner;
 
+    private final String name;
     private final int power;
     private final int armor;
     private final int speed;
@@ -75,5 +77,29 @@ public class Bot {
 
     Player getOwner() {
         return owner;
+    }
+
+    int getPower() {
+        return power;
+    }
+
+    int getSpeed() {
+        return speed;
+    }
+
+    int getArmor() {
+        return armor;
+    }
+
+    double getEvasion() {
+        return evasion;
+    }
+
+    double getCriticalHit() {
+        return criticalHit;
+    }
+
+    String getName() {
+        return name;
     }
 }
