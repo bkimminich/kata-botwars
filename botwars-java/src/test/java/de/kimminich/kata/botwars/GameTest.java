@@ -119,13 +119,35 @@ public class GameTest {
         Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
         Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();
 
-        Throwable exception = expectThrows(IllegalArgumentException.class, () -> new Game(playerWithCompleteTeam, playerWithIncompleteTeam));
+        Throwable exception = expectThrows(IllegalArgumentException.class,
+                () -> new Game(playerWithCompleteTeam, playerWithIncompleteTeam));
 
         assertAll(
                 () -> assertTrue(exception.getMessage().contains(playerWithIncompleteTeam.toString())),
                 () -> assertFalse(exception.getMessage().contains(playerWithCompleteTeam.toString()))
         );
 
+    }
+
+    @Test()
+    void gameEndsWithAWinner() {
+        game = new Game(anyPlayer(), anyPlayer());
+        game.loop();
+        assertTrue(game.getWinner().isPresent());
+    }
+
+    @Test()
+    void strongerPlayerWinsGame() {
+        Player strongPlayer = aPlayer().withTeam(
+                aBot().withPower(1000).build(), aBot().withPower(1000).build(), aBot().withPower(1000).build())
+                .build();
+        Player weakPlayer = aPlayer().withTeam(
+                aBot().withIntegrity(1).build(), aBot().withIntegrity(1).build(), aBot().withIntegrity(1).build())
+                .build();
+
+        game = new Game(strongPlayer, weakPlayer);
+        game.loop();
+        assertEquals(strongPlayer, game.getWinner().orElseThrow(IllegalStateException::new));
     }
 
 }

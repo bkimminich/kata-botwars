@@ -4,10 +4,10 @@ import de.kimminich.kata.botwars.Bot;
 
 public final class BotBuilder {
 
-    private int power = 2;
-    private int armor = 0;
-    private int speed = 0;
-    private int integrity = 1;
+    private int power = 50;
+    private int armor = 10;
+    private int speed = 100;
+    private int integrity = 100;
 
     private BotBuilder() {
     }

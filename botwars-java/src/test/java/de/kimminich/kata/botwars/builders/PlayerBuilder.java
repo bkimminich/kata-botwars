@@ -4,8 +4,6 @@ import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 
-import java.util.List;
-
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 
 public final class PlayerBuilder {

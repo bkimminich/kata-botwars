@@ -2,6 +2,7 @@ package de.kimminich.kata.botwars;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class Game {
@@ -31,7 +32,7 @@ public class Game {
         });
     }
 
-    public void turn() {
+    void turn() {
         for (Bot bot : bots) {
             bot.fillTurnMeter();
             if (bot.canTakeTurn()) {
@@ -51,4 +52,19 @@ public class Game {
         }
     }
 
+    public void loop() {
+        while (!getWinner().isPresent()) {
+            turn();
+        }
+    }
+
+    public Optional<Player> getWinner() {
+        if (player1.getTeam().isEmpty()) {
+            return Optional.of(player2);
+        } else if (player2.getTeam().isEmpty()) {
+            return Optional.of(player1);
+        } else {
+            return Optional.empty();
+        }
+    }
 }
