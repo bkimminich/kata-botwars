@@ -1,5 +1,6 @@
 package de.kimminich.kata.botwars;
 
+import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
@@ -130,6 +131,7 @@ public class GameTest {
     }
 
     @Test()
+    @Disabled
     void gameEndsWithAWinner() {
         game = new Game(anyPlayer(), anyPlayer());
         game.loop();
