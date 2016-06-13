@@ -21,12 +21,13 @@ buildscript {
     }
 }
 
+dependencies {
+    testCompile "org.mockito:mockito-core:1.+"
+}
 
 junit5 {
     version '5.0.0-SNAPSHOT'
-    runJunit4 false
-    matchClassName '.*Test'
-}
+    matchClassName '.*Test'}
 
 run {
     standardInput = System.in
