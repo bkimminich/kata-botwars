@@ -3,22 +3,21 @@ package de.kimminich.kata.botwars;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Player {
 
-    private final List<Bot> team = new ArrayList<>(3);
     private final UserInteraction ui;
+    private List<Bot> team;
 
-    public Player(Bot... team) {
-        this(new SwingUI(), team);
+    public Player(Bot... roster) {
+        this(new SwingUI(), roster);
     }
 
-    public Player(UserInteraction ui, Bot... team) {
+    public Player(UserInteraction ui, Bot... roster) {
         this.ui = ui;
-        this.team.addAll(Arrays.asList(team));
+        this.team = pickTeam(roster);
     }
 
     List<Bot> getTeam() {
@@ -27,5 +26,9 @@ public class Player {
 
     Bot chooseTarget(List<Bot> opponentTeam) {
         return ui.chooseTarget(opponentTeam);
+    }
+
+    private List<Bot> pickTeam(Bot... roster) {
+        return ui.pickTeam(Arrays.asList(roster));
     }
 }

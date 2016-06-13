@@ -8,4 +8,6 @@ public interface UserInteraction {
 
     Bot chooseTarget(List<Bot> bots);
 
+    List<Bot> pickTeam(List<Bot> roster);
+
 }

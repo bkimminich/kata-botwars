@@ -10,4 +10,9 @@ public class SwingUI implements UserInteraction {
     public Bot chooseTarget(List<Bot> bots) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    @Override
+    public List<Bot> pickTeam(List<Bot> roster) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
