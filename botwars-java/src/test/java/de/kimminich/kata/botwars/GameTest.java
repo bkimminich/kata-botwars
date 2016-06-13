@@ -1,9 +1,11 @@
 package de.kimminich.kata.botwars;
 
 import de.kimminich.extensions.InjectMock;
+import de.kimminich.extensions.MockitoExtension;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
+import org.junit.gen5.api.extension.ExtendWith;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
@@ -13,6 +15,7 @@ import static org.junit.gen5.api.Assertions.*;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class GameTest {
 
     private Game game;
