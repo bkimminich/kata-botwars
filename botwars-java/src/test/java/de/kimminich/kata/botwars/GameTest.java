@@ -1,6 +1,5 @@
 package de.kimminich.kata.botwars;
 
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
@@ -101,7 +100,6 @@ public class GameTest {
     }
 
     @Test
-    @Disabled
     void botDestroyedFromAttackIsRemovedFromTeam() {
         Bot bot = aBot().withPower(100).withSpeed(1000).build();
         Bot opponent = aBot().withIntegrity(1).build();
@@ -131,7 +129,6 @@ public class GameTest {
     }
 
     @Test()
-    @Disabled
     void gameEndsWithAWinner() {
         game = new Game(anyPlayer(), anyPlayer());
         game.loop();
@@ -139,7 +136,6 @@ public class GameTest {
     }
 
     @Test()
-    @Disabled
     void strongerPlayerWinsGame() {
         Player strongPlayer = aPlayer().withTeam(
                 aBot().withPower(1000).build(), aBot().withPower(1000).build(), aBot().withPower(1000).build())

@@ -7,7 +7,8 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
@@ -16,12 +17,13 @@ import static org.mockito.Mockito.when;
 
 public final class PlayerBuilder {
 
-    private Bot[] team = {anyBot(), anyBot(), anyBot()};
+    private List<Bot> team = new ArrayList<>();
     private Bot target = null;
 
     private UserInteraction ui = Mockito.mock(UserInteraction.class);
 
     private PlayerBuilder() {
+        Collections.addAll(this.team, anyBot(), anyBot(), anyBot());
     }
 
     public static PlayerBuilder aPlayer() {
@@ -29,7 +31,8 @@ public final class PlayerBuilder {
     }
 
     public PlayerBuilder withTeam(Bot... team) {
-        this.team = team;
+        this.team = new ArrayList<>();
+        Collections.addAll(this.team, team);
         return this;
     }
 
@@ -39,7 +42,7 @@ public final class PlayerBuilder {
     }
 
     public Player build() {
-        when(ui.pickTeam(anyListOf(Bot.class))).thenReturn(Arrays.asList(team));
+        when(ui.pickTeam(anyListOf(Bot.class))).thenReturn(team);
         when(ui.chooseTarget(anyListOf(Bot.class))).thenAnswer(new Answer<Bot>() {
             @Override
             public Bot answer(InvocationOnMock invocation) throws Throwable {
@@ -56,7 +59,7 @@ public final class PlayerBuilder {
                 }
             }
         });
-        return new Player(ui);
+        return new Player(ui, new ArrayList<>());
     }
 
     public static Player anyPlayer() {

@@ -3,7 +3,6 @@ package de.kimminich.kata.botwars;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,11 +16,11 @@ public class Player {
     private final UserInteraction ui;
     private List<Bot> team;
 
-    public Player(Bot... roster) {
+    public Player(List<Bot> roster) {
         this(new SwingUI(), roster);
     }
 
-    public Player(UserInteraction ui, Bot... roster) {
+    public Player(UserInteraction ui, List<Bot> roster) {
         this.ui = ui;
         this.team = pickTeam(roster);
     }
@@ -34,8 +33,8 @@ public class Player {
         return ui.chooseTarget(opponentTeam);
     }
 
-    private List<Bot> pickTeam(Bot... roster) {
-        return ui.pickTeam(Arrays.asList(roster));
+    private List<Bot> pickTeam(List<Bot> roster) {
+        return ui.pickTeam(roster);
     }
 
     @Override
