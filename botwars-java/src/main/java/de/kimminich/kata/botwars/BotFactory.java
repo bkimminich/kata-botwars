@@ -7,7 +7,6 @@ final class BotFactory {
     }
 
     private BotFactory() {
-
     }
 
     static Bot create(BotTypes type) {
