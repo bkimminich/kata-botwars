@@ -18,20 +18,26 @@ import static org.mockito.Mockito.when;
 
 public final class PlayerBuilder {
 
-    private List<Bot> team = new ArrayList<>();
+    private List<Bot> roster = null;
+    private List<Bot> team = null;
     private Bot target = null;
 
     private UserInteraction ui = Mockito.mock(UserInteraction.class);
 
     private PlayerBuilder() {
-        Collections.addAll(this.team, anyBot(), anyBot(), anyBot());
     }
 
     public static PlayerBuilder aPlayer() {
         return new PlayerBuilder();
     }
 
-    public PlayerBuilder withTeam(Bot... team) {
+    public PlayerBuilder withRoster(Bot... roster) {
+        this.roster = new ArrayList<>();
+        Collections.addAll(this.roster, roster);
+        return this;
+    }
+
+    public PlayerBuilder pickingTeam(Bot... team) {
         this.team = new ArrayList<>();
         Collections.addAll(this.team, team);
         return this;
@@ -43,7 +49,33 @@ public final class PlayerBuilder {
     }
 
     public Player build() {
-        when(ui.pickTeam(anyListOf(Bot.class))).thenReturn(team);
+        when(ui.pickTeam(roster)).thenAnswer(new Answer<List<Bot>>() {
+            @Override
+            public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
+                if (roster == null) {
+                    if (team == null) {
+                        roster = new ArrayList<Bot>();
+                        Collections.addAll(roster, anyBot(), anyBot(), anyBot());
+                        team = roster;
+                        return team;
+                    } else {
+                        roster = team;
+                        return team;
+                    }
+                } else {
+                    if (team == null) {
+                        return roster.size() > 3 ? roster.subList(0, 2) : roster;
+                    } else {
+                        if (roster.containsAll(team)) {
+                            return team;
+                        } else {
+                            throw new IllegalStateException("PlayerBuilder roster and team are inconsistent: "
+                                    + roster + " does not contain all of " + team);
+                        }
+                    }
+                }
+            }
+        });
         when(ui.chooseTarget(anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
             @Override
             public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
@@ -60,7 +92,7 @@ public final class PlayerBuilder {
                 }
             }
         });
-        return new Player(ui, new ArrayList<>());
+        return new Player(ui, roster);
     }
 
     public static Player anyPlayer() {

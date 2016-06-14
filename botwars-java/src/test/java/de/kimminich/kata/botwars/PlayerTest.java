@@ -26,4 +26,23 @@ public class PlayerTest {
         );
     }
 
+    @Test
+    void playerPicksBotsFromRoster() {
+        Bot bot1 = anyBot();
+        Bot bot2 = anyBot();
+        Bot bot3 = anyBot();
+        Bot bot4 = anyBot();
+
+        Player player = aPlayer().withRoster(bot1, bot2, bot3, bot4).pickingTeam(bot1, bot2, bot4).build();
+
+        List<Bot> team = player.getTeam();
+        assertAll(
+                () -> assertEquals(3, team.size()),
+                () -> assertTrue(team.contains(bot1)),
+                () -> assertTrue(team.contains(bot2)),
+                () -> assertTrue(team.contains(bot4)),
+                () -> assertFalse(team.contains(bot3))
+        );
+    }
+
 }
