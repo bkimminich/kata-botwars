@@ -39,6 +39,7 @@ public class Game {
         for (Bot bot : bots) {
             bot.fillTurnMeter();
             if (bot.canTakeTurn()) {
+                LOG.info(bot + " takes a turn...");
                 bot.depleteTurnMeter();
                 performAttack(bot);
             }
@@ -51,7 +52,9 @@ public class Game {
         Bot target = owner.chooseTarget(opponent.getTeam());
         bot.attack(target);
         if (target.isDestroyed()) {
+            LOG.info(target + " destroyed!");
             opponent.getTeam().remove(target);
+            bots.remove(target);
         }
     }
 
