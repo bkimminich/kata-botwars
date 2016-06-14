@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class Game {
+
+    private static final Logger LOG = Logger.getLogger(Game.class.getName());
 
     private Random random = new Random();
 

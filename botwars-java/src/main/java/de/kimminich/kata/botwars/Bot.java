@@ -1,8 +1,11 @@
 package de.kimminich.kata.botwars;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class Bot {
+
+    private static final Logger LOG = Logger.getLogger(Bot.class.getName());
 
     private Random random = new Random();
 
@@ -101,5 +104,14 @@ public class Bot {
 
     String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return name + "{" +
+                "owner=" + owner +
+                ", integrity=" + integrity +
+                ", turnMeter=" + turnMeter +
+                '}';
     }
 }

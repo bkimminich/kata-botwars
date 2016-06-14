@@ -5,9 +5,15 @@ import de.kimminich.kata.botwars.ui.UserInteraction;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Player {
 
+    private static final Logger LOG = Logger.getLogger(Player.class.getName());
+
+    private static int id = 1;
+
+    private final String name = "Player " + id++;
     private final UserInteraction ui;
     private List<Bot> team;
 
@@ -30,5 +36,10 @@ public class Player {
 
     private List<Bot> pickTeam(Bot... roster) {
         return ui.pickTeam(Arrays.asList(roster));
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
