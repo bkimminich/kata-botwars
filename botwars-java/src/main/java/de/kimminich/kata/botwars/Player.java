@@ -4,6 +4,7 @@ import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInteraction;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class Player {
@@ -29,7 +30,7 @@ public class Player {
         return team;
     }
 
-    Bot chooseTarget(List<Bot> opponentTeam) {
+    Optional<Bot> chooseTarget(List<Bot> opponentTeam) {
         return ui.chooseTarget(opponentTeam);
     }
 

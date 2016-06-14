@@ -3,11 +3,12 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SwingUI implements UserInteraction {
 
     @Override
-    public Bot chooseTarget(List<Bot> bots) {
+    public Optional<Bot> chooseTarget(List<Bot> bots) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

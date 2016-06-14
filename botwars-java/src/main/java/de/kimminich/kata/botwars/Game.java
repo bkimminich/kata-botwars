@@ -41,23 +41,24 @@ public class Game {
             Bot bot = it.next();
             if (bot.isDestroyed()) {
                 it.remove();
-                continue;
-            }
-            bot.fillTurnMeter();
-            if (bot.canTakeTurn()) {
-                LOG.info(bot + " takes a turn...");
-                bot.depleteTurnMeter();
-                performAttack(bot);
+            } else {
+                bot.fillTurnMeter();
+                if (bot.canTakeTurn()) {
+                    LOG.info(bot + " takes a turn...");
+                    bot.depleteTurnMeter();
+                    performAttack(bot);
+                }
             }
         }
     }
 
-    private void performAttack(Bot bot) {
-        Player owner = bot.getOwner();
-        Player opponent = owner == player1 ? player2 : player1;
-        Bot target = owner.chooseTarget(opponent.getTeam());
-        if (target != null) {
-            bot.attack(target);
+    private void performAttack(Bot attacker) {
+        Player attackingPlayer = attacker.getOwner();
+        Player opponentPlayer = attackingPlayer == player1 ? player2 : player1;
+        Optional<Bot> choice = attackingPlayer.chooseTarget(opponentPlayer.getTeam());
+        if (choice.isPresent()) {
+            Bot target = choice.get();
+            attacker.attack(target);
             if (target.isDestroyed()) {
                 target.getOwner().getTeam().remove(target);
                 LOG.info(target + " destroyed!");

@@ -10,6 +10,7 @@ import org.mockito.stubbing.Answer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static org.mockito.Matchers.anyListOf;
@@ -43,19 +44,19 @@ public final class PlayerBuilder {
 
     public Player build() {
         when(ui.pickTeam(anyListOf(Bot.class))).thenReturn(team);
-        when(ui.chooseTarget(anyListOf(Bot.class))).thenAnswer(new Answer<Bot>() {
+        when(ui.chooseTarget(anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
             @Override
-            public Bot answer(InvocationOnMock invocation) throws Throwable {
+            public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
                 List<Bot> choices = (List<Bot>) args[0];
                 if (choices != null && !choices.isEmpty()) {
                     if (target != null) {
-                        return target;
+                        return Optional.of(target);
                     } else {
-                        return choices.get(0);
+                        return Optional.of(choices.get(0));
                     }
                 } else {
-                    return null;
+                    return Optional.empty();
                 }
             }
         });
