@@ -2,12 +2,21 @@ package de.kimminich.kata.botwars;
 
 import org.junit.gen5.api.Test;
 
-import static de.kimminich.kata.botwars.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static org.junit.gen5.api.Assertions.*;
 
 public class BotTest {
 
     private Bot bot;
+
+    @Test
+    void evasionMitigatesAllDamage() {
+        bot = aBot().withIntegrity(10).withArmor(0).withEvasion(1.0).build();
+
+        bot.takeDamage(3);
+
+        assertEquals(10, bot.getIntegrity());
+    }
 
     @Test
     void damageTakenIsReducedByArmor() {
@@ -26,12 +35,24 @@ public class BotTest {
 
     @Test
     void randomDamageIsBetweenHalfAndFullPowerOfAttacker() {
-        bot = aBot().withPower(100).build();
+        bot = aBot().withPower(100).withCriticalHit(0.0).build();
 
         for (int i = 0; i < 1000; i++) {
             Bot opponent = aBot().withIntegrity(200).withArmor(0).build();
             bot.attack(opponent);
             assertTrue(opponent.getIntegrity() <= 150);
+            assertTrue(opponent.getIntegrity() >= 100);
+        }
+    }
+
+    @Test
+    void criticalHitsCauseDoubleDamage() {
+        bot = aBot().withCriticalHit(1.0).withPower(100).build();
+
+        for (int i = 0; i < 1000; i++) {
+            Bot opponent = aBot().withIntegrity(300).withArmor(0).build();
+            bot.attack(opponent);
+            assertTrue(opponent.getIntegrity() <= 200);
             assertTrue(opponent.getIntegrity() >= 100);
         }
     }

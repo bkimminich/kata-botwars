@@ -1,10 +1,15 @@
 package de.kimminich.kata.botwars;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class Game {
+
+    private static final Logger LOG = Logger.getLogger(Game.class.getName());
 
     private Random random = new Random();
 
@@ -31,23 +36,51 @@ public class Game {
         });
     }
 
-    public void turn() {
-        for (Bot bot : bots) {
-            bot.fillTurnMeter();
-            if (bot.canTakeTurn()) {
-                bot.depleteTurnMeter();
-                performAttack(bot);
+    void turn() {
+        for (Iterator<Bot> it = bots.iterator(); it.hasNext();) {
+            Bot bot = it.next();
+            if (bot.isDestroyed()) {
+                it.remove();
+            } else {
+                bot.fillTurnMeter();
+                if (bot.canTakeTurn()) {
+                    LOG.info(bot + " takes a turn...");
+                    bot.depleteTurnMeter();
+                    performAttack(bot);
+                }
             }
         }
     }
 
-    private void performAttack(Bot bot) {
-        Player owner = bot.getOwner();
-        Player opponent = owner == player1 ? player2 : player1;
-        Bot target = owner.chooseTarget(opponent.getTeam());
-        bot.attack(target);
-        if (target.isDestroyed()) {
-            opponent.getTeam().remove(target);
+    private void performAttack(Bot attacker) {
+        Player attackingPlayer = attacker.getOwner();
+        Player opponentPlayer = attackingPlayer == player1 ? player2 : player1;
+        Optional<Bot> choice = attackingPlayer.chooseTarget(opponentPlayer.getTeam());
+        if (choice.isPresent()) {
+            Bot target = choice.get();
+            attacker.attack(target);
+            if (target.isDestroyed()) {
+                target.getOwner().getTeam().remove(target);
+                LOG.info(target + " destroyed!");
+            }
+        }
+    }
+
+    public void loop() {
+        while (!getWinner().isPresent()) {
+            turn();
+        }
+    }
+
+    public Optional<Player> getWinner() {
+        if (player1.getTeam().isEmpty()) {
+            LOG.info(player2 + " wins!");
+            return Optional.of(player2);
+        } else if (player2.getTeam().isEmpty()) {
+            LOG.info(player1 + " wins!");
+            return Optional.of(player1);
+        } else {
+            return Optional.empty();
         }
     }
 
