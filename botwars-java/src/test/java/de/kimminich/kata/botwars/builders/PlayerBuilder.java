@@ -15,7 +15,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 public final class PlayerBuilder {
@@ -51,7 +53,7 @@ public final class PlayerBuilder {
     }
 
     public Player build() {
-        when(ui.pickTeam(roster)).thenAnswer(new Answer<List<Bot>>() {
+        when(ui.pickTeam(any(Player.class), eq(roster))).thenAnswer(new Answer<List<Bot>>() {
             @Override
             public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
                 if (roster == null) {
@@ -80,11 +82,11 @@ public final class PlayerBuilder {
                 }
             }
         });
-        when(ui.chooseTarget(anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
+        when(ui.chooseTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
             @Override
             public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
-                List<Bot> choices = (List<Bot>) args[0];
+                List<Bot> choices = (List<Bot>) args[1];
                 if (choices != null && !choices.isEmpty()) {
                     if (target != null) {
                         return Optional.of(target);

@@ -113,6 +113,15 @@ public class Bot {
 
     @Override
     public String toString() {
-        return name;
+        return name + "{" +
+                (owner != null ? "owner=" + owner + ", " : "") +
+                "integrity=" + integrity +
+                ", turnMeter=" + turnMeter +
+                ", power=" + power +
+                ", armor=" + armor +
+                ", speed=" + speed +
+                ", evasion=" + (evasion * 100) + "%" +
+                ", criticalHit=" + (criticalHit * 100) + "%" +
+                '}';
     }
 }

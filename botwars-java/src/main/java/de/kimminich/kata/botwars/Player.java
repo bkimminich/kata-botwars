@@ -32,11 +32,11 @@ public class Player {
     }
 
     Optional<Bot> chooseTarget(List<Bot> opponentTeam) {
-        return ui.chooseTarget(opponentTeam);
+        return ui.chooseTarget(this, opponentTeam);
     }
 
     private List<Bot> pickTeam(Set<Bot> roster) {
-        return ui.pickTeam(roster);
+        return ui.pickTeam(this, roster);
     }
 
     @Override
