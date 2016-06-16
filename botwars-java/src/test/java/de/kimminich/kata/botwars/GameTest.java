@@ -112,22 +112,6 @@ public class GameTest {
         assertEquals(2, opponent.getOwner().getTeam().size());
     }
 
-    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-    @Test
-    void cannotCreateGameWithIncompleteTeamSetup() {
-        Player playerWithCompleteTeam = aPlayer().pickingTeam(anyBot(), anyBot(), anyBot()).build();
-        Player playerWithIncompleteTeam = aPlayer().pickingTeam(anyBot(), anyBot()).build();
-
-        Throwable exception = expectThrows(IllegalArgumentException.class,
-                () -> new Game(playerWithCompleteTeam, playerWithIncompleteTeam));
-
-        assertAll(
-                () -> assertTrue(exception.getMessage().contains(playerWithIncompleteTeam.toString())),
-                () -> assertFalse(exception.getMessage().contains(playerWithCompleteTeam.toString()))
-        );
-
-    }
-
     @Test()
     void gameEndsWithAWinner() {
         game = new Game(anyPlayer(), anyPlayer());
@@ -149,6 +133,39 @@ public class GameTest {
         assertEquals(strongPlayer, game.getWinner().orElseThrow(IllegalStateException::new));
     }
 
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    @Test
+    void cannotCreateGameWithIncompleteTeamSetup() {
+        Player playerWithCompleteTeam = aPlayer().pickingTeam(anyBot(), anyBot(), anyBot()).build();
+        Player playerWithIncompleteTeam = aPlayer().pickingTeam(anyBot(), anyBot()).build();
+
+        Throwable exception = expectThrows(IllegalArgumentException.class,
+                () -> new Game(playerWithCompleteTeam, playerWithIncompleteTeam));
+
+        assertAll(
+                () -> assertTrue(exception.getMessage().contains(playerWithIncompleteTeam.toString())),
+                () -> assertFalse(exception.getMessage().contains(playerWithCompleteTeam.toString()))
+        );
+
+    }
+
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    @Test
+    void cannotCreateGameWithDuplicateBotInTeam() {
+        Bot duplicateBot = anyBot();
+        Player playerWithDuplicateBotInTeam = aPlayer().pickingTeam(duplicateBot, duplicateBot, anyBot()).build();
+        Player playerWithValidTeam = aPlayer().pickingTeam(anyBot(), anyBot(), anyBot()).build();
+
+        Throwable exception = expectThrows(IllegalArgumentException.class,
+                () -> new Game(playerWithValidTeam, playerWithDuplicateBotInTeam));
+
+        assertAll(
+                () -> assertTrue(exception.getMessage().contains(playerWithDuplicateBotInTeam.toString())),
+                () -> assertTrue(exception.getMessage().contains(duplicateBot.toString())),
+                () -> assertFalse(exception.getMessage().contains(playerWithValidTeam.toString()))
+        );
+
+    }
 
 
 }

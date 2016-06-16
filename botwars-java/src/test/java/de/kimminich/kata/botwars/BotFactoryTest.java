@@ -1,10 +1,18 @@
 package de.kimminich.kata.botwars;
 
+import org.junit.gen5.api.DynamicTest;
 import org.junit.gen5.api.Test;
+import org.junit.gen5.api.TestFactory;
 
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.*;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import static de.kimminich.kata.botwars.BotTypes.*;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
 public class BotFactoryTest {
 
@@ -97,4 +105,19 @@ public class BotFactoryTest {
                 () -> assertEquals(0.2, kamikazeBot.getCriticalHit())
         );
     }
+
+    @TestFactory
+    Stream<DynamicTest> defaultRosterContainsOneOfEachBotType() {
+        Set<Bot> defaultRoster = BotFactory.createDefaultRoster();
+
+        return Arrays.stream(BotTypes.values()).map(botType ->
+                dynamicTest("Default roster contains " + botType, () -> {
+                    boolean botInRoster = false;
+                    for (Bot bot : defaultRoster) {
+                        botInRoster = bot.getName().equals(botType.toString()) || botInRoster;
+                    }
+                    assertTrue(botInRoster, botType + " expected in default roster.");
+                }));
+    }
+
 }

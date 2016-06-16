@@ -1,17 +1,16 @@
 package de.kimminich.kata.botwars;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Game {
 
     private static final Logger LOG = Logger.getLogger(Game.class.getName());
-
-    private Random random = new Random();
 
     private final Player player1;
     private final Player player2;
@@ -29,6 +28,11 @@ public class Game {
         if (player.getTeam().size() != 3) {
             throw new IllegalArgumentException(player + " team size is invalid: " + player.getTeam().size());
         }
+       player.getTeam().stream().filter(i -> Collections.frequency(player.getTeam(), i) > 1)
+                .collect(Collectors.toSet()).forEach(bot -> {
+           throw new IllegalArgumentException(player + " has duplicate bot in team: " + bot);
+       });
+
        player.getTeam().stream().forEach(bot -> {
             bot.setOwner(player);
             bot.resetBot();
@@ -82,6 +86,10 @@ public class Game {
         } else {
             return Optional.empty();
         }
+    }
+
+    public static void main(String... args) {
+        new Game(new Player(), new Player()).loop();
     }
 
 }

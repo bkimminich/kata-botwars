@@ -113,10 +113,6 @@ public class Bot {
 
     @Override
     public String toString() {
-        return name + "{" +
-                "owner=" + owner +
-                ", integrity=" + integrity +
-                ", turnMeter=" + turnMeter +
-                '}';
+        return name;
     }
 }
