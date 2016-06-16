@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'org.junit.gen5.gradle'
 apply plugin: 'checkstyle'
 
@@ -35,11 +36,37 @@ run {
     standardInput = System.in
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
+afterEvaluate {
+
+    jacoco {
+        toolVersion = '0.7.4.201502262128'
+        applyTo junit5Test
     }
+
+    task junit5CodeCoverageReport(type:JacocoReport){
+        executionData junit5Test
+        sourceSets sourceSets.main
+        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+        classDirectories = files(sourceSets.main.output)
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+    }
+
+    coveralls {
+        sourceDirs = files(sourceSets.main.allSource.srcDirs).flatten()
+        jacocoReportPath = "/reports/jacoco/junit5CodeCoverageReport/junit5CodeCoverageReport.xml"
+    }
+
+    tasks.coveralls {
+        group = 'Coverage reports'
+        description = 'Uploads the aggregated coverage report to Coveralls'
+
+        dependsOn junit5CodeCoverageReport
+        onlyIf { System.env.'CI' }
+    }
+
 }
 
 mainClassName = 'de.kimminich.kata.botwars.Game'

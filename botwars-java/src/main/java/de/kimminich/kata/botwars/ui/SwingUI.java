@@ -3,7 +3,8 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 
-import javax.swing.*;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

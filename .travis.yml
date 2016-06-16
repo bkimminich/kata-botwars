@@ -22,7 +22,7 @@ addons:
     branch_pattern: coverity_scan
 
 after_success:
-  - ./gradlew coveralls
+  - ./gradlew junit5CodeCoverageReport coveralls
 
 sudo: false
 
