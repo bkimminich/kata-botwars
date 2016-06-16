@@ -21,7 +21,11 @@ addons:
     branch_pattern: coverity_scan
 
 after_success:
-  - ./gradlew dependencyCheck --info
   - ./gradlew coveralls
 
 sudo: false
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
