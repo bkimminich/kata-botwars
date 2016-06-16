@@ -133,6 +133,20 @@ public class GameTest {
         assertEquals(strongPlayer, game.getWinner().orElseThrow(IllegalStateException::new));
     }
 
+    @Test()
+    void fasterPlayerWinsGame() {
+        Player fastPlayer = aPlayer().pickingTeam(
+                aBot().withSpeed(200).build(), aBot().withSpeed(300).build(), aBot().withSpeed(400).build())
+                .build();
+        Player slowPlayer = aPlayer().pickingTeam(
+                aBot().withSpeed(20).build(), aBot().withSpeed(30).build(), aBot().withSpeed(40).build())
+                .build();
+
+        game = new Game(slowPlayer, fastPlayer);
+        game.loop();
+        assertEquals(fastPlayer, game.getWinner().orElseThrow(IllegalStateException::new));
+    }
+
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     @Test
     void cannotCreateGameWithIncompleteTeamSetup() {
