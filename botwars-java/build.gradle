@@ -56,7 +56,7 @@ afterEvaluate {
 
     coveralls {
         sourceDirs = files(sourceSets.main.allSource.srcDirs).flatten()
-        jacocoReportPath = "/reports/jacoco/junit5CodeCoverageReport/junit5CodeCoverageReport.xml"
+        jacocoReportPath = "${buildDir}/reports/jacoco/junit5CodeCoverageReport/junit5CodeCoverageReport.xml"
     }
 
     tasks.coveralls {
@@ -64,7 +64,6 @@ afterEvaluate {
         description = 'Uploads the aggregated coverage report to Coveralls'
 
         dependsOn junit5CodeCoverageReport
-        onlyIf { System.env.'CI' }
     }
 
 }
