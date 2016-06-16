@@ -5,15 +5,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Game {
 
     private static final Logger LOG = Logger.getLogger(Game.class.getName());
-
-    private Random random = new Random();
 
     private final Player player1;
     private final Player player2;
