@@ -5,37 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.AGGRO_BOT;
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.STEALTH_BOT;
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.GLASS_BOT;
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.TANK_BOT;
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.BEAVERETTE_BOT;
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.KAMIKAZE_BOT;
+import static de.kimminich.kata.botwars.BotTypes.AGGRO_BOT;
+import static de.kimminich.kata.botwars.BotTypes.STEALTH_BOT;
+import static de.kimminich.kata.botwars.BotTypes.GLASS_BOT;
+import static de.kimminich.kata.botwars.BotTypes.TANK_BOT;
+import static de.kimminich.kata.botwars.BotTypes.BEAVERETTE_BOT;
+import static de.kimminich.kata.botwars.BotTypes.KAMIKAZE_BOT;
 
-final class BotFactory {
+public final class BotFactory {
 
     public static Set<Bot> createDefaultRoster() {
         return Arrays.stream(BotTypes.values()).map(BotFactory::create).collect(Collectors.toCollection(HashSet::new));
-    }
-
-    enum BotTypes {
-        AGGRO_BOT("Aggro Bot"),
-        STEALTH_BOT("Stealth Bot"),
-        GLASS_BOT("Glass Bot"),
-        TANK_BOT("Tank Bot"),
-        BEAVERETTE_BOT("Beaverette Bot"),
-        KAMIKAZE_BOT("Kamikaze Bot");
-
-        private final String botName;
-
-        BotTypes(String botName) {
-            this.botName = botName;
-        }
-
-        @Override
-        public String toString() {
-            return botName;
-        }
     }
 
     private BotFactory() {

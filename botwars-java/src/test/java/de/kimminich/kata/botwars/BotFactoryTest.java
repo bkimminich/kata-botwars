@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static de.kimminich.kata.botwars.BotFactory.BotTypes.*;
+import static de.kimminich.kata.botwars.BotTypes.*;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
@@ -110,7 +110,7 @@ public class BotFactoryTest {
     Stream<DynamicTest> defaultRosterContainsOneOfEachBotType() {
         Set<Bot> defaultRoster = BotFactory.createDefaultRoster();
 
-        return Arrays.stream(BotFactory.BotTypes.values()).map(botType ->
+        return Arrays.stream(BotTypes.values()).map(botType ->
                 dynamicTest("Default roster contains " + botType, () -> {
                     boolean botInRoster = false;
                     for (Bot bot : defaultRoster) {
