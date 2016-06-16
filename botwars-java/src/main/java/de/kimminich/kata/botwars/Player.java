@@ -5,6 +5,7 @@ import de.kimminich.kata.botwars.ui.UserInteraction;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class Player {
@@ -17,11 +18,11 @@ public class Player {
     private final UserInteraction ui;
     private List<Bot> team;
 
-    public Player(List<Bot> roster) {
-        this(new SwingUI(), roster);
+    public Player() {
+        this(new SwingUI(), BotFactory.createDefaultRoster());
     }
 
-    public Player(UserInteraction ui, List<Bot> roster) {
+    public Player(UserInteraction ui, Set<Bot> roster) {
         this.ui = ui;
         this.team = pickTeam(roster);
     }
@@ -34,7 +35,7 @@ public class Player {
         return ui.chooseTarget(opponentTeam);
     }
 
-    private List<Bot> pickTeam(List<Bot> roster) {
+    private List<Bot> pickTeam(Set<Bot> roster) {
         return ui.pickTeam(roster);
     }
 

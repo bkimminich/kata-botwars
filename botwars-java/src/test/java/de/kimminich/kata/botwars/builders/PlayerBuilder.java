@@ -9,8 +9,10 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static org.mockito.Matchers.anyListOf;
@@ -18,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 public final class PlayerBuilder {
 
-    private List<Bot> roster = null;
+    private Set<Bot> roster = null;
     private List<Bot> team = null;
     private Bot target = null;
 
@@ -32,7 +34,7 @@ public final class PlayerBuilder {
     }
 
     public PlayerBuilder withRoster(Bot... roster) {
-        this.roster = new ArrayList<>();
+        this.roster = new HashSet<>();
         Collections.addAll(this.roster, roster);
         return this;
     }
@@ -54,17 +56,19 @@ public final class PlayerBuilder {
             public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
                 if (roster == null) {
                     if (team == null) {
-                        roster = new ArrayList<Bot>();
+                        roster = new HashSet<Bot>();
                         Collections.addAll(roster, anyBot(), anyBot(), anyBot());
-                        team = roster;
+                        team = new ArrayList<Bot>(roster);
                         return team;
                     } else {
-                        roster = team;
+                        roster = new HashSet<Bot>(team);
                         return team;
                     }
                 } else {
                     if (team == null) {
-                        return roster.size() > 3 ? roster.subList(0, 2) : roster;
+                        return roster.size() > 3
+                                ? new ArrayList<Bot>(roster).subList(0, 2)
+                                : new ArrayList<Bot>(roster);
                     } else {
                         if (roster.containsAll(team)) {
                             return team;

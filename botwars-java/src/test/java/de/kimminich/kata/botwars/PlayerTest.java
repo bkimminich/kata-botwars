@@ -12,6 +12,7 @@ import static org.junit.gen5.api.Assertions.*;
 
 public class PlayerTest {
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     void playerCanChooseTargetBotFromOpponentTeam() {
         Bot bot = anyBot();
