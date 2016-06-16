@@ -48,7 +48,7 @@ public class Game {
             } else {
                 bot.fillTurnMeter();
                 if (bot.canTakeTurn()) {
-                    LOG.info(bot + " takes a turn...");
+                    LOG.fine(bot + " takes a turn...");
                     bot.depleteTurnMeter();
                     performAttack(bot);
                 }
@@ -65,7 +65,7 @@ public class Game {
             attacker.attack(target);
             if (target.isDestroyed()) {
                 target.getOwner().getTeam().remove(target);
-                LOG.info(target + " destroyed!");
+                LOG.fine(target + " destroyed!");
             }
         }
     }
@@ -78,10 +78,10 @@ public class Game {
 
     public Optional<Player> getWinner() {
         if (player1.getTeam().isEmpty()) {
-            LOG.info(player2 + " wins!");
+            LOG.fine(player2 + " wins!");
             return Optional.of(player2);
         } else if (player2.getTeam().isEmpty()) {
-            LOG.info(player1 + " wins!");
+            LOG.fine(player1 + " wins!");
             return Optional.of(player1);
         } else {
             return Optional.empty();
