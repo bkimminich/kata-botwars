@@ -58,13 +58,13 @@ public class GameTest {
 
         game = new Game(aPlayer().pickingTeam(bot, anyBot(), anyBot()).build(), anyPlayer());
         game.turn();
-        assertEquals(501, bot.getTurnMeter());
+        assertEquals(501, bot.getTurnMeter(), "Turn Meter: 0 + 501 => 501");
         game.turn();
-        assertEquals(2, bot.getTurnMeter());
+        assertEquals(2, bot.getTurnMeter(), "Turn Meter: 501 + 501 => 1002 - 1000 => 2");
         game.turn();
-        assertEquals(503, bot.getTurnMeter());
+        assertEquals(503, bot.getTurnMeter(), "Turn Meter: 2 + 501 => 503");
         game.turn();
-        assertEquals(4, bot.getTurnMeter());
+        assertEquals(4, bot.getTurnMeter(), "Turn Meter: 503 + 501 => 1004 - 1000 => 4");
     }
 
     @Test
@@ -109,7 +109,10 @@ public class GameTest {
 
         assertEquals(3, opponent.getOwner().getTeam().size());
         game.turn();
-        assertEquals(2, opponent.getOwner().getTeam().size());
+        assertAll(
+                () -> assertEquals(2, opponent.getOwner().getTeam().size()),
+                () -> assertFalse(opponent.getOwner().getTeam().contains(opponent))
+        );
     }
 
     @Test()
