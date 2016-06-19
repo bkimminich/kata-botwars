@@ -111,8 +111,7 @@ public class Bot {
         return name;
     }
 
-    @Override
-    public String toString() {
+    public String toStats() {
         return name + "{" +
                 (owner != null ? "owner=" + owner + ", " : "") +
                 "integrity=" + integrity +
@@ -123,5 +122,10 @@ public class Bot {
                 ", evasion=" + (evasion * 100) + "%" +
                 ", criticalHit=" + (criticalHit * 100) + "%" +
                 '}';
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

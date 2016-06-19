@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static javax.swing.JOptionPane.CLOSED_OPTION;
 
@@ -16,11 +17,15 @@ public class SwingUI implements UserInteraction {
 
     @Override
     public Optional<Bot> chooseTarget(Player attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker + ", choose bot to attack!", "Choose target!",
+        int choice = JOptionPane.showOptionDialog(null, attacker + ", choose bot to attack!\n" + toStats(opponentTeam), "Choose target!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
         return choice == CLOSED_OPTION ? Optional.empty() : Optional.of(opponentTeam.get(choice));
+    }
+
+    private String toStats(List<Bot> opponentTeam) {
+        return opponentTeam.stream().map(Bot::toStats).collect(Collectors.joining("\n"));
     }
 
     @Override
