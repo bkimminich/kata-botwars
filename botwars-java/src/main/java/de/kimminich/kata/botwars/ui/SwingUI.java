@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static javax.swing.JOptionPane.CLOSED_OPTION;
 
-public class SwingUI implements UserInteraction {
+public class SwingUI implements UserInterface {
 
     @Override
     public Optional<Bot> selectTarget(Player attacker, List<Bot> opponentTeam) {

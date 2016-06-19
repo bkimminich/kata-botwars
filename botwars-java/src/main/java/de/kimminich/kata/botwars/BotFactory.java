@@ -1,7 +1,6 @@
 package de.kimminich.kata.botwars;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,7 @@ import static de.kimminich.kata.botwars.BotTypes.KAMIKAZE_BOT;
 public final class BotFactory {
 
     public static Set<Bot> createDefaultRoster() {
-        return Arrays.stream(BotTypes.values()).map(BotFactory::create).collect(Collectors.toCollection(HashSet::new));
+        return Arrays.stream(BotTypes.values()).map(BotFactory::create).collect(Collectors.toSet());
     }
 
     private BotFactory() {

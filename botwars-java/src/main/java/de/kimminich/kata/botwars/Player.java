@@ -1,7 +1,7 @@
 package de.kimminich.kata.botwars;
 
 import de.kimminich.kata.botwars.ui.SwingUI;
-import de.kimminich.kata.botwars.ui.UserInteraction;
+import de.kimminich.kata.botwars.ui.UserInterface;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,14 +13,14 @@ public class Player {
     private static final Logger LOG = Logger.getLogger(Player.class.getName());
 
     private String name;
-    private final UserInteraction ui;
+    private final UserInterface ui;
     private List<Bot> team;
 
     public Player() {
         this(new SwingUI(), BotFactory.createDefaultRoster());
     }
 
-    public Player(UserInteraction ui, Set<Bot> roster) {
+    public Player(UserInterface ui, Set<Bot> roster) {
         this.ui = ui;
         enterName();
         this.team = selectTeam(roster);

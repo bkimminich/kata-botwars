@@ -2,7 +2,7 @@ package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Player;
-import de.kimminich.kata.botwars.ui.UserInteraction;
+import de.kimminich.kata.botwars.ui.UserInterface;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -29,7 +29,7 @@ public final class PlayerBuilder {
     private Bot target = null;
     private String name = "Player " + ++id;
 
-    private UserInteraction ui = Mockito.mock(UserInteraction.class);
+    private UserInterface ui = Mockito.mock(UserInterface.class);
 
     private PlayerBuilder() {
     }
@@ -61,6 +61,11 @@ public final class PlayerBuilder {
     }
 
     public Player build() {
+        mockUI();
+        return new Player(ui, roster);
+    }
+
+    private void mockUI() {
         when(ui.enterName()).thenReturn(name);
         when(ui.selectTeam(any(Player.class), eq(roster))).thenAnswer(new Answer<List<Bot>>() {
             @Override
@@ -107,7 +112,6 @@ public final class PlayerBuilder {
                 }
             }
         });
-        return new Player(ui, roster);
     }
 
     public static Player anyPlayer() {
