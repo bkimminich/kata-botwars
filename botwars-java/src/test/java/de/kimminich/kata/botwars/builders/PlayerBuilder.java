@@ -22,9 +22,12 @@ import static org.mockito.Mockito.when;
 
 public final class PlayerBuilder {
 
+    private static int id = 0;
+
     private Set<Bot> roster = null;
     private List<Bot> team = null;
     private Bot target = null;
+    private String name = "Player " + ++id;
 
     private UserInteraction ui = Mockito.mock(UserInteraction.class);
 
@@ -52,7 +55,13 @@ public final class PlayerBuilder {
         return this;
     }
 
+    public PlayerBuilder choosingName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public Player build() {
+        when(ui.chooseName()).thenReturn(name);
         when(ui.pickTeam(any(Player.class), eq(roster))).thenAnswer(new Answer<List<Bot>>() {
             @Override
             public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
@@ -104,4 +113,5 @@ public final class PlayerBuilder {
     public static Player anyPlayer() {
         return aPlayer().build();
     }
+
 }

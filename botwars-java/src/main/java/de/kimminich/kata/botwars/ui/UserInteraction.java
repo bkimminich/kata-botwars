@@ -13,4 +13,6 @@ public interface UserInteraction {
 
     List<Bot> pickTeam(Player player, Set<Bot> roster);
 
+    String chooseName();
+
 }

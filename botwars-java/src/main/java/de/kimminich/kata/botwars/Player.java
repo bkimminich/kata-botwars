@@ -12,9 +12,7 @@ public class Player {
 
     private static final Logger LOG = Logger.getLogger(Player.class.getName());
 
-    private static int id = 1;
-
-    private final String name = "Player " + id++;
+    private String name;
     private final UserInteraction ui;
     private List<Bot> team;
 
@@ -24,6 +22,7 @@ public class Player {
 
     public Player(UserInteraction ui, Set<Bot> roster) {
         this.ui = ui;
+        chooseName();
         this.team = pickTeam(roster);
     }
 
@@ -39,8 +38,16 @@ public class Player {
         return ui.pickTeam(this, roster);
     }
 
+    private void chooseName() {
+        this.name = ui.chooseName();
+    }
+
     @Override
     public String toString() {
+        return name;
+    }
+
+    public String getName() {
         return name;
     }
 }

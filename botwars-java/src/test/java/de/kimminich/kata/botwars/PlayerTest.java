@@ -46,4 +46,11 @@ public class PlayerTest {
         );
     }
 
+    @Test
+    void playerChoosesAName() {
+        Player player = aPlayer().choosingName("Horst").build();
+
+        assertEquals("Horst", player.getName());
+    }
+
 }

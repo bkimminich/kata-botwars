@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -17,7 +18,7 @@ public class SwingUI implements UserInteraction {
     @Override
     public Optional<Bot> chooseTarget(Player attacker, List<Bot> opponentTeam) {
         int choice = JOptionPane.showOptionDialog(null, attacker + ", choose bot to attack!", "Choose target!",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
         return choice == CLOSED_OPTION ? Optional.empty() : Optional.of(opponentTeam.get(choice));
@@ -31,5 +32,10 @@ public class SwingUI implements UserInteraction {
                 null, list, player + ", pick your team!", JOptionPane.PLAIN_MESSAGE);
 
         return list.getSelectedValuesList();
+    }
+
+    @Override
+    public String chooseName() {
+        return JOptionPane.showInputDialog(null, "Player, enter your name!");
     }
 }
