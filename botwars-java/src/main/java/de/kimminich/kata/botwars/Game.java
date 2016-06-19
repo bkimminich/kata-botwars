@@ -18,6 +18,9 @@ public class Game {
 
     public Game(Player player1, Player player2) throws IllegalArgumentException {
         super();
+        if (player1.getName().equals(player2.getName())) {
+            throw new IllegalArgumentException("Players cannot use the same name: " + player1.getName());
+        }
         this.player1 = player1;
         this.player2 = player2;
         prepareTeam(player1);

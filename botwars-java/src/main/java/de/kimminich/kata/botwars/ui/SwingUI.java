@@ -3,7 +3,6 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;

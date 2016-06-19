@@ -181,7 +181,18 @@ public class GameTest {
                 () -> assertTrue(exception.getMessage().contains(duplicateBot.toString())),
                 () -> assertFalse(exception.getMessage().contains(playerWithValidTeam.toString()))
         );
+    }
 
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    @Test
+    void playersCannotHaveSameName() {
+        Player horst = aPlayer().choosingName("Horst").build();
+        Player theOtherHorst = aPlayer().choosingName("Horst").build();
+
+        Throwable exception = expectThrows(IllegalArgumentException.class,
+                () -> new Game(horst, theOtherHorst));
+
+        assertTrue(exception.getMessage().contains("Horst"));
     }
 
 
