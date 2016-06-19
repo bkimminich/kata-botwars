@@ -71,6 +71,7 @@ loop:
 > As a competitive player I want to have a team of bots fight an opponent's team so that the game becomes more interesting!
 
 * The game is intended for 2 players
+* Both players need to have a unique name
 * Each player sends a team of 3 bots into the arena
 * When it is a bot's turn the player chooses one opponent bot to attack
 * The game ends when one player's team has been eliminated
