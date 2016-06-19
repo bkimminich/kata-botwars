@@ -14,12 +14,12 @@ public class PlayerTest {
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
-    void playerCanChooseTargetBotFromOpponentTeam() {
+    void playerCanSelectTargetBotFromOpponentTeam() {
         Bot bot = anyBot();
         List<Bot> opponentTeam = Arrays.asList(bot, anyBot(), anyBot());
-        Player player = aPlayer().choosingTarget(bot).build();
+        Player player = aPlayer().withAttackTarget(bot).build();
 
-        Optional<Bot> choice = player.chooseTarget(opponentTeam);
+        Optional<Bot> choice = player.selectTarget(opponentTeam);
 
         assertAll(
                 () -> assertTrue(choice.isPresent()),
@@ -28,13 +28,13 @@ public class PlayerTest {
     }
 
     @Test
-    void playerPicksBotsFromRoster() {
+    void playerSelectsBotsFromRoster() {
         Bot bot1 = anyBot();
         Bot bot2 = anyBot();
         Bot bot3 = anyBot();
         Bot bot4 = anyBot();
 
-        Player player = aPlayer().withRoster(bot1, bot2, bot3, bot4).pickingTeam(bot1, bot2, bot4).build();
+        Player player = aPlayer().withRoster(bot1, bot2, bot3, bot4).withTeam(bot1, bot2, bot4).build();
 
         List<Bot> team = player.getTeam();
         assertAll(
@@ -47,8 +47,8 @@ public class PlayerTest {
     }
 
     @Test
-    void playerChoosesAName() {
-        Player player = aPlayer().choosingName("Horst").build();
+    void playerChoosesName() {
+        Player player = aPlayer().withName("Horst").build();
 
         assertEquals("Horst", player.getName());
     }

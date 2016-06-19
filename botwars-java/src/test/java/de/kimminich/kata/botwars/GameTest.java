@@ -17,7 +17,7 @@ public class GameTest {
         Bot bot1 = anyBot();
         Bot bot2 = anyBot();
 
-        game = new Game(aPlayer().pickingTeam(bot1, bot2, anyBot()).build(), anyPlayer());
+        game = new Game(aPlayer().withTeam(bot1, bot2, anyBot()).build(), anyPlayer());
 
         assertEquals(0, bot1.getTurnMeter());
         assertEquals(0, bot2.getTurnMeter());
@@ -28,7 +28,7 @@ public class GameTest {
         Bot bot1 = aBot().withSpeed(30).build();
         Bot bot2 = aBot().withSpeed(45).build();
 
-        game = new Game(aPlayer().pickingTeam(bot1, bot2, anyBot()).build(), anyPlayer());
+        game = new Game(aPlayer().withTeam(bot1, bot2, anyBot()).build(), anyPlayer());
 
         game.turn();
         assertEquals(30, bot1.getTurnMeter());
@@ -42,7 +42,7 @@ public class GameTest {
     @Test
     void turnMeterGetsResetBetweenGames() {
         Bot bot = aBot().withSpeed(30).build();
-        Player player = aPlayer().pickingTeam(bot, anyBot(), anyBot()).build();
+        Player player = aPlayer().withTeam(bot, anyBot(), anyBot()).build();
 
         game = new Game(player, anyPlayer());
         game.turn();
@@ -56,7 +56,7 @@ public class GameTest {
     void turnMeterIsReducedBy1000WhenTurnMeterPasses1000() {
         Bot bot = aBot().withSpeed(501).build();
 
-        game = new Game(aPlayer().pickingTeam(bot, anyBot(), anyBot()).build(), anyPlayer());
+        game = new Game(aPlayer().withTeam(bot, anyBot(), anyBot()).build(), anyPlayer());
         game.turn();
         assertEquals(501, bot.getTurnMeter(), "Turn Meter: 0 + 501 => 501");
         game.turn();
@@ -72,8 +72,8 @@ public class GameTest {
         Bot bot = aBot().withSpeed(500).build();
         Bot opponent = aBot().withIntegrity(100).build();
 
-        game = new Game(aPlayer().choosingTarget(opponent).pickingTeam(bot, anyBot(), anyBot()).build(),
-                        aPlayer().pickingTeam(opponent, anyBot(), anyBot()).build());
+        game = new Game(aPlayer().withAttackTarget(opponent).withTeam(bot, anyBot(), anyBot()).build(),
+                        aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
         game.turn();
         assertEquals(100, opponent.getIntegrity(), "Bot has not attacked in first turn");
         game.turn();
@@ -88,8 +88,8 @@ public class GameTest {
         Bot opponent2 = aBot().withIntegrity(100).build();
         Bot opponent3 = aBot().withIntegrity(100).build();
 
-        game = new Game(aPlayer().choosingTarget(opponent1).pickingTeam(bot, anyBot(), anyBot()).build(),
-                aPlayer().pickingTeam(opponent1, opponent2, opponent3).build());
+        game = new Game(aPlayer().withAttackTarget(opponent1).withTeam(bot, anyBot(), anyBot()).build(),
+                aPlayer().withTeam(opponent1, opponent2, opponent3).build());
         game.turn();
         assertAll(
                 () -> assertTrue(opponent1.getIntegrity() < 100),
@@ -104,8 +104,8 @@ public class GameTest {
         Bot bot = aBot().withPower(100).withSpeed(1000).build();
         Bot opponent = aBot().withIntegrity(1).build();
 
-        game = new Game(aPlayer().pickingTeam(bot, anyBot(), anyBot()).choosingTarget(opponent).build(),
-                aPlayer().pickingTeam(opponent, anyBot(), anyBot()).build());
+        game = new Game(aPlayer().withTeam(bot, anyBot(), anyBot()).withAttackTarget(opponent).build(),
+                aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
 
         assertEquals(3, opponent.getOwner().getTeam().size());
         game.turn();
@@ -124,10 +124,10 @@ public class GameTest {
 
     @Test()
     void strongerPlayerWinsGame() {
-        Player strongPlayer = aPlayer().pickingTeam(
+        Player strongPlayer = aPlayer().withTeam(
                 aBot().withPower(1000).build(), aBot().withPower(1000).build(), aBot().withPower(1000).build())
                 .build();
-        Player weakPlayer = aPlayer().pickingTeam(
+        Player weakPlayer = aPlayer().withTeam(
                 aBot().withIntegrity(1).build(), aBot().withIntegrity(1).build(), aBot().withIntegrity(1).build())
                 .build();
 
@@ -138,10 +138,10 @@ public class GameTest {
 
     @Test()
     void fasterPlayerWinsGame() {
-        Player fastPlayer = aPlayer().pickingTeam(
+        Player fastPlayer = aPlayer().withTeam(
                 aBot().withSpeed(200).build(), aBot().withSpeed(300).build(), aBot().withSpeed(400).build())
                 .build();
-        Player slowPlayer = aPlayer().pickingTeam(
+        Player slowPlayer = aPlayer().withTeam(
                 aBot().withSpeed(20).build(), aBot().withSpeed(30).build(), aBot().withSpeed(40).build())
                 .build();
 
@@ -153,8 +153,8 @@ public class GameTest {
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     @Test
     void cannotCreateGameWithIncompleteTeamSetup() {
-        Player playerWithCompleteTeam = aPlayer().pickingTeam(anyBot(), anyBot(), anyBot()).build();
-        Player playerWithIncompleteTeam = aPlayer().pickingTeam(anyBot(), anyBot()).build();
+        Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
+        Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();
 
         Throwable exception = expectThrows(IllegalArgumentException.class,
                 () -> new Game(playerWithCompleteTeam, playerWithIncompleteTeam));
@@ -170,8 +170,8 @@ public class GameTest {
     @Test
     void cannotCreateGameWithDuplicateBotInTeam() {
         Bot duplicateBot = anyBot();
-        Player playerWithDuplicateBotInTeam = aPlayer().pickingTeam(duplicateBot, duplicateBot, anyBot()).build();
-        Player playerWithValidTeam = aPlayer().pickingTeam(anyBot(), anyBot(), anyBot()).build();
+        Player playerWithDuplicateBotInTeam = aPlayer().withTeam(duplicateBot, duplicateBot, anyBot()).build();
+        Player playerWithValidTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
 
         Throwable exception = expectThrows(IllegalArgumentException.class,
                 () -> new Game(playerWithValidTeam, playerWithDuplicateBotInTeam));
@@ -186,8 +186,8 @@ public class GameTest {
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     @Test
     void playersCannotHaveSameName() {
-        Player horst = aPlayer().choosingName("Horst").build();
-        Player theOtherHorst = aPlayer().choosingName("Horst").build();
+        Player horst = aPlayer().withName("Horst").build();
+        Player theOtherHorst = aPlayer().withName("Horst").build();
 
         Throwable exception = expectThrows(IllegalArgumentException.class,
                 () -> new Game(horst, theOtherHorst));

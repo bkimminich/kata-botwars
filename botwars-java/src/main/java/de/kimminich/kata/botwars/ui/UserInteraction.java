@@ -9,10 +9,10 @@ import java.util.Set;
 
 public interface UserInteraction {
 
-    Optional<Bot> chooseTarget(Player attacker, List<Bot> opponentTeam);
+    Optional<Bot> selectTarget(Player attacker, List<Bot> opponentTeam);
 
-    List<Bot> pickTeam(Player player, Set<Bot> roster);
+    List<Bot> selectTeam(Player player, Set<Bot> roster);
 
-    String chooseName();
+    String enterName();
 
 }

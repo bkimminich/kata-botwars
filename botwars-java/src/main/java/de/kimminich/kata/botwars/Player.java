@@ -22,24 +22,24 @@ public class Player {
 
     public Player(UserInteraction ui, Set<Bot> roster) {
         this.ui = ui;
-        chooseName();
-        this.team = pickTeam(roster);
+        enterName();
+        this.team = selectTeam(roster);
     }
 
     List<Bot> getTeam() {
         return team;
     }
 
-    Optional<Bot> chooseTarget(List<Bot> opponentTeam) {
-        return ui.chooseTarget(this, opponentTeam);
+    Optional<Bot> selectTarget(List<Bot> opponentTeam) {
+        return ui.selectTarget(this, opponentTeam);
     }
 
-    private List<Bot> pickTeam(Set<Bot> roster) {
-        return ui.pickTeam(this, roster);
+    private List<Bot> selectTeam(Set<Bot> roster) {
+        return ui.selectTeam(this, roster);
     }
 
-    private void chooseName() {
-        this.name = ui.chooseName();
+    private void enterName() {
+        this.name = ui.enterName();
     }
 
     @Override

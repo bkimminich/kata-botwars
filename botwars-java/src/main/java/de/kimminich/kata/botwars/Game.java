@@ -62,7 +62,7 @@ public class Game {
     private void performAttack(Bot attacker) {
         Player attackingPlayer = attacker.getOwner();
         Player opponentPlayer = attackingPlayer == player1 ? player2 : player1;
-        Optional<Bot> choice = attackingPlayer.chooseTarget(opponentPlayer.getTeam());
+        Optional<Bot> choice = attackingPlayer.selectTarget(opponentPlayer.getTeam());
         if (choice.isPresent()) {
             Bot target = choice.get();
             attacker.attack(target);

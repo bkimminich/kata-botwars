@@ -44,25 +44,25 @@ public final class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder pickingTeam(Bot... team) {
+    public PlayerBuilder withTeam(Bot... team) {
         this.team = new ArrayList<>();
         Collections.addAll(this.team, team);
         return this;
     }
 
-    public PlayerBuilder choosingTarget(Bot target) {
+    public PlayerBuilder withAttackTarget(Bot target) {
         this.target = target;
         return this;
     }
 
-    public PlayerBuilder choosingName(String name) {
+    public PlayerBuilder withName(String name) {
         this.name = name;
         return this;
     }
 
     public Player build() {
-        when(ui.chooseName()).thenReturn(name);
-        when(ui.pickTeam(any(Player.class), eq(roster))).thenAnswer(new Answer<List<Bot>>() {
+        when(ui.enterName()).thenReturn(name);
+        when(ui.selectTeam(any(Player.class), eq(roster))).thenAnswer(new Answer<List<Bot>>() {
             @Override
             public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
                 if (roster == null) {
@@ -91,7 +91,7 @@ public final class PlayerBuilder {
                 }
             }
         });
-        when(ui.chooseTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
+        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
             @Override
             public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();

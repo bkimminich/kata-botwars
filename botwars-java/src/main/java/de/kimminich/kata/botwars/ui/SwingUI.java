@@ -16,9 +16,9 @@ import static javax.swing.JOptionPane.CLOSED_OPTION;
 public class SwingUI implements UserInteraction {
 
     @Override
-    public Optional<Bot> chooseTarget(Player attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker + ", choose bot to attack!\n" + toStats(opponentTeam), "Choose target!",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+    public Optional<Bot> selectTarget(Player attacker, List<Bot> opponentTeam) {
+        int choice = JOptionPane.showOptionDialog(null, attacker + ", select bot to attack!\n"
+                + toStats(opponentTeam), "Choose target!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
         return choice == CLOSED_OPTION ? Optional.empty() : Optional.of(opponentTeam.get(choice));
@@ -29,17 +29,17 @@ public class SwingUI implements UserInteraction {
     }
 
     @Override
-    public List<Bot> pickTeam(Player player, Set<Bot> roster) {
+    public List<Bot> selectTeam(Player player, Set<Bot> roster) {
         JList<Bot> list = new JList<>(roster.toArray(new Bot[BotTypes.values().length]));
 
         JOptionPane.showMessageDialog(
-                null, list, player + ", pick your team!", JOptionPane.PLAIN_MESSAGE);
+                null, list, player + ", select your team!", JOptionPane.PLAIN_MESSAGE);
 
         return list.getSelectedValuesList();
     }
 
     @Override
-    public String chooseName() {
+    public String enterName() {
         return JOptionPane.showInputDialog(null, "Player, enter your name!");
     }
 }
