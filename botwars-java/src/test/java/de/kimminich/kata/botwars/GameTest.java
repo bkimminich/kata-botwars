@@ -234,21 +234,23 @@ public class GameTest {
     }
 
     private final class TeamOfUpToThreeBotsFromRoster implements Answer<List<Bot>> {
+        @SuppressWarnings("unchecked")
         @Override
         public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
             Object[] args = invocation.getArguments();
             Set<Bot> roster = (Set<Bot>) args[0];
             if (roster != null) {
                 return roster.size() > 3
-                        ? new ArrayList<Bot>(roster).subList(0, 3)
-                        : new ArrayList<Bot>(roster);
+                        ? new ArrayList<>(roster).subList(0, 3)
+                        : new ArrayList<>(roster);
             } else {
-                return new ArrayList<Bot>();
+                return new ArrayList<>();
             }
         }
     }
 
     private final class FirstBotFromOpponentTeam implements Answer<Optional<Bot>> {
+        @SuppressWarnings("unchecked")
         @Override
         public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
             Object[] args = invocation.getArguments();
