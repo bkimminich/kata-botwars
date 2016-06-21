@@ -27,7 +27,7 @@ public class GameTest {
     private Game game;
 
     @BeforeEach
-    void init(@InjectMock UserInterface ui) {
+    void byDefaultPlayersAlwaysAttackFirstBotInOpponentTeam(@InjectMock UserInterface ui) {
         when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
             @Override
             public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
