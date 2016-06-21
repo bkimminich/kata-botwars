@@ -11,7 +11,7 @@ public interface UserInterface {
 
     Optional<Bot> selectTarget(Player attacker, List<Bot> opponentTeam);
 
-    List<Bot> selectTeam(Player player, Set<Bot> roster);
+    List<Bot> selectTeam(Set<Bot> roster);
 
     String enterName();
 

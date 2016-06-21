@@ -29,11 +29,11 @@ public class SwingUI implements UserInterface {
     }
 
     @Override
-    public List<Bot> selectTeam(Player player, Set<Bot> roster) {
+    public List<Bot> selectTeam(Set<Bot> roster) {
         JList<Bot> list = new JList<>(roster.toArray(new Bot[BotTypes.values().length]));
 
         JOptionPane.showMessageDialog(
-                null, list, player + ", select your team!", JOptionPane.PLAIN_MESSAGE);
+                null, list, "Player, select your team!", JOptionPane.PLAIN_MESSAGE);
 
         return list.getSelectedValuesList();
     }

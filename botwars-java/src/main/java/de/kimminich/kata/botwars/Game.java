@@ -1,5 +1,8 @@
 package de.kimminich.kata.botwars;
 
+import de.kimminich.kata.botwars.ui.SwingUI;
+import de.kimminich.kata.botwars.ui.UserInterface;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -12,17 +15,23 @@ public class Game {
 
     private static final Logger LOG = Logger.getLogger(Game.class.getName());
 
+    private final UserInterface ui;
     private final Player player1;
     private final Player player2;
     private List<Bot> bots = new ArrayList<>(6);
 
-    public Game(Player player1, Player player2) throws IllegalArgumentException {
-        super();
+    public Game(UserInterface ui) throws IllegalArgumentException {
+        this(ui, new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())),
+                 new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
+    }
+
+    public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
+        this.ui = ui;
+        this.player1 = player1;
+        this.player2 = player2;
         if (player1.getName().equals(player2.getName())) {
             throw new IllegalArgumentException("Players cannot use the same name: " + player1.getName());
         }
-        this.player1 = player1;
-        this.player2 = player2;
         prepareTeam(player1);
         prepareTeam(player2);
     }
@@ -62,7 +71,7 @@ public class Game {
     private void performAttack(Bot attacker) {
         Player attackingPlayer = attacker.getOwner();
         Player opponentPlayer = attackingPlayer == player1 ? player2 : player1;
-        Optional<Bot> choice = attackingPlayer.selectTarget(opponentPlayer.getTeam());
+        Optional<Bot> choice = ui.selectTarget(attackingPlayer, opponentPlayer.getTeam());
         if (choice.isPresent()) {
             Bot target = choice.get();
             attacker.attack(target);
@@ -92,7 +101,7 @@ public class Game {
     }
 
     public static void main(String... args) {
-        new Game(new Player(), new Player()).loop();
+        new Game(new SwingUI()).loop();
     }
 
 }
