@@ -7,16 +7,14 @@ import de.kimminich.kata.botwars.ui.answers.UniquePlayerName;
 import de.kimminich.kata.botwars.ui.answers.TeamOfUpToThreeBotsFromRoster;
 import de.kimminich.kata.botwars.ui.UserInterface;
 import org.junit.gen5.api.BeforeEach;
+import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Nested;
 import org.junit.gen5.api.Test;
 import org.junit.gen5.api.extension.ExtendWith;
 
-import java.util.Optional;
-
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static de.kimminich.kata.botwars.builders.PlayerBuilder.anyPlayer;
 import static org.junit.gen5.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
@@ -24,6 +22,7 @@ import static org.mockito.Matchers.anySetOf;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("A game")
 public class GameTest {
 
     private Game game;
@@ -36,127 +35,11 @@ public class GameTest {
     }
 
     @Nested
-    class TurnMeter {
-        @Test
-        void allBotsStartGameWithEmptyTurnMeter(@InjectMock UserInterface ui) {
-            Bot bot1 = anyBot();
-            Bot bot2 = anyBot();
-
-            game = new Game(ui, aPlayer().withTeam(bot1, bot2, anyBot()).build(), anyPlayer());
-
-            assertEquals(0, bot1.getTurnMeter());
-            assertEquals(0, bot2.getTurnMeter());
-        }
-
-        @Test
-        void turnMeterGetsIncreasedPerTurnBySpeedOfBot(@InjectMock UserInterface ui) {
-            Bot bot1 = aBot().withSpeed(30).build();
-            Bot bot2 = aBot().withSpeed(45).build();
-
-            game = new Game(ui, aPlayer().withTeam(bot1, bot2, anyBot()).build(), anyPlayer());
-
-            game.turn();
-            assertEquals(30, bot1.getTurnMeter());
-            assertEquals(45, bot2.getTurnMeter());
-
-            game.turn();
-            assertEquals(60, bot1.getTurnMeter());
-            assertEquals(90, bot2.getTurnMeter());
-        }
-
-        @Test
-        void turnMeterGetsResetBetweenGames(@InjectMock UserInterface ui) {
-            Bot bot = aBot().withSpeed(30).build();
-            Player player = aPlayer().withTeam(bot, anyBot(), anyBot()).build();
-
-            game = new Game(ui, player, anyPlayer());
-            game.turn();
-            assertEquals(30, bot.getTurnMeter());
-
-            game = new Game(ui, player, anyPlayer());
-            assertEquals(0, bot.getTurnMeter());
-        }
-
-        @Test
-        void turnMeterIsReducedBy1000WhenTurnMeterPasses1000(@InjectMock UserInterface ui) {
-            Bot bot = aBot().withSpeed(501).build();
-
-            game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(), anyPlayer());
-            game.turn();
-            assertEquals(501, bot.getTurnMeter(), "Turn Meter: 0 + 501 => 501");
-            game.turn();
-            assertEquals(2, bot.getTurnMeter(), "Turn Meter: 501 + 501 => 1002 - 1000 => 2");
-            game.turn();
-            assertEquals(503, bot.getTurnMeter(), "Turn Meter: 2 + 501 => 503");
-            game.turn();
-            assertEquals(4, bot.getTurnMeter(), "Turn Meter: 503 + 501 => 1004 - 1000 => 4");
-        }
-
-    }
-
-    @Nested
-    class Attacking {
-
-        @Test
-        void botAttacksWhenTakingTurn(@InjectMock UserInterface ui) {
-            Bot bot = aBot().withSpeed(500).build();
-            Bot opponent = aBot().withIntegrity(100).build();
-
-            when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenReturn(Optional.of(opponent));
-
-            game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
-                    aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
-            game.turn();
-            assertEquals(100, opponent.getIntegrity(), "Bot has not attacked in first turn");
-            game.turn();
-            assertTrue(opponent.getIntegrity() < 100, "Bot has attacked and damaged opponent");
-
-        }
-
-        @Test
-        void botAttacksOnlyTheSelectedTarget(@InjectMock UserInterface ui) {
-            Bot bot = aBot().withSpeed(1000).build();
-            Bot opponent1 = aBot().withIntegrity(100).build();
-            Bot opponent2 = aBot().withIntegrity(100).build();
-            Bot opponent3 = aBot().withIntegrity(100).build();
-
-            when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenReturn(Optional.of(opponent1));
-
-            game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
-                    aPlayer().withTeam(opponent1, opponent2, opponent3).build());
-            game.turn();
-            assertAll(
-                    () -> assertTrue(opponent1.getIntegrity() < 100),
-                    () -> assertTrue(opponent2.getIntegrity() == 100, "Opponent 2 was not attacked"),
-                    () -> assertTrue(opponent3.getIntegrity() == 100, "Opponent 3 was not attacked")
-            );
-
-        }
-
-        @Test
-        void botDestroyedFromAttackIsRemovedFromTeam(@InjectMock UserInterface ui) {
-            Bot bot = aBot().withPower(100).withSpeed(1000).build();
-            Bot opponent = aBot().withIntegrity(1).build();
-
-            when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenReturn(Optional.of(opponent));
-
-            game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
-                    aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
-
-            assertEquals(3, opponent.getOwner().getTeam().size());
-            game.turn();
-            assertAll(
-                    () -> assertEquals(2, opponent.getOwner().getTeam().size()),
-                    () -> assertFalse(opponent.getOwner().getTeam().contains(opponent))
-            );
-        }
-
-    }
-
-    @Nested
+    @DisplayName("ends with")
     class GameOver {
 
         @Test()
+        @DisplayName("a winner")
         void gameEndsWithAWinner(@InjectMock UserInterface ui) {
             game = new Game(ui);
             game.loop();
@@ -164,6 +47,7 @@ public class GameTest {
         }
 
         @Test()
+        @DisplayName("the considerably stronger player winning")
         void strongerPlayerWinsGame(@InjectMock UserInterface ui) {
             Player strongPlayer = aPlayer().withTeam(
                     aBot().withPower(1000).build(), aBot().withPower(1000).build(), aBot().withPower(1000).build())
@@ -178,6 +62,7 @@ public class GameTest {
         }
 
         @Test()
+        @DisplayName("the considerably faster player winning")
         void fasterPlayerWinsGame(@InjectMock UserInterface ui) {
             Player fastPlayer = aPlayer().withTeam(
                     aBot().withSpeed(200).build(), aBot().withSpeed(300).build(), aBot().withSpeed(400).build())
@@ -194,10 +79,12 @@ public class GameTest {
     }
 
     @Nested
+    @DisplayName("raises an error")
     class ErrorCases {
 
         @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
         @Test
+        @DisplayName("when a player has a team of less than 3 bots")
         void cannotCreateGameWithIncompleteTeamSetup(@InjectMock UserInterface ui) {
             Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
             Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();
@@ -214,6 +101,7 @@ public class GameTest {
 
         @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
         @Test
+        @DisplayName("when a player has the same bot twice in his team")
         void cannotCreateGameWithDuplicateBotInTeam(@InjectMock UserInterface ui) {
             Bot duplicateBot = anyBot();
             Player playerWithDuplicateBotInTeam = aPlayer().withTeam(duplicateBot, duplicateBot, anyBot()).build();
@@ -231,6 +119,7 @@ public class GameTest {
 
         @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
         @Test
+        @DisplayName("when both players chose the same name")
         void playersCannotHaveSameName(@InjectMock UserInterface ui) {
             Player horst = aPlayer().withName("Horst").build();
             Player theOtherHorst = aPlayer().withName("Horst").build();
