@@ -9,8 +9,11 @@ import org.junit.gen5.api.extension.ExtendWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
@@ -19,6 +22,7 @@ import static de.kimminich.kata.botwars.builders.PlayerBuilder.anyPlayer;
 import static org.junit.gen5.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anySetOf;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,19 +31,10 @@ public class GameTest {
     private Game game;
 
     @BeforeEach
-    void byDefaultPlayersAlwaysAttackFirstBotInOpponentTeam(@InjectMock UserInterface ui) {
-        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new Answer<Optional<Bot>>() {
-            @Override
-            public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
-                Object[] args = invocation.getArguments();
-                List<Bot> choices = (List<Bot>) args[1];
-                if (choices != null && !choices.isEmpty()) {
-                        return Optional.of(choices.get(0));
-                } else {
-                    return Optional.empty();
-                }
-            }
-        });
+    void initUserInterface(@InjectMock UserInterface ui) {
+        when(ui.enterName()).thenAnswer(new RandomUniquePlayerName());
+        when(ui.selectTeam(anySetOf(Bot.class))).thenAnswer(new TeamOfUpToThreeBotsFromRoster());
+        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
     }
 
     @Test
@@ -153,7 +148,7 @@ public class GameTest {
 
     @Test()
     void gameEndsWithAWinner(@InjectMock UserInterface ui) {
-        game = new Game(ui, anyPlayer(), anyPlayer());
+        game = new Game(ui);
         game.loop();
         assertTrue(game.getWinner().isPresent());
     }
@@ -231,5 +226,38 @@ public class GameTest {
         assertTrue(exception.getMessage().contains("Horst"));
     }
 
+    private final class RandomUniquePlayerName implements Answer<String> {
+        @Override
+        public String answer(InvocationOnMock invocation) throws Throwable {
+            return "Player_" + UUID.randomUUID();
+        }
+    }
 
+    private final class TeamOfUpToThreeBotsFromRoster implements Answer<List<Bot>> {
+        @Override
+        public List<Bot> answer(InvocationOnMock invocation) throws Throwable {
+            Object[] args = invocation.getArguments();
+            Set<Bot> roster = (Set<Bot>) args[0];
+            if (roster != null) {
+                return roster.size() > 3
+                        ? new ArrayList<Bot>(roster).subList(0, 3)
+                        : new ArrayList<Bot>(roster);
+            } else {
+                return new ArrayList<Bot>();
+            }
+        }
+    }
+
+    private final class FirstBotFromOpponentTeam implements Answer<Optional<Bot>> {
+        @Override
+        public Optional<Bot> answer(InvocationOnMock invocation) throws Throwable {
+            Object[] args = invocation.getArguments();
+            List<Bot> choices = (List<Bot>) args[1];
+            if (choices != null && !choices.isEmpty()) {
+                return Optional.of(choices.get(0));
+            } else {
+                return Optional.empty();
+            }
+        }
+    }
 }
