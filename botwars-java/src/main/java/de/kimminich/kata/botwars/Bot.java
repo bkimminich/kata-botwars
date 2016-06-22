@@ -32,11 +32,11 @@ public class Bot {
     private int turnMeter = 0;
 
     void attack(Bot target) {
-        LOG.info(this + " attacks " + target);
+        LOG.fine(this + " attacks " + target);
         int damage = random.nextInt(power / 2) + power / 2;
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
-            LOG.info("Critical Hit!");
+            LOG.fine("Critical Hit!");
         }
         target.takeDamage(damage);
     }
@@ -44,10 +44,10 @@ public class Bot {
     void takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
-            LOG.info(this + " takes " + damage + " damage!");
+            LOG.fine(this + " takes " + damage + " damage!");
             integrity = Math.max(0, integrity - damage);
         } else {
-            LOG.info(this + " successfully evaded!");
+            LOG.fine(this + " successfully evaded!");
         }
     }
 
@@ -109,6 +109,19 @@ public class Bot {
 
     String getName() {
         return name;
+    }
+
+    public String toStats() {
+        return name + "{" +
+                (owner != null ? "owner=" + owner + ", " : "") +
+                "integrity=" + integrity +
+                ", turnMeter=" + turnMeter +
+                ", power=" + power +
+                ", armor=" + armor +
+                ", speed=" + speed +
+                ", evasion=" + (evasion * 100) + "%" +
+                ", criticalHit=" + (criticalHit * 100) + "%" +
+                '}';
     }
 
     @Override

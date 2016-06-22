@@ -1,5 +1,6 @@
 package de.kimminich.kata.botwars;
 
+import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.DynamicTest;
 import org.junit.gen5.api.Test;
 import org.junit.gen5.api.TestFactory;
@@ -14,9 +15,11 @@ import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
+@DisplayName("A bot factory")
 public class BotFactoryTest {
 
     @Test
+    @DisplayName("can create an Aggro Bot")
     void canCreateAggroBot() {
         Bot aggroBot = BotFactory.create(AGGRO_BOT);
 
@@ -32,6 +35,7 @@ public class BotFactoryTest {
     }
 
     @Test
+    @DisplayName("can create a Stealth Bot")
     void canCreateStealthBot() {
         Bot stealthBot = BotFactory.create(STEALTH_BOT);
 
@@ -47,6 +51,7 @@ public class BotFactoryTest {
     }
 
     @Test
+    @DisplayName("can create a Glass Bot")
     void canCreateGlassBot() {
         Bot glassBot = BotFactory.create(GLASS_BOT);
 
@@ -62,6 +67,7 @@ public class BotFactoryTest {
     }
 
     @Test
+    @DisplayName("can create a Tank Bot")
     void canCreateTankBot() {
         Bot tankBot = BotFactory.create(TANK_BOT);
 
@@ -77,6 +83,7 @@ public class BotFactoryTest {
     }
 
     @Test
+    @DisplayName("can create a Beaverette Bot")
     void canCreateBeaveretteBot() {
         Bot beaveretteBot = BotFactory.create(BEAVERETTE_BOT);
 
@@ -92,6 +99,7 @@ public class BotFactoryTest {
     }
 
     @Test
+    @DisplayName("can create a Kamikaze Bot")
     void canCreateKamikazeBot() {
         Bot kamikazeBot = BotFactory.create(KAMIKAZE_BOT);
 
@@ -107,11 +115,12 @@ public class BotFactoryTest {
     }
 
     @TestFactory
+    @DisplayName("can create a default roster")
     Stream<DynamicTest> defaultRosterContainsOneOfEachBotType() {
         Set<Bot> defaultRoster = BotFactory.createDefaultRoster();
 
         return Arrays.stream(BotTypes.values()).map(botType ->
-                dynamicTest("Default roster contains " + botType, () -> {
+                dynamicTest("which contains a " + botType, () -> {
                     boolean botInRoster = false;
                     for (Bot bot : defaultRoster) {
                         botInRoster = bot.getName().equals(botType.toString()) || botInRoster;
