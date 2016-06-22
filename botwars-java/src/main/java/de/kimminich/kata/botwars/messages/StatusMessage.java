@@ -1,10 +1,10 @@
-package de.kimminich.kata.botwars.reports;
+package de.kimminich.kata.botwars.messages;
 
-public class StatusReport {
+public class StatusMessage {
 
     private StringBuilder text;
 
-    public StatusReport(String status) {
+    public StatusMessage(String status) {
         text = new StringBuilder(status);
     }
 

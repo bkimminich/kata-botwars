@@ -69,10 +69,10 @@ public class Game {
         Optional<Bot> choice = ui.selectTarget(attacker, opponentPlayer.getTeam());
         if (choice.isPresent()) {
             Bot target = choice.get();
-            ui.attackReport(attacker.attack(target));
+            ui.attackPerformed(attacker.attack(target));
             if (target.isDestroyed()) {
                 opponentPlayer.getTeam().remove(target);
-                ui.botDestruction(target);
+                ui.botDestroyed(target);
             }
         }
     }

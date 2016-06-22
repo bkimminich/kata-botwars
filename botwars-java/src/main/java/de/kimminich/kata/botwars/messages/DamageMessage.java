@@ -1,13 +1,13 @@
-package de.kimminich.kata.botwars.reports;
+package de.kimminich.kata.botwars.messages;
 
 import de.kimminich.kata.botwars.Bot;
 
-public class DamageReport {
+public class DamageMessage {
 
     private StringBuilder text = new StringBuilder();
     private final Bot target;
 
-    public DamageReport(Bot target) {
+    public DamageMessage(Bot target) {
         this.target = target;
     }
 

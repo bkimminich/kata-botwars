@@ -1,12 +1,12 @@
-package de.kimminich.kata.botwars.reports;
+package de.kimminich.kata.botwars.messages;
 
 import de.kimminich.kata.botwars.Bot;
 
-public class AttackReport {
+public class AttackMessage {
 
     private StringBuilder text = new StringBuilder();
 
-    public AttackReport(Bot attacker, Bot target) {
+    public AttackMessage(Bot attacker, Bot target) {
         text.append(attacker).append(" attacks ").append(target).append("!");
     }
 
@@ -14,8 +14,8 @@ public class AttackReport {
         text.append(" Critical Hit!!!");
     }
 
-    public void damageReport(DamageReport report) {
-        text.append("\n").append(report);
+    public void damage(DamageMessage message) {
+        text.append("\n").append(message);
     }
 
     @Override

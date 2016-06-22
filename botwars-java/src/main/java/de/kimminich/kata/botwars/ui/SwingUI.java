@@ -3,7 +3,7 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
-import de.kimminich.kata.botwars.reports.AttackReport;
+import de.kimminich.kata.botwars.messages.AttackMessage;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -18,7 +18,7 @@ public class SwingUI implements UserInterface {
 
     @Override
     public Optional<Bot> selectTarget(Bot attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attack!\n"
+        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attackPerformed!\n"
                 + toStats(opponentTeam), attacker + " makes a move!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
@@ -52,12 +52,12 @@ public class SwingUI implements UserInterface {
     }
 
     @Override
-    public void attackReport(AttackReport report) {
-        JOptionPane.showMessageDialog(null, report, "Attack Report", JOptionPane.WARNING_MESSAGE);
+    public void attackPerformed(AttackMessage message) {
+        JOptionPane.showMessageDialog(null, message, "Attack Report", JOptionPane.WARNING_MESSAGE);
     }
 
     @Override
-    public void botDestruction(Bot target) {
+    public void botDestroyed(Bot target) {
         JOptionPane.showMessageDialog(null, target + " has been destroyed!!!",
                 target + " destroyed!", JOptionPane.ERROR_MESSAGE);
     }

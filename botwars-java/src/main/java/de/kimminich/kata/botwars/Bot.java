@@ -2,9 +2,9 @@ package de.kimminich.kata.botwars;
 
 import java.util.Random;
 
-import de.kimminich.kata.botwars.reports.AttackReport;
-import de.kimminich.kata.botwars.reports.DamageReport;
-import de.kimminich.kata.botwars.reports.StatusReport;
+import de.kimminich.kata.botwars.messages.AttackMessage;
+import de.kimminich.kata.botwars.messages.DamageMessage;
+import de.kimminich.kata.botwars.messages.StatusMessage;
 
 public class Bot {
 
@@ -32,27 +32,27 @@ public class Bot {
     private int integrity;
     private int turnMeter = 0;
 
-    AttackReport attack(Bot target) {
-        AttackReport report = new AttackReport(this, target);
+    AttackMessage attack(Bot target) {
+        AttackMessage result = new AttackMessage(this, target);
         int damage = random.nextInt(power / 2) + power / 2;
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
-            report.criticalHit();
+            result.criticalHit();
         }
-        report.damageReport(target.takeDamage(damage));
-        return report;
+        result.damage(target.takeDamage(damage));
+        return result;
     }
 
-    DamageReport takeDamage(int damage) {
-        DamageReport report = new DamageReport(this);
+    DamageMessage takeDamage(int damage) {
+        DamageMessage result = new DamageMessage(this);
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
-            report.damage(damage);
+            result.damage(damage);
             integrity = Math.max(0, integrity - damage);
         } else {
-            report.evaded();
+            result.evaded();
         }
-        return report;
+        return result;
     }
 
     int getIntegrity() {
@@ -115,8 +115,8 @@ public class Bot {
         return name;
     }
 
-    public StatusReport getStatus() {
-        return new StatusReport(name + "{" +
+    public StatusMessage getStatus() {
+        return new StatusMessage(name + "{" +
                 (owner != null ? "owner=" + owner + ", " : "") +
                 "integrity=" + integrity +
                 ", turnMeter=" + turnMeter +
