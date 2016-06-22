@@ -20,12 +20,12 @@ public class Game {
     private final Player player2;
     private List<Bot> bots = new ArrayList<>(6);
 
-    public Game(UserInterface ui) throws IllegalArgumentException {
+    Game(UserInterface ui) throws IllegalArgumentException {
         this(ui, new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())),
                  new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
     }
 
-    public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
+    Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
         this.ui = ui;
         this.player1 = player1;
         this.player2 = player2;
@@ -60,7 +60,6 @@ public class Game {
             } else {
                 bot.fillTurnMeter();
                 if (bot.canTakeTurn()) {
-                    LOG.info(bot + " makes a move...");
                     bot.depleteTurnMeter();
                     performAttack(bot);
                 }
@@ -81,18 +80,18 @@ public class Game {
         }
     }
 
-    public void loop() {
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    void loop() {
         while (!getWinner().isPresent()) {
             turn();
         }
+        ui.gameOver(getWinner().get());
     }
 
-    public Optional<Player> getWinner() {
+    Optional<Player> getWinner() {
         if (player1.getTeam().isEmpty()) {
-            LOG.info(player2 + " wins!");
             return Optional.of(player2);
         } else if (player2.getTeam().isEmpty()) {
-            LOG.info(player1 + " wins!");
             return Optional.of(player1);
         } else {
             return Optional.empty();

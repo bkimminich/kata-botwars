@@ -2,6 +2,7 @@ package de.kimminich.kata.botwars.ui;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
+import de.kimminich.kata.botwars.Player;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -41,5 +42,11 @@ public class SwingUI implements UserInterface {
     @Override
     public String enterName() {
         return JOptionPane.showInputDialog(null, "Player, enter your name!");
+    }
+
+    @Override
+    public void gameOver(Player winner) {
+        JOptionPane.showMessageDialog(null, winner + " wins the game!",
+                "Game over!", JOptionPane.INFORMATION_MESSAGE);
     }
 }

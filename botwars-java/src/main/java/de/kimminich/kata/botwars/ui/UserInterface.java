@@ -1,6 +1,7 @@
 package de.kimminich.kata.botwars.ui;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.Player;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,5 +14,7 @@ public interface UserInterface {
     List<Bot> selectTeam(Set<Bot> roster);
 
     String enterName();
+
+    void gameOver(Player winner);
 
 }
