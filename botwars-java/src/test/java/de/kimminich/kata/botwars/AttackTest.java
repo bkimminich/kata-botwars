@@ -27,7 +27,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("An attackPerformed")
+@DisplayName("An attack")
 public class AttackTest {
 
     private Game game;
