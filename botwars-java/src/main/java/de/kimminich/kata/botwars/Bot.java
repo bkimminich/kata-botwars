@@ -4,6 +4,7 @@ import java.util.Random;
 
 import de.kimminich.kata.botwars.reports.AttackReport;
 import de.kimminich.kata.botwars.reports.DamageReport;
+import de.kimminich.kata.botwars.reports.StatusReport;
 
 public class Bot {
 
@@ -114,8 +115,8 @@ public class Bot {
         return name;
     }
 
-    public String toStats() {
-        return name + "{" +
+    public StatusReport getStatus() {
+        return new StatusReport(name + "{" +
                 (owner != null ? "owner=" + owner + ", " : "") +
                 "integrity=" + integrity +
                 ", turnMeter=" + turnMeter +
@@ -124,7 +125,7 @@ public class Bot {
                 ", speed=" + speed +
                 ", evasion=" + (evasion * 100) + "%" +
                 ", criticalHit=" + (criticalHit * 100) + "%" +
-                '}';
+                '}');
     }
 
     @Override

@@ -27,7 +27,7 @@ public class SwingUI implements UserInterface {
     }
 
     private String toStats(List<Bot> opponentTeam) {
-        return opponentTeam.stream().map(Bot::toStats).collect(Collectors.joining("\n"));
+        return opponentTeam.stream().map(Bot::getStatus).map(Object::toString).collect(Collectors.joining("\n"));
     }
 
     @Override
