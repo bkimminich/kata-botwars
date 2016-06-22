@@ -12,7 +12,7 @@ public class BotTest {
     private Bot bot;
 
     @Test
-    @DisplayName("takes no damage when evading an attackPerformed")
+    @DisplayName("takes no damage when evading an attack")
     void evasionMitigatesAllDamage() {
         bot = aBot().withIntegrity(10).withArmor(0).withEvasion(1.0).build();
 

@@ -18,7 +18,7 @@ public class SwingUI implements UserInterface {
 
     @Override
     public Optional<Bot> selectTarget(Bot attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attackPerformed!\n"
+        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attack!\n"
                 + toStats(opponentTeam), attacker + " makes a move!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
