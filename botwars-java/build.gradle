@@ -23,6 +23,8 @@ buildscript {
 }
 
 dependencies {
+    compile 'org.apache.logging.log4j:log4j-api:2.6.1'
+    compile 'org.apache.logging.log4j:log4j-core:2.6.1'
     testCompile 'org.mockito:mockito-core:2.+'
     testCompile 'org.junit:junit5-api:5.0.0-SNAPSHOT'
     testRuntime 'org.junit:junit5-engine:5.0.0-SNAPSHOT'

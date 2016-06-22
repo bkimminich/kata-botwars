@@ -2,18 +2,18 @@ package de.kimminich.kata.botwars;
 
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInterface;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Game {
 
-    private static final Logger LOG = Logger.getLogger(Game.class.getName());
+    private static final org.apache.logging.log4j.Logger LOG = LogManager.getLogger(Game.class);
 
     private final UserInterface ui;
     private final Player player1;
@@ -60,7 +60,7 @@ public class Game {
             } else {
                 bot.fillTurnMeter();
                 if (bot.canTakeTurn()) {
-                    LOG.fine(bot + " takes a turn...");
+                    LOG.info(bot + " makes a move...");
                     bot.depleteTurnMeter();
                     performAttack(bot);
                 }
@@ -77,7 +77,7 @@ public class Game {
             attacker.attack(target);
             if (target.isDestroyed()) {
                 target.getOwner().getTeam().remove(target);
-                LOG.fine(target + " destroyed!");
+                LOG.info(target + " destroyed!");
             }
         }
     }
@@ -90,10 +90,10 @@ public class Game {
 
     public Optional<Player> getWinner() {
         if (player1.getTeam().isEmpty()) {
-            LOG.fine(player2 + " wins!");
+            LOG.info(player2 + " wins!");
             return Optional.of(player2);
         } else if (player2.getTeam().isEmpty()) {
-            LOG.fine(player1 + " wins!");
+            LOG.info(player1 + " wins!");
             return Optional.of(player1);
         } else {
             return Optional.empty();

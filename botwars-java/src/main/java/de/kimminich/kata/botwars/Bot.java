@@ -1,11 +1,12 @@
 package de.kimminich.kata.botwars;
 
 import java.util.Random;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class Bot {
 
-    private static final Logger LOG = Logger.getLogger(Bot.class.getName());
+    private static final Logger LOG = LogManager.getLogger(Bot.class);
 
     private Random random = new Random();
 
@@ -32,11 +33,11 @@ public class Bot {
     private int turnMeter = 0;
 
     void attack(Bot target) {
-        LOG.fine(this + " attacks " + target);
+        LOG.info(this + " attacks " + target);
         int damage = random.nextInt(power / 2) + power / 2;
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
-            LOG.fine("Critical Hit!");
+            LOG.info("Critical Hit!");
         }
         target.takeDamage(damage);
     }
@@ -44,10 +45,10 @@ public class Bot {
     void takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
-            LOG.fine(this + " takes " + damage + " damage!");
+            LOG.info(this + " takes " + damage + " damage!");
             integrity = Math.max(0, integrity - damage);
         } else {
-            LOG.fine(this + " successfully evaded!");
+            LOG.info(this + " successfully evaded!");
         }
     }
 
