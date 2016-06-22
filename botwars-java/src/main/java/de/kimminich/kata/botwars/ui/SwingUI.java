@@ -2,7 +2,6 @@ package de.kimminich.kata.botwars.ui;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
-import de.kimminich.kata.botwars.Player;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -16,9 +15,10 @@ import static javax.swing.JOptionPane.CLOSED_OPTION;
 public class SwingUI implements UserInterface {
 
     @Override
-    public Optional<Bot> selectTarget(Player attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker + ", select bot to attack!\n"
-                + toStats(opponentTeam), "Choose target!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+    public Optional<Bot> selectTarget(Bot attacker, List<Bot> opponentTeam) {
+        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attack!\n"
+                + toStats(opponentTeam), attacker + " makes a move!",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
         return choice == CLOSED_OPTION ? Optional.empty() : Optional.of(opponentTeam.get(choice));

@@ -84,7 +84,7 @@ public class Bot {
         this.owner = owner;
     }
 
-    Player getOwner() {
+    public Player getOwner() {
         return owner;
     }
 

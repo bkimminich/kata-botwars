@@ -69,14 +69,13 @@ public class Game {
     }
 
     private void performAttack(Bot attacker) {
-        Player attackingPlayer = attacker.getOwner();
-        Player opponentPlayer = attackingPlayer == player1 ? player2 : player1;
-        Optional<Bot> choice = ui.selectTarget(attackingPlayer, opponentPlayer.getTeam());
+        Player opponentPlayer = attacker.getOwner() == player1 ? player2 : player1;
+        Optional<Bot> choice = ui.selectTarget(attacker, opponentPlayer.getTeam());
         if (choice.isPresent()) {
             Bot target = choice.get();
             attacker.attack(target);
             if (target.isDestroyed()) {
-                target.getOwner().getTeam().remove(target);
+                opponentPlayer.getTeam().remove(target);
                 LOG.info(target + " destroyed!");
             }
         }
