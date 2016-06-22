@@ -1,12 +1,11 @@
 package de.kimminich.kata.botwars;
 
 import java.util.Random;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+
+import de.kimminich.kata.botwars.reports.AttackReport;
+import de.kimminich.kata.botwars.reports.DamageReport;
 
 public class Bot {
-
-    private static final Logger LOG = LogManager.getLogger(Bot.class);
 
     private Random random = new Random();
 
@@ -32,24 +31,27 @@ public class Bot {
     private int integrity;
     private int turnMeter = 0;
 
-    void attack(Bot target) {
-        LOG.info(this + " attacks " + target);
+    AttackReport attack(Bot target) {
+        AttackReport report = new AttackReport(this, target);
         int damage = random.nextInt(power / 2) + power / 2;
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
-            LOG.info("Critical Hit!");
+            report.criticalHit();
         }
-        target.takeDamage(damage);
+        report.damageReport(target.takeDamage(damage));
+        return report;
     }
 
-    void takeDamage(int damage) {
+    DamageReport takeDamage(int damage) {
+        DamageReport report = new DamageReport(this);
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
-            LOG.info(this + " takes " + damage + " damage!");
+            report.damage(damage);
             integrity = Math.max(0, integrity - damage);
         } else {
-            LOG.info(this + " successfully evaded!");
+            report.evaded();
         }
+        return report;
     }
 
     int getIntegrity() {
@@ -129,4 +131,5 @@ public class Bot {
     public String toString() {
         return name;
     }
+
 }

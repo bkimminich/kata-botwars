@@ -2,7 +2,6 @@ package de.kimminich.kata.botwars;
 
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInterface;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Game {
-
-    private static final org.apache.logging.log4j.Logger LOG = LogManager.getLogger(Game.class);
 
     private final UserInterface ui;
     private final Player player1;
@@ -72,10 +69,10 @@ public class Game {
         Optional<Bot> choice = ui.selectTarget(attacker, opponentPlayer.getTeam());
         if (choice.isPresent()) {
             Bot target = choice.get();
-            attacker.attack(target);
+            ui.attackReport(attacker.attack(target));
             if (target.isDestroyed()) {
                 opponentPlayer.getTeam().remove(target);
-                LOG.info(target + " destroyed!");
+                ui.botDestruction(target);
             }
         }
     }

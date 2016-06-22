@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
+import de.kimminich.kata.botwars.reports.AttackReport;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -48,5 +49,16 @@ public class SwingUI implements UserInterface {
     public void gameOver(Player winner) {
         JOptionPane.showMessageDialog(null, winner + " wins the game!",
                 "Game over!", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void attackReport(AttackReport report) {
+        JOptionPane.showMessageDialog(null, report, "Attack Report", JOptionPane.WARNING_MESSAGE);
+    }
+
+    @Override
+    public void botDestruction(Bot target) {
+        JOptionPane.showMessageDialog(null, target + " has been destroyed!!!",
+                target + " destroyed!", JOptionPane.ERROR_MESSAGE);
     }
 }
