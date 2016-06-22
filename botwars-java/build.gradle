@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'org.junit.gen5.gradle'
 apply plugin: 'checkstyle'
 
@@ -21,22 +22,50 @@ buildscript {
     }
 }
 
+dependencies {
+    testCompile 'org.mockito:mockito-core:2.+'
+    testCompile 'org.junit:junit5-api:5.0.0-SNAPSHOT'
+    testRuntime 'org.junit:junit5-engine:5.0.0-SNAPSHOT'
+}
 
 junit5 {
     version '5.0.0-SNAPSHOT'
-    runJunit4 false
-    matchClassName '.*Test'
-}
+    matchClassName '.*Test'}
 
 run {
     standardInput = System.in
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
+afterEvaluate {
+
+    jacoco {
+        toolVersion = '0.7.4.201502262128'
+        applyTo junit5Test
     }
+
+    task junit5CodeCoverageReport(type:JacocoReport){
+        executionData junit5Test
+        sourceSets sourceSets.main
+        sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+        classDirectories = files(sourceSets.main.output)
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+    }
+
+    coveralls {
+        sourceDirs = files(sourceSets.main.allSource.srcDirs).flatten()
+        jacocoReportPath = "${buildDir}/reports/jacoco/junit5CodeCoverageReport/junit5CodeCoverageReport.xml"
+    }
+
+    tasks.coveralls {
+        group = 'Coverage reports'
+        description = 'Uploads the aggregated coverage report to Coveralls'
+
+        dependsOn junit5CodeCoverageReport
+    }
+
 }
 
 mainClassName = 'de.kimminich.kata.botwars.Game'

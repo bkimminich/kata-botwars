@@ -1,4 +1,4 @@
-# Kata: Bot Wars - Factory of Heroes [![Build Status](https://travis-ci.org/bkimminich/kata-botwars.svg)](https://travis-ci.org/bkimminich/kata-botwars)
+# Kata: Bot Wars - Factory of Heroes [![Build Status](https://travis-ci.org/bkimminich/kata-botwars.svg)](https://travis-ci.org/bkimminich/kata-botwars) [![Coverage Status](https://coveralls.io/repos/github/bkimminich/kata-botwars/badge.svg)](https://coveralls.io/github/bkimminich/kata-botwars)
 
 In this Code/Architecture Kata you will be implementing a strategy/role-playing game using loosely based on the popular mobile game [Star Wars™ Galaxy of Heroes](http://starwars.ea.com/en_GB/starwars/galaxy-of-heroes). This Kata is supposed to be more complex than most of the well-known traditional Katas (e.g. Roman Numbers, Bowling Game or FizzBuzz) including even the [EverCraft Kata](https://github.com/PuttingTheDnDInTDD/EverCraft-Kata) or my own [Kata TCG](https://github.com/bkimminich/kata-tcg). It offers many possibilities for different focuses depending on learning goals and can be approached iteratively with TDD from different angles. The Kata is especially well suited for building extensible software because the gameplay could be extended or modified in many ways. While it is not recommended to use this Kata for TDD introduction-trainings, it should offer challenges for developers of higher experience levels.
 
@@ -71,6 +71,7 @@ loop:
 > As a competitive player I want to have a team of bots fight an opponent's team so that the game becomes more interesting!
 
 * The game is intended for 2 players
+* Both players need to have a unique name
 * Each player sends a team of 3 bots into the arena
 * When it is a bot's turn the player chooses one opponent bot to attack
 * The game ends when one player's team has been eliminated
@@ -100,7 +101,7 @@ post: declare player with remaining bots as winner
 * Both players have their own pool of Bots available to assemble their team from before each battle.
 * A player cannot put a bot more than once into his/her team.
 * Bots have an ```Evasion%```-chance based on their _Evasion_ stat to completely prevent an incoming attack from hitting them.
-* Bots also have a ```Critical Hit%```-chance based on their _Critical Hit_ stat to cause double damage when hitting an opponent.
+* Bots also have a ```Critical Hit%```-chance based on their _Critical Hit_ stat to cause double damage when hitting an opponent. Critical damage multiplication happens before target armor is subtracted.
 
 Name | Integrity | Power | Speed | Armor | Evasion | Critical Hit
 ---- | --------- | ----- | ----- | ----- | ------- | ------------
