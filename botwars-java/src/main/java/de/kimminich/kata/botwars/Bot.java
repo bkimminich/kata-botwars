@@ -12,11 +12,10 @@ import de.kimminich.kata.botwars.messages.GenericTextMessage;
 public class Bot {
 
     private Random random = new Random();
-    private List<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit,
-               double resistance, double effectiveness) {
+               double resistance, double effectiveness, Class<? extends NegativeStatusEffect> effectOnAttack) {
         this.name = name;
         this.power = power;
         this.armor = armor;
@@ -26,11 +25,12 @@ public class Bot {
         this.criticalHit = criticalHit;
         this.resistance = resistance;
         this.effectiveness = effectiveness;
+        this.effectOnAttack = effectOnAttack;
     }
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
-        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
+        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0, null);
     }
 
     private Player owner;
@@ -43,6 +43,8 @@ public class Bot {
     private final double criticalHit;
     private final double resistance;
     private final double effectiveness;
+    private final Class<? extends NegativeStatusEffect> effectOnAttack;
+    private List<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
 
     private int integrity;
@@ -55,6 +57,14 @@ public class Bot {
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
             landedCriticalHit = true;
+        }
+
+        if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
+            try {
+                target.getNegativeStatusEffects().add(effectOnAttack.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new AssertionError("NegativeStatusEffect subclasses require public zero-argument constructor", e);
+            }
         }
 
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);

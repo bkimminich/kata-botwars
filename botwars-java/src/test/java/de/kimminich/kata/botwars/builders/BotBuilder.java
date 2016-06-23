@@ -5,6 +5,8 @@ import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
 
 import java.util.ArrayList;
 
+import static de.kimminich.kata.botwars.builders.NegativeStatusEffectBuilder.anyNegativeStatusEffect;
+
 public final class BotBuilder {
 
     private String name = "Horst Bot";
@@ -16,6 +18,7 @@ public final class BotBuilder {
     private double criticalHit = 0.0;
     private double resistance = 0.0;
     private double effectiveness = 0.0;
+    private Class<? extends NegativeStatusEffect> effectOnAttack = anyNegativeStatusEffect().getClass();
     private ArrayList<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
     private BotBuilder() {
@@ -76,7 +79,8 @@ public final class BotBuilder {
     }
 
     public Bot build() {
-        Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit, resistance, effectiveness);
+        Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
+                resistance, effectiveness, effectOnAttack);
         bot.getNegativeStatusEffects().addAll(negativeStatusEffects);
         return bot;
     }
@@ -85,4 +89,8 @@ public final class BotBuilder {
         return aBot().build();
     }
 
+    public BotBuilder withEffectOnAttack(Class<? extends NegativeStatusEffect> effect) {
+        this.effectOnAttack = effect;
+        return this;
+    }
 }
