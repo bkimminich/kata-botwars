@@ -4,7 +4,7 @@ import java.util.Random;
 
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
-import de.kimminich.kata.botwars.messages.StatusMessage;
+import de.kimminich.kata.botwars.messages.GenericTextMessage;
 
 public class Bot {
 
@@ -33,26 +33,25 @@ public class Bot {
     private int turnMeter = 0;
 
     AttackMessage attack(Bot target) {
-        AttackMessage result = new AttackMessage(this, target);
         int damage = random.nextInt(power / 2) + power / 2;
+        boolean landedCriticalHit = false;
+
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
-            result.criticalHit();
+            landedCriticalHit = true;
         }
-        result.damage(target.takeDamage(damage));
-        return result;
+
+        return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
     }
 
     DamageMessage takeDamage(int damage) {
-        DamageMessage result = new DamageMessage(this);
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
-            result.damage(damage);
             integrity = Math.max(0, integrity - damage);
+            return new DamageMessage(this, damage, false);
         } else {
-            result.evaded();
+            return new DamageMessage(this, 0, true);
         }
-        return result;
     }
 
     int getIntegrity() {
@@ -115,8 +114,8 @@ public class Bot {
         return name;
     }
 
-    public StatusMessage getStatus() {
-        return new StatusMessage(name + "{" +
+    public GenericTextMessage getStatus() {
+        return new GenericTextMessage(name + "{" +
                 (owner != null ? "owner=" + owner + ", " : "") +
                 "integrity=" + integrity +
                 ", turnMeter=" + turnMeter +
