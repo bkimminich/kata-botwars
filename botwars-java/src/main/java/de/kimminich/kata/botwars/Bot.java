@@ -1,7 +1,10 @@
 package de.kimminich.kata.botwars;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
@@ -9,8 +12,11 @@ import de.kimminich.kata.botwars.messages.GenericTextMessage;
 public class Bot {
 
     private Random random = new Random();
+    private List<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
-    public Bot(String name, int power, int armor, int speed, int integrity, double evasion, double criticalHit) {
+    public Bot(String name, int power, int armor, int speed, int integrity,
+               double evasion, double criticalHit,
+               double resistance, double effectiveness) {
         this.name = name;
         this.power = power;
         this.armor = armor;
@@ -18,6 +24,13 @@ public class Bot {
         this.integrity = integrity;
         this.evasion = evasion;
         this.criticalHit = criticalHit;
+        this.resistance = resistance;
+        this.effectiveness = effectiveness;
+    }
+
+    public Bot(String name, int power, int armor, int speed, int integrity,
+               double evasion, double criticalHit, double resistance) {
+        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
     }
 
     private Player owner;
@@ -28,6 +41,9 @@ public class Bot {
     private final int speed;
     private final double evasion;
     private final double criticalHit;
+    private final double resistance;
+    private final double effectiveness;
+
 
     private int integrity;
     private int turnMeter = 0;
@@ -110,8 +126,20 @@ public class Bot {
         return criticalHit;
     }
 
+    public double getResistance() {
+        return resistance;
+    }
+
+    public double getEffectiveness() {
+        return effectiveness;
+    }
+
     String getName() {
         return name;
+    }
+
+    public List<NegativeStatusEffect> getNegativeStatusEffects() {
+        return negativeStatusEffects;
     }
 
     public GenericTextMessage getStatus() {
@@ -124,6 +152,8 @@ public class Bot {
                 ", speed=" + speed +
                 ", evasion=" + (evasion * 100) + "%" +
                 ", criticalHit=" + (criticalHit * 100) + "%" +
+                ", resistance=" + (resistance * 100) + "%" +
+                ", effectiveness=" + (effectiveness * 100) + "%" +
                 '}');
     }
 

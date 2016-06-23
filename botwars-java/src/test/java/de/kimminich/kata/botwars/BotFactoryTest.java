@@ -30,7 +30,9 @@ public class BotFactoryTest {
                 () -> assertEquals(40, aggroBot.getSpeed()),
                 () -> assertEquals(20, aggroBot.getArmor()),
                 () -> assertEquals(0.0, aggroBot.getEvasion()),
-                () -> assertEquals(0.1, aggroBot.getCriticalHit())
+                () -> assertEquals(0.1, aggroBot.getCriticalHit()),
+                () -> assertEquals(0.1, aggroBot.getResistance()),
+                () -> assertEquals(0.3, aggroBot.getEffectiveness())
         );
     }
 
@@ -46,7 +48,9 @@ public class BotFactoryTest {
                 () -> assertEquals(90, stealthBot.getSpeed()),
                 () -> assertEquals(20, stealthBot.getArmor()),
                 () -> assertEquals(0.2, stealthBot.getEvasion()),
-                () -> assertEquals(0.2, stealthBot.getCriticalHit())
+                () -> assertEquals(0.2, stealthBot.getCriticalHit()),
+                () -> assertEquals(0.0, stealthBot.getResistance()),
+                () -> assertEquals(0.4, stealthBot.getEffectiveness())
         );
     }
 
@@ -62,7 +66,9 @@ public class BotFactoryTest {
                 () -> assertEquals(20, glassBot.getSpeed()),
                 () -> assertEquals(0, glassBot.getArmor()),
                 () -> assertEquals(0.3, glassBot.getEvasion()),
-                () -> assertEquals(0.1, glassBot.getCriticalHit())
+                () -> assertEquals(0.1, glassBot.getCriticalHit()),
+                () -> assertEquals(0.05, glassBot.getResistance()),
+                () -> assertEquals(0.65, glassBot.getEffectiveness())
         );
     }
 
@@ -78,7 +84,9 @@ public class BotFactoryTest {
                 () -> assertEquals(30, tankBot.getSpeed()),
                 () -> assertEquals(40, tankBot.getArmor()),
                 () -> assertEquals(0.05, tankBot.getEvasion()),
-                () -> assertEquals(0.1, tankBot.getCriticalHit())
+                () -> assertEquals(0.1, tankBot.getCriticalHit()),
+                () -> assertEquals(0.2, tankBot.getResistance()),
+                () -> assertEquals(0.25, tankBot.getEffectiveness())
         );
     }
 
@@ -94,7 +102,9 @@ public class BotFactoryTest {
                 () -> assertEquals(35, beaveretteBot.getSpeed()),
                 () -> assertEquals(30, beaveretteBot.getArmor()),
                 () -> assertEquals(0.05, beaveretteBot.getEvasion()),
-                () -> assertEquals(0.15, beaveretteBot.getCriticalHit())
+                () -> assertEquals(0.15, beaveretteBot.getCriticalHit()),
+                () -> assertEquals(0.1, beaveretteBot.getResistance()),
+                () -> assertEquals(0.0, beaveretteBot.getEffectiveness(), "Bot should not inflict any negative effects")
         );
     }
 
@@ -110,7 +120,9 @@ public class BotFactoryTest {
                 () -> assertEquals(40, kamikazeBot.getSpeed()),
                 () -> assertEquals(0, kamikazeBot.getArmor()),
                 () -> assertEquals(0.0, kamikazeBot.getEvasion()),
-                () -> assertEquals(0.2, kamikazeBot.getCriticalHit())
+                () -> assertEquals(0.2, kamikazeBot.getCriticalHit()),
+                () -> assertEquals(0.0, kamikazeBot.getResistance()),
+                () -> assertEquals(0.65, kamikazeBot.getEffectiveness())
         );
     }
 

@@ -1,6 +1,9 @@
 package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
+
+import java.util.ArrayList;
 
 public final class BotBuilder {
 
@@ -11,6 +14,9 @@ public final class BotBuilder {
     private int integrity = 100;
     private double evasion = 0.0;
     private double criticalHit = 0.0;
+    private double resistance = 0.0;
+    private double effectiveness = 0.0;
+    private ArrayList<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
     private BotBuilder() {
     }
@@ -54,11 +60,29 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withResistance(double resistance) {
+        this.resistance = resistance;
+        return this;
+    }
+
+    public BotBuilder withEffectiveness(double effectiveness) {
+        this.effectiveness = effectiveness;
+        return this;
+    }
+
+    public BotBuilder withNoNegativeStatusEffects() {
+        this.negativeStatusEffects = new ArrayList<>();
+        return this;
+    }
+
     public Bot build() {
-        return new Bot(name, power, armor, speed, integrity, evasion, criticalHit);
+        Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit, resistance, effectiveness);
+        bot.getNegativeStatusEffects().addAll(negativeStatusEffects);
+        return bot;
     }
 
     public static Bot anyBot() {
         return aBot().build();
     }
+
 }
