@@ -85,13 +85,13 @@ public class TurnMeterTest {
 
         game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(), anyPlayer());
         game.turn();
-        assertEquals(501, bot.getTurnMeter(), "Turn Meter: 0 + 501 => 501");
+        assertEquals(501, bot.getTurnMeter(), "Turn Meter should be 0 + 501 => 501");
         game.turn();
-        assertEquals(2, bot.getTurnMeter(), "Turn Meter: 501 + 501 => 1002 - 1000 => 2");
+        assertEquals(2, bot.getTurnMeter(), "Turn Meter should be 501 + 501 => 1002 - 1000 => 2");
         game.turn();
-        assertEquals(503, bot.getTurnMeter(), "Turn Meter: 2 + 501 => 503");
+        assertEquals(503, bot.getTurnMeter(), "Turn Meter should be 2 + 501 => 503");
         game.turn();
-        assertEquals(4, bot.getTurnMeter(), "Turn Meter: 503 + 501 => 1004 - 1000 => 4");
+        assertEquals(4, bot.getTurnMeter(), "Turn Meter should be 503 + 501 => 1004 - 1000 => 4");
     }
 
 }

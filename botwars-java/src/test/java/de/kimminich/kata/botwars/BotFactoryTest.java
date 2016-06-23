@@ -125,7 +125,7 @@ public class BotFactoryTest {
                     for (Bot bot : defaultRoster) {
                         botInRoster = bot.getName().equals(botType.toString()) || botInRoster;
                     }
-                    assertTrue(botInRoster, botType + " expected in default roster.");
+                    assertTrue(botInRoster, botType + " should be in default roster.");
                 }));
     }
 
