@@ -31,7 +31,7 @@ public class GameTest {
     void initUserInterface(@InjectMock UserInterface ui) {
         when(ui.enterName()).thenAnswer(new UniquePlayerName());
         when(ui.selectTeam(anySetOf(Bot.class))).thenAnswer(new TeamOfUpToThreeBotsFromRoster());
-        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
+        when(ui.selectTarget(any(Bot.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
     }
 
     @Nested

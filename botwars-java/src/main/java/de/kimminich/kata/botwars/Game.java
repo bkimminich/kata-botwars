@@ -8,24 +8,21 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Game {
-
-    private static final Logger LOG = Logger.getLogger(Game.class.getName());
 
     private final UserInterface ui;
     private final Player player1;
     private final Player player2;
     private List<Bot> bots = new ArrayList<>(6);
 
-    public Game(UserInterface ui) throws IllegalArgumentException {
+    Game(UserInterface ui) throws IllegalArgumentException {
         this(ui, new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())),
                  new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
     }
 
-    public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
+    Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
         this.ui = ui;
         this.player1 = player1;
         this.player2 = player2;
@@ -60,7 +57,6 @@ public class Game {
             } else {
                 bot.fillTurnMeter();
                 if (bot.canTakeTurn()) {
-                    LOG.fine(bot + " takes a turn...");
                     bot.depleteTurnMeter();
                     performAttack(bot);
                 }
@@ -69,31 +65,30 @@ public class Game {
     }
 
     private void performAttack(Bot attacker) {
-        Player attackingPlayer = attacker.getOwner();
-        Player opponentPlayer = attackingPlayer == player1 ? player2 : player1;
-        Optional<Bot> choice = ui.selectTarget(attackingPlayer, opponentPlayer.getTeam());
+        Player opponentPlayer = attacker.getOwner() == player1 ? player2 : player1;
+        Optional<Bot> choice = ui.selectTarget(attacker, opponentPlayer.getTeam());
         if (choice.isPresent()) {
             Bot target = choice.get();
-            attacker.attack(target);
+            ui.attackPerformed(attacker.attack(target));
             if (target.isDestroyed()) {
-                target.getOwner().getTeam().remove(target);
-                LOG.fine(target + " destroyed!");
+                opponentPlayer.getTeam().remove(target);
+                ui.botDestroyed(target);
             }
         }
     }
 
-    public void loop() {
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    void loop() {
         while (!getWinner().isPresent()) {
             turn();
         }
+        ui.gameOver(getWinner().get());
     }
 
-    public Optional<Player> getWinner() {
+    Optional<Player> getWinner() {
         if (player1.getTeam().isEmpty()) {
-            LOG.fine(player2 + " wins!");
             return Optional.of(player2);
         } else if (player2.getTeam().isEmpty()) {
-            LOG.fine(player1 + " wins!");
             return Optional.of(player1);
         } else {
             return Optional.empty();

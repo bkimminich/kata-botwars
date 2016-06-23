@@ -1,11 +1,12 @@
 package de.kimminich.kata.botwars;
 
 import java.util.Random;
-import java.util.logging.Logger;
+
+import de.kimminich.kata.botwars.messages.AttackMessage;
+import de.kimminich.kata.botwars.messages.DamageMessage;
+import de.kimminich.kata.botwars.messages.GenericTextMessage;
 
 public class Bot {
-
-    private static final Logger LOG = Logger.getLogger(Bot.class.getName());
 
     private Random random = new Random();
 
@@ -31,23 +32,25 @@ public class Bot {
     private int integrity;
     private int turnMeter = 0;
 
-    void attack(Bot target) {
-        LOG.fine(this + " attacks " + target);
+    AttackMessage attack(Bot target) {
         int damage = random.nextInt(power / 2) + power / 2;
+        boolean landedCriticalHit = false;
+
         if (random.nextDouble() < criticalHit) {
             damage *= 2;
-            LOG.fine("Critical Hit!");
+            landedCriticalHit = true;
         }
-        target.takeDamage(damage);
+
+        return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
     }
 
-    void takeDamage(int damage) {
+    DamageMessage takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
-            LOG.fine(this + " takes " + damage + " damage!");
             integrity = Math.max(0, integrity - damage);
+            return new DamageMessage(this, damage, false);
         } else {
-            LOG.fine(this + " successfully evaded!");
+            return new DamageMessage(this, 0, true);
         }
     }
 
@@ -83,7 +86,7 @@ public class Bot {
         this.owner = owner;
     }
 
-    Player getOwner() {
+    public Player getOwner() {
         return owner;
     }
 
@@ -111,8 +114,8 @@ public class Bot {
         return name;
     }
 
-    public String toStats() {
-        return name + "{" +
+    public GenericTextMessage getStatus() {
+        return new GenericTextMessage(name + "{" +
                 (owner != null ? "owner=" + owner + ", " : "") +
                 "integrity=" + integrity +
                 ", turnMeter=" + turnMeter +
@@ -121,11 +124,12 @@ public class Bot {
                 ", speed=" + speed +
                 ", evasion=" + (evasion * 100) + "%" +
                 ", criticalHit=" + (criticalHit * 100) + "%" +
-                '}';
+                '}');
     }
 
     @Override
     public String toString() {
         return name;
     }
+
 }

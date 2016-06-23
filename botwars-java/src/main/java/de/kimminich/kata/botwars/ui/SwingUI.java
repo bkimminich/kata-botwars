@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
+import de.kimminich.kata.botwars.messages.AttackMessage;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -16,16 +17,17 @@ import static javax.swing.JOptionPane.CLOSED_OPTION;
 public class SwingUI implements UserInterface {
 
     @Override
-    public Optional<Bot> selectTarget(Player attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker + ", select bot to attack!\n"
-                + toStats(opponentTeam), "Choose target!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+    public Optional<Bot> selectTarget(Bot attacker, List<Bot> opponentTeam) {
+        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attack!\n"
+                + toStats(opponentTeam), attacker + " makes a move!",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
         return choice == CLOSED_OPTION ? Optional.empty() : Optional.of(opponentTeam.get(choice));
     }
 
     private String toStats(List<Bot> opponentTeam) {
-        return opponentTeam.stream().map(Bot::toStats).collect(Collectors.joining("\n"));
+        return opponentTeam.stream().map(Bot::getStatus).map(Object::toString).collect(Collectors.joining("\n"));
     }
 
     @Override
@@ -41,5 +43,22 @@ public class SwingUI implements UserInterface {
     @Override
     public String enterName() {
         return JOptionPane.showInputDialog(null, "Player, enter your name!");
+    }
+
+    @Override
+    public void gameOver(Player winner) {
+        JOptionPane.showMessageDialog(null, winner + " wins the game!",
+                "Game over!", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void attackPerformed(AttackMessage message) {
+        JOptionPane.showMessageDialog(null, message, "Attack Report", JOptionPane.WARNING_MESSAGE);
+    }
+
+    @Override
+    public void botDestroyed(Bot target) {
+        JOptionPane.showMessageDialog(null, target + " has been destroyed!!!",
+                target + " destroyed!", JOptionPane.ERROR_MESSAGE);
     }
 }

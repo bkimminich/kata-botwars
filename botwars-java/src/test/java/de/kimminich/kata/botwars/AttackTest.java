@@ -23,6 +23,7 @@ import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anySetOf;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +36,7 @@ public class AttackTest {
     void initUserInterface(@InjectMock UserInterface ui) {
         when(ui.enterName()).thenAnswer(new UniquePlayerName());
         when(ui.selectTeam(anySetOf(Bot.class))).thenAnswer(new TeamOfUpToThreeBotsFromRoster());
-        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
+        when(ui.selectTarget(any(Bot.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
     }
 
     @Test
@@ -44,7 +45,7 @@ public class AttackTest {
         Bot bot = aBot().withSpeed(500).build();
         Bot opponent = aBot().withIntegrity(100).build();
 
-        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenReturn(Optional.of(opponent));
+        when(ui.selectTarget(eq(bot), anyListOf(Bot.class))).thenReturn(Optional.of(opponent));
 
         game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
                 aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
@@ -63,7 +64,7 @@ public class AttackTest {
         Bot opponent2 = aBot().withIntegrity(100).build();
         Bot opponent3 = aBot().withIntegrity(100).build();
 
-        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenReturn(Optional.of(opponent1));
+        when(ui.selectTarget(eq(bot), anyListOf(Bot.class))).thenReturn(Optional.of(opponent1));
 
         game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
                 aPlayer().withTeam(opponent1, opponent2, opponent3).build());
@@ -82,7 +83,7 @@ public class AttackTest {
         Bot bot = aBot().withPower(100).withSpeed(1000).build();
         Bot opponent = aBot().withIntegrity(1).build();
 
-        when(ui.selectTarget(any(Player.class), anyListOf(Bot.class))).thenReturn(Optional.of(opponent));
+        when(ui.selectTarget(eq(bot), anyListOf(Bot.class))).thenReturn(Optional.of(opponent));
 
         game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
                 aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
