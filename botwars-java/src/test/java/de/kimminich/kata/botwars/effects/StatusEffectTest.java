@@ -37,14 +37,14 @@ public class StatusEffectTest {
     @Test
     @DisplayName("is inflicted on an attacked bot if it does not resist")
     void failingToResistInflictsStatusEffect() {
-        Bot bot = aBot().withEffectiveness(1.0).withAttackEffectAndDuration(NeutralStatusEffect.class, 1).build();
+        Bot bot = aBot().withEffectiveness(1.0).withAttackEffectAndDuration(NoStatusEffect.class, 1).build();
         Bot opponent = aBot().withResistance(0.0).withStatusEffects().build();
 
         bot.attack(opponent);
 
         assertAll(
                 () -> assertEquals(1, opponent.getStatusEffects().size()),
-                () -> assertTrue(NeutralStatusEffect.class.isAssignableFrom(
+                () -> assertTrue(NoStatusEffect.class.isAssignableFrom(
                         opponent.getStatusEffects().get(0).getClass()),
                         "Inflicted effect should have type NoNegativeStatusEffect")
         );
@@ -58,7 +58,7 @@ public class StatusEffectTest {
         return IntStream.range(1, 4).mapToObj(duration ->
                 dynamicTest(duration + " moves of the affected bot", () -> {
                     StatusEffect effect = createFactoryForEffectWithDuration(
-                            duration, NeutralStatusEffect.class).newInstance();
+                            duration, NoStatusEffect.class).newInstance();
                     Bot target = aBot().withStatusEffects(effect).build();
 
                     for (int i = 0; i < duration; i++) {

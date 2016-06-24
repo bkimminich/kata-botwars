@@ -6,7 +6,7 @@ import java.util.Random;
 
 import de.kimminich.kata.botwars.effects.StatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NeutralStatusEffect;
+import de.kimminich.kata.botwars.effects.NoStatusEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
@@ -35,7 +35,7 @@ public class Bot {
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
-                0.0, createFactoryForEffectWithDuration(0, NeutralStatusEffect.class));
+                0.0, createFactoryForEffectWithDuration(0, NoStatusEffect.class));
     }
 
     private Player owner;

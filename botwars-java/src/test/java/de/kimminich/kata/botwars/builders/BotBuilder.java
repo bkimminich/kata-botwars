@@ -3,7 +3,7 @@ package de.kimminich.kata.botwars.builders;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.StatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NeutralStatusEffect;
+import de.kimminich.kata.botwars.effects.NoStatusEffect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public final class BotBuilder {
     private double resistance = 0.0;
     private double effectiveness = 0.0;
     private StatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
-            0, NeutralStatusEffect.class);
+            0, NoStatusEffect.class);
     private ArrayList<StatusEffect> statusEffects = new ArrayList<>();
 
     private BotBuilder() {
