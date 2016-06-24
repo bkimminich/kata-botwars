@@ -55,9 +55,9 @@ public class Game {
             if (bot.isDestroyed()) {
                 it.remove();
             } else {
-                bot.fillTurnMeter();
+                bot.gainTurnMeter();
                 if (bot.canTakeTurn()) {
-                    bot.depleteTurnMeter();
+                    bot.preMoveActions();
                     performAttack(bot);
                 }
             }

@@ -1,6 +1,7 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
+import de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory;
+import de.kimminich.kata.botwars.effects.NoNegativeStatusEffect;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -24,12 +25,12 @@ public final class BotFactory {
 
     static Bot create(BotTypes type) {
         switch (type) {
-            case AGGRO_BOT: return new Bot(AGGRO_BOT.toString(), 100, 20, 40, 800, 0.0, 0.1, 0.1, 0.3, NegativeStatusEffect.class);
-            case STEALTH_BOT: return new Bot(STEALTH_BOT.toString(), 70, 20, 90, 500, 0.2, 0.2, 0.0, 0.4, NegativeStatusEffect.class);
-            case GLASS_BOT: return new Bot(GLASS_BOT.toString(), 180, 0, 20, 300, 0.3, 0.1, 0.05, 0.65, NegativeStatusEffect.class);
-            case TANK_BOT: return new Bot(TANK_BOT.toString(), 50, 40, 30, 1200, 0.05, 0.1, 0.2, 0.25, NegativeStatusEffect.class);
+            case AGGRO_BOT: return new Bot(AGGRO_BOT.toString(), 100, 20, 40, 800, 0.0, 0.1, 0.1, 0.3, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
+            case STEALTH_BOT: return new Bot(STEALTH_BOT.toString(), 70, 20, 90, 500, 0.2, 0.2, 0.0, 0.4, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
+            case GLASS_BOT: return new Bot(GLASS_BOT.toString(), 180, 0, 20, 300, 0.3, 0.1, 0.05, 0.65, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
+            case TANK_BOT: return new Bot(TANK_BOT.toString(), 50, 40, 30, 1200, 0.05, 0.1, 0.2, 0.25, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
             case BEAVERETTE_BOT: return new Bot(BEAVERETTE_BOT.toString(), 70, 30, 35, 1000, 0.05, 0.15, 0.1);
-            case KAMIKAZE_BOT: return new Bot(KAMIKAZE_BOT.toString(), 50, 0, 40, 500, 0.0, 0.2, 0.0, 0.65, NegativeStatusEffect.class);
+            case KAMIKAZE_BOT: return new Bot(KAMIKAZE_BOT.toString(), 50, 0, 40, 500, 0.0, 0.2, 0.0, 0.65, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
             default: throw new AssertionError("Unexpected BotType: " + type);
         }
     }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
+import de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory;
+import de.kimminich.kata.botwars.effects.NoNegativeStatusEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
@@ -15,7 +17,7 @@ public class Bot {
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit,
-               double resistance, double effectiveness, Class<? extends NegativeStatusEffect> effectOnAttack) {
+               double resistance, double effectiveness, NegativeStatusEffectFactory effectOnAttack) {
         this.name = name;
         this.power = power;
         this.armor = armor;
@@ -30,7 +32,8 @@ public class Bot {
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
-        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0, null);
+        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
+                0.0, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
     }
 
     private Player owner;
@@ -43,7 +46,7 @@ public class Bot {
     private final double criticalHit;
     private final double resistance;
     private final double effectiveness;
-    private final Class<? extends NegativeStatusEffect> effectOnAttack;
+    private final NegativeStatusEffectFactory effectOnAttack;
     private List<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
 
@@ -60,11 +63,7 @@ public class Bot {
         }
 
         if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
-            try {
-                target.getNegativeStatusEffects().add(effectOnAttack.newInstance());
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new AssertionError("NegativeStatusEffect subclasses require public zero-argument constructor", e);
-            }
+            target.getNegativeStatusEffects().add(effectOnAttack.newInstance());
         }
 
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
@@ -92,7 +91,7 @@ public class Bot {
         return turnMeter;
     }
 
-    void fillTurnMeter() {
+    void gainTurnMeter() {
         turnMeter += speed;
     }
 
@@ -100,8 +99,9 @@ public class Bot {
         turnMeter = 0;
     }
 
-    void depleteTurnMeter() {
+    void preMoveActions() {
         turnMeter -= 1000;
+        negativeStatusEffects.forEach(NegativeStatusEffect::activate);
     }
 
     boolean canTakeTurn() {

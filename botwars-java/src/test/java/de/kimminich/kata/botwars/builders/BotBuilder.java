@@ -2,10 +2,13 @@ package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
+import de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory;
+import de.kimminich.kata.botwars.effects.NoNegativeStatusEffect;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import static de.kimminich.kata.botwars.builders.NegativeStatusEffectBuilder.anyNegativeStatusEffect;
+import static de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory.createFactoryForEffectWithDuration;
 
 public final class BotBuilder {
 
@@ -18,7 +21,8 @@ public final class BotBuilder {
     private double criticalHit = 0.0;
     private double resistance = 0.0;
     private double effectiveness = 0.0;
-    private Class<? extends NegativeStatusEffect> effectOnAttack = anyNegativeStatusEffect().getClass();
+    private NegativeStatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
+            NoNegativeStatusEffect.class, 0);
     private ArrayList<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
     private BotBuilder() {
@@ -78,6 +82,16 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withNegativeStatusEffects(NegativeStatusEffect... effects) {
+        negativeStatusEffects.addAll(Arrays.asList(effects));
+        return this;
+    }
+
+    public BotBuilder withAttackEffectAndDuration(Class<? extends NegativeStatusEffect> effect, int duration) {
+        this.effectOnAttack = createFactoryForEffectWithDuration(effect, duration);
+        return this;
+    }
+
     public Bot build() {
         Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
                 resistance, effectiveness, effectOnAttack);
@@ -89,8 +103,4 @@ public final class BotBuilder {
         return aBot().build();
     }
 
-    public BotBuilder withEffectOnAttack(Class<? extends NegativeStatusEffect> effect) {
-        this.effectOnAttack = effect;
-        return this;
-    }
 }
