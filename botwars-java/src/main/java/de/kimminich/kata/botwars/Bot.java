@@ -41,7 +41,7 @@ public class Bot {
     private final String name;
     private int power;
     private int armor;
-    private final int speed;
+    private int speed;
     private final double evasion;
     private final double criticalHit;
     private double resistance;
@@ -135,8 +135,12 @@ public class Bot {
         this.power = power;
     }
 
-    int getSpeed() {
+    public int getSpeed() {
         return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public int getArmor() {
