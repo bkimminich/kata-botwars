@@ -15,7 +15,7 @@ public class SpeedDownTest {
     @DisplayName("reduces speed by 25% during its duration")
     void reducesSpeedBy25Percent() {
         NegativeStatusEffect effect = createFactoryForEffectWithDuration(
-                SpeedDown.class, 1).newInstance();
+                1, SpeedDown.class).newInstance();
         Bot bot = aBot().withSpeed(100).withNegativeStatusEffects(effect).build();
 
         bot.preMoveActions();

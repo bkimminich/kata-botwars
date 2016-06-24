@@ -22,7 +22,7 @@ public final class BotBuilder {
     private double resistance = 0.0;
     private double effectiveness = 0.0;
     private NegativeStatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
-            NoNegativeStatusEffect.class, 0);
+            0, NoNegativeStatusEffect.class);
     private ArrayList<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
 
     private BotBuilder() {
@@ -88,7 +88,13 @@ public final class BotBuilder {
     }
 
     public BotBuilder withAttackEffectAndDuration(Class<? extends NegativeStatusEffect> effect, int duration) {
-        this.effectOnAttack = createFactoryForEffectWithDuration(effect, duration);
+        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effect);
+        return this;
+    }
+
+    public BotBuilder withRandomlyChosenAttackEffectAndDuration(
+            Class<? extends NegativeStatusEffect>[] effects, int duration) {
+        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effects);
         return this;
     }
 

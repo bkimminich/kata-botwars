@@ -15,7 +15,7 @@ public class OffenseDownTest {
     @DisplayName("reduces power by 25% during its duration")
     void reducesPowerBy25Percent() {
         NegativeStatusEffect effect = createFactoryForEffectWithDuration(
-                OffenseDown.class, 1).newInstance();
+                1, OffenseDown.class).newInstance();
         Bot bot = aBot().withPower(100).withNegativeStatusEffects(effect).build();
 
         bot.preMoveActions();

@@ -35,7 +35,7 @@ public class Bot {
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
-                0.0, createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
+                0.0, createFactoryForEffectWithDuration(0, NoNegativeStatusEffect.class));
     }
 
     private Player owner;

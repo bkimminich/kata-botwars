@@ -56,7 +56,7 @@ public class NegativeStatusEffectTest {
         return IntStream.range(1, 4).mapToObj(duration ->
                 dynamicTest(duration + " moves of the affected bot", () -> {
                     NegativeStatusEffect effect = createFactoryForEffectWithDuration(
-                            NoNegativeStatusEffect.class, duration).newInstance();
+                            duration, NoNegativeStatusEffect.class).newInstance();
                     Bot target = aBot().withNegativeStatusEffects(effect).build();
 
                     for (int i = 0; i < duration; i++) {
@@ -66,6 +66,33 @@ public class NegativeStatusEffectTest {
                     assertTrue(effect.isExpired());
                 }));
 
+    }
+
+    @Test
+    @DisplayName("is picked from a supplied list of possible effects")
+    void picksOneRandomEffectFromListOfPossibleEffects() {
+        int offenseDownChosen = 0;
+        int defenseDownChosen = 0;
+        NegativeStatusEffectFactory factory = createFactoryForEffectWithDuration(1,
+                OffenseDown.class, DefenseDown.class);
+
+        for (int i = 0; i < 1000; i++) {
+            NegativeStatusEffect effect = factory.newInstance();
+            assertTrue(effect instanceof OffenseDown || effect instanceof DefenseDown);
+            if (effect instanceof OffenseDown) {
+                offenseDownChosen++;
+            } else {
+                defenseDownChosen++;
+            }
+        }
+        int totalOffenseDownChosen = offenseDownChosen;
+        int totalDefenseDownChosen = defenseDownChosen;
+        assertAll(
+                () -> assertTrue(totalOffenseDownChosen < 700),
+                () -> assertTrue(totalOffenseDownChosen > 300),
+                () -> assertTrue(totalDefenseDownChosen < 700),
+                () -> assertTrue(totalDefenseDownChosen > 300)
+        );
     }
 
 }
