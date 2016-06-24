@@ -2,7 +2,7 @@ package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
 
-class DefenseDown extends NegativeStatusEffect {
+public class DefenseDown extends NegativeStatusEffect {
 
     private boolean applied = false;
 
