@@ -39,7 +39,7 @@ public class Bot {
     private Player owner;
 
     private final String name;
-    private final int power;
+    private int power;
     private int armor;
     private final int speed;
     private final double evasion;
@@ -127,8 +127,12 @@ public class Bot {
         return owner;
     }
 
-    int getPower() {
+    public int getPower() {
         return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 
     int getSpeed() {

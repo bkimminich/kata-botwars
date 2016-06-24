@@ -13,7 +13,7 @@ public class DefenseDownTest {
 
     @Test
     @DisplayName("reduces armor by 50% during its duration")
-    void reducesArmorByFiftyPercent() {
+    void reducesArmorBy50Percent() {
         NegativeStatusEffect effect = createFactoryForEffectWithDuration(
                 DefenseDown.class, 1).newInstance();
         Bot bot = aBot().withArmor(10).withNegativeStatusEffects(effect).build();
@@ -28,7 +28,7 @@ public class DefenseDownTest {
 
     @Test
     @DisplayName("reduces resistance by 50% during its duration")
-    void reducesResistanceByFiftyPercent() {
+    void reducesResistanceBy50Percent() {
         NegativeStatusEffect effect = createFactoryForEffectWithDuration(
                 DefenseDown.class, 1).newInstance();
         Bot bot = aBot().withResistance(0.1).withNegativeStatusEffects(effect).build();
@@ -36,7 +36,7 @@ public class DefenseDownTest {
         bot.preMoveActions();
         assertEquals(0.05, bot.getResistance());
         bot.postMoveActions();
-        assertEquals(0.1, bot.getResistance(), "Resistance should have been restored");
+        assertEquals(0.1, bot.getResistance(), "Resistance should have been restored after effect expired");
         assertEquals(0, bot.getNegativeStatusEffects().size());
 
     }
