@@ -16,7 +16,7 @@ public class Player {
         return team;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 

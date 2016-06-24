@@ -11,6 +11,8 @@ import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
 
+import static de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory.createFactoryForEffectWithDuration;
+
 public class Bot {
 
     private Random random = new Random();
@@ -33,7 +35,7 @@ public class Bot {
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
-                0.0, NegativeStatusEffectFactory.createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
+                0.0, createFactoryForEffectWithDuration(NoNegativeStatusEffect.class, 0));
     }
 
     private Player owner;
@@ -69,7 +71,7 @@ public class Bot {
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
     }
 
-    public DamageMessage takeDamage(int damage) {
+    DamageMessage takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
             integrity = Math.max(0, integrity - damage);
@@ -79,7 +81,7 @@ public class Bot {
         }
     }
 
-    public int getIntegrity() {
+    int getIntegrity() {
         return integrity;
     }
 

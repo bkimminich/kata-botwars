@@ -14,9 +14,9 @@ import static de.kimminich.kata.botwars.BotTypes.TANK_BOT;
 import static de.kimminich.kata.botwars.BotTypes.BEAVERETTE_BOT;
 import static de.kimminich.kata.botwars.BotTypes.KAMIKAZE_BOT;
 
-public final class BotFactory {
+final class BotFactory {
 
-    public static Set<Bot> createDefaultRoster() {
+    static Set<Bot> createDefaultRoster() {
         return Arrays.stream(BotTypes.values()).map(BotFactory::create).collect(Collectors.toSet());
     }
 
