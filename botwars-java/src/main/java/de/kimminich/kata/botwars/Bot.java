@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
-import de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NoNegativeStatusEffect;
+import de.kimminich.kata.botwars.effects.StatusEffect;
+import de.kimminich.kata.botwars.effects.StatusEffectFactory;
+import de.kimminich.kata.botwars.effects.NeutralStatusEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
 
-import static de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 
 public class Bot {
 
@@ -19,7 +19,7 @@ public class Bot {
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit,
-               double resistance, double effectiveness, NegativeStatusEffectFactory effectOnAttack) {
+               double resistance, double effectiveness, StatusEffectFactory effectOnAttack) {
         this.name = name;
         this.power = power;
         this.armor = armor;
@@ -35,7 +35,7 @@ public class Bot {
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
-                0.0, createFactoryForEffectWithDuration(0, NoNegativeStatusEffect.class));
+                0.0, createFactoryForEffectWithDuration(0, NeutralStatusEffect.class));
     }
 
     private Player owner;
@@ -48,8 +48,8 @@ public class Bot {
     private final double criticalHit;
     private double resistance;
     private final double effectiveness;
-    private final NegativeStatusEffectFactory effectOnAttack;
-    private List<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
+    private final StatusEffectFactory effectOnAttack;
+    private List<StatusEffect> statusEffects = new ArrayList<>();
 
 
     private int integrity;
@@ -65,7 +65,7 @@ public class Bot {
         }
 
         if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
-            target.getNegativeStatusEffects().add(effectOnAttack.newInstance());
+            target.getStatusEffects().add(effectOnAttack.newInstance());
         }
 
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
@@ -103,11 +103,11 @@ public class Bot {
 
     public void preMoveActions() {
         turnMeter -= 1000;
-        negativeStatusEffects.forEach((effect) -> effect.apply(this));
+        statusEffects.forEach((effect) -> effect.apply(this));
     }
 
     public void postMoveActions() {
-        negativeStatusEffects.removeIf((effect) -> {
+        statusEffects.removeIf((effect) -> {
             if (!effect.isExpired()) {
                 return false;
             } else {
@@ -177,8 +177,8 @@ public class Bot {
         return name;
     }
 
-    public List<NegativeStatusEffect> getNegativeStatusEffects() {
-        return negativeStatusEffects;
+    public List<StatusEffect> getStatusEffects() {
+        return statusEffects;
     }
 
     public GenericTextMessage getStatus() {
@@ -193,6 +193,7 @@ public class Bot {
                 ", criticalHit=" + (criticalHit * 100) + "%" +
                 ", resistance=" + (resistance * 100) + "%" +
                 ", effectiveness=" + (effectiveness * 100) + "%" +
+                ", statusEffects=" + statusEffects +
                 '}');
     }
 

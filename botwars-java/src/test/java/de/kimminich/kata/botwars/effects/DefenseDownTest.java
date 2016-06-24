@@ -1,43 +1,44 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.negative.DefenseDown;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
-import static de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static org.junit.gen5.api.Assertions.assertEquals;
 
-@DisplayName("The Defense Down negative status effect")
+@DisplayName("The Defense Down status effect")
 public class DefenseDownTest {
 
     @Test
     @DisplayName("reduces armor by 50% during its duration")
     void reducesArmorBy50Percent() {
-        NegativeStatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(
                 1, DefenseDown.class).newInstance();
-        Bot bot = aBot().withArmor(10).withNegativeStatusEffects(effect).build();
+        Bot bot = aBot().withArmor(10).withStatusEffects(effect).build();
 
         bot.preMoveActions();
         assertEquals(5, bot.getArmor());
         bot.postMoveActions();
         assertEquals(10, bot.getArmor(), "Armor should have been restored");
-        assertEquals(0, bot.getNegativeStatusEffects().size());
+        assertEquals(0, bot.getStatusEffects().size());
 
     }
 
     @Test
     @DisplayName("reduces resistance by 50% during its duration")
     void reducesResistanceBy50Percent() {
-        NegativeStatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(
                 1, DefenseDown.class).newInstance();
-        Bot bot = aBot().withResistance(0.1).withNegativeStatusEffects(effect).build();
+        Bot bot = aBot().withResistance(0.1).withStatusEffects(effect).build();
 
         bot.preMoveActions();
         assertEquals(0.05, bot.getResistance());
         bot.postMoveActions();
         assertEquals(0.1, bot.getResistance(), "Resistance should have been restored after effect expired");
-        assertEquals(0, bot.getNegativeStatusEffects().size());
+        assertEquals(0, bot.getStatusEffects().size());
 
     }
 

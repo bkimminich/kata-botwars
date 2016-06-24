@@ -2,11 +2,11 @@ package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
 
-public abstract class NegativeStatusEffect {
+public abstract class StatusEffect {
 
     private int duration;
 
-    NegativeStatusEffect(Integer duration) {
+    public StatusEffect(Integer duration) {
         this.duration = duration;
     }
 
@@ -19,11 +19,11 @@ public abstract class NegativeStatusEffect {
         duration--;
     }
 
-    abstract void applyEffect(Bot target);
+    public abstract void applyEffect(Bot target);
 
     public void revoke(Bot target) {
         revokeEffect(target);
     }
 
-    abstract void revokeEffect(Bot target);
+    public abstract void revokeEffect(Bot target);
 }

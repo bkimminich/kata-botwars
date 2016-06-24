@@ -1,6 +1,8 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.negative.DefenseDown;
+import de.kimminich.kata.botwars.effects.negative.OffenseDown;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.DynamicTest;
 import org.junit.gen5.api.Test;
@@ -10,40 +12,40 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
-import static de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertFalse;
 import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
-@DisplayName("A negative status effect")
-public class NegativeStatusEffectTest {
+@DisplayName("A status effect")
+public class StatusEffectTest {
 
     @Test
-    @DisplayName("is mitigated when a bot resists it")
-    void resistanceMitigatesAllNegativeStatusEffects() {
+    @DisplayName("is mitigated when an attacked bot resists it")
+    void resistanceMitigatesStatusEffect() {
         Bot bot = aBot().withEffectiveness(1.0).build();
-        Bot opponent = aBot().withResistance(1.0).withNoNegativeStatusEffects().build();
+        Bot opponent = aBot().withResistance(1.0).withStatusEffects().build();
 
         bot.attack(opponent);
 
-        assertEquals(0, opponent.getNegativeStatusEffects().size());
+        assertEquals(0, opponent.getStatusEffects().size());
 
     }
 
     @Test
-    @DisplayName("is inflicted on a bot when it does not resist")
-    void failingToResistInflictsNegativeStatusEffects() {
-        Bot bot = aBot().withEffectiveness(1.0).withAttackEffectAndDuration(NoNegativeStatusEffect.class, 1).build();
-        Bot opponent = aBot().withResistance(0.0).withNoNegativeStatusEffects().build();
+    @DisplayName("is inflicted on an attacked bot if it does not resist")
+    void failingToResistInflictsStatusEffect() {
+        Bot bot = aBot().withEffectiveness(1.0).withAttackEffectAndDuration(NeutralStatusEffect.class, 1).build();
+        Bot opponent = aBot().withResistance(0.0).withStatusEffects().build();
 
         bot.attack(opponent);
 
         assertAll(
-                () -> assertEquals(1, opponent.getNegativeStatusEffects().size()),
-                () -> assertTrue(NoNegativeStatusEffect.class.isAssignableFrom(
-                        opponent.getNegativeStatusEffects().get(0).getClass()),
+                () -> assertEquals(1, opponent.getStatusEffects().size()),
+                () -> assertTrue(NeutralStatusEffect.class.isAssignableFrom(
+                        opponent.getStatusEffects().get(0).getClass()),
                         "Inflicted effect should have type NoNegativeStatusEffect")
         );
 
@@ -51,13 +53,13 @@ public class NegativeStatusEffectTest {
 
     @TestFactory
     @DisplayName("expires after the duration of ")
-    Stream<DynamicTest> negativeStatusEffectsExpireAfterDuration() {
+    Stream<DynamicTest> statusEffectsExpireAfterDuration() {
 
         return IntStream.range(1, 4).mapToObj(duration ->
                 dynamicTest(duration + " moves of the affected bot", () -> {
-                    NegativeStatusEffect effect = createFactoryForEffectWithDuration(
-                            duration, NoNegativeStatusEffect.class).newInstance();
-                    Bot target = aBot().withNegativeStatusEffects(effect).build();
+                    StatusEffect effect = createFactoryForEffectWithDuration(
+                            duration, NeutralStatusEffect.class).newInstance();
+                    Bot target = aBot().withStatusEffects(effect).build();
 
                     for (int i = 0; i < duration; i++) {
                         assertFalse(effect.isExpired(), "Effect should not expire after " + i + " moves");
@@ -70,14 +72,14 @@ public class NegativeStatusEffectTest {
 
     @Test
     @DisplayName("is picked from a supplied list of possible effects")
-    void picksOneRandomEffectFromListOfPossibleEffects() {
+    void picksOneRandomStatusEffectFromSuppliedList() {
         int offenseDownChosen = 0;
         int defenseDownChosen = 0;
-        NegativeStatusEffectFactory factory = createFactoryForEffectWithDuration(1,
+        StatusEffectFactory factory = createFactoryForEffectWithDuration(1,
                 OffenseDown.class, DefenseDown.class);
 
         for (int i = 0; i < 1000; i++) {
-            NegativeStatusEffect effect = factory.newInstance();
+            StatusEffect effect = factory.newInstance();
             assertTrue(effect instanceof OffenseDown || effect instanceof DefenseDown);
             if (effect instanceof OffenseDown) {
                 offenseDownChosen++;

@@ -1,17 +1,18 @@
-package de.kimminich.kata.botwars.effects;
+package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.StatusEffect;
 
-public class SpeedDown extends NegativeStatusEffect {
+public class SpeedDown extends StatusEffect {
 
     private boolean applied = false;
 
-    SpeedDown(Integer duration) {
+    public SpeedDown(Integer duration) {
         super(duration);
     }
 
     @Override
-    void applyEffect(Bot target) {
+    public void applyEffect(Bot target) {
         if (!applied) {
             target.setSpeed((int) (target.getSpeed() * 0.75));
             applied = true;
@@ -19,7 +20,7 @@ public class SpeedDown extends NegativeStatusEffect {
     }
 
     @Override
-    void revokeEffect(Bot target) {
+    public void revokeEffect(Bot target) {
         target.setSpeed((int) (target.getSpeed() / 0.75));
     }
 

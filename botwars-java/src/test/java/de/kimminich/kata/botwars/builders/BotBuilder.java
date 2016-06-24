@@ -1,14 +1,14 @@
 package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
-import de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NoNegativeStatusEffect;
+import de.kimminich.kata.botwars.effects.StatusEffect;
+import de.kimminich.kata.botwars.effects.StatusEffectFactory;
+import de.kimminich.kata.botwars.effects.NeutralStatusEffect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static de.kimminich.kata.botwars.effects.NegativeStatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 
 public final class BotBuilder {
 
@@ -21,9 +21,9 @@ public final class BotBuilder {
     private double criticalHit = 0.0;
     private double resistance = 0.0;
     private double effectiveness = 0.0;
-    private NegativeStatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
-            0, NoNegativeStatusEffect.class);
-    private ArrayList<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
+    private StatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
+            0, NeutralStatusEffect.class);
+    private ArrayList<StatusEffect> statusEffects = new ArrayList<>();
 
     private BotBuilder() {
     }
@@ -77,23 +77,23 @@ public final class BotBuilder {
         return this;
     }
 
-    public BotBuilder withNoNegativeStatusEffects() {
-        this.negativeStatusEffects = new ArrayList<>();
+    public BotBuilder withStatusEffects() {
+        this.statusEffects = new ArrayList<>();
         return this;
     }
 
-    public BotBuilder withNegativeStatusEffects(NegativeStatusEffect... effects) {
-        negativeStatusEffects.addAll(Arrays.asList(effects));
+    public BotBuilder withStatusEffects(StatusEffect... effects) {
+        statusEffects.addAll(Arrays.asList(effects));
         return this;
     }
 
-    public BotBuilder withAttackEffectAndDuration(Class<? extends NegativeStatusEffect> effect, int duration) {
+    public BotBuilder withAttackEffectAndDuration(Class<? extends StatusEffect> effect, int duration) {
         this.effectOnAttack = createFactoryForEffectWithDuration(duration, effect);
         return this;
     }
 
     public BotBuilder withRandomlyChosenAttackEffectAndDuration(
-            Class<? extends NegativeStatusEffect>[] effects, int duration) {
+            Class<? extends StatusEffect>[] effects, int duration) {
         this.effectOnAttack = createFactoryForEffectWithDuration(duration, effects);
         return this;
     }
@@ -101,7 +101,7 @@ public final class BotBuilder {
     public Bot build() {
         Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
                 resistance, effectiveness, effectOnAttack);
-        bot.getNegativeStatusEffects().addAll(negativeStatusEffects);
+        bot.getStatusEffects().addAll(statusEffects);
         return bot;
     }
 

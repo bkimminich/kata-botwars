@@ -1,17 +1,18 @@
-package de.kimminich.kata.botwars.effects;
+package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.StatusEffect;
 
-public class DefenseDown extends NegativeStatusEffect {
+public class DefenseDown extends StatusEffect {
 
     private boolean applied = false;
 
-    DefenseDown(Integer duration) {
+    public DefenseDown(Integer duration) {
         super(duration);
     }
 
     @Override
-    void applyEffect(Bot target) {
+    public void applyEffect(Bot target) {
         if (!applied) {
             target.setArmor(target.getArmor() / 2);
             target.setResistance(target.getResistance() / 2);
@@ -20,7 +21,7 @@ public class DefenseDown extends NegativeStatusEffect {
     }
 
     @Override
-    void revokeEffect(Bot target) {
+    public void revokeEffect(Bot target) {
         target.setArmor(target.getArmor() * 2);
         target.setResistance(target.getResistance() * 2);
     }
