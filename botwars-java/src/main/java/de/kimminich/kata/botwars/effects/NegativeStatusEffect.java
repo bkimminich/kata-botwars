@@ -1,5 +1,7 @@
 package de.kimminich.kata.botwars.effects;
 
+import de.kimminich.kata.botwars.Bot;
+
 public abstract class NegativeStatusEffect {
 
     private int duration;
@@ -12,11 +14,16 @@ public abstract class NegativeStatusEffect {
         return duration == 0;
     }
 
-    public void activate() {
-        applyEffect();
+    public void apply(Bot target) {
+        applyEffect(target);
         duration--;
     }
 
-    abstract void applyEffect();
+    abstract void applyEffect(Bot target);
 
+    public void revoke(Bot target) {
+        revokeEffect(target);
+    }
+
+    abstract void revokeEffect(Bot target);
 }

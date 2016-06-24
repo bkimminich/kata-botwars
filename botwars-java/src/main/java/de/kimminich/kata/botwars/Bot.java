@@ -40,11 +40,11 @@ public class Bot {
 
     private final String name;
     private final int power;
-    private final int armor;
+    private int armor;
     private final int speed;
     private final double evasion;
     private final double criticalHit;
-    private final double resistance;
+    private double resistance;
     private final double effectiveness;
     private final NegativeStatusEffectFactory effectOnAttack;
     private List<NegativeStatusEffect> negativeStatusEffects = new ArrayList<>();
@@ -69,7 +69,7 @@ public class Bot {
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
     }
 
-    DamageMessage takeDamage(int damage) {
+    public DamageMessage takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
             integrity = Math.max(0, integrity - damage);
@@ -79,7 +79,7 @@ public class Bot {
         }
     }
 
-    int getIntegrity() {
+    public int getIntegrity() {
         return integrity;
     }
 
@@ -101,7 +101,18 @@ public class Bot {
 
     public void preMoveActions() {
         turnMeter -= 1000;
-        negativeStatusEffects.forEach(NegativeStatusEffect::activate);
+        negativeStatusEffects.forEach((effect) -> effect.apply(this));
+    }
+
+    public void postMoveActions() {
+        negativeStatusEffects.removeIf((effect) -> {
+            if (!effect.isExpired()) {
+                return false;
+            } else {
+                effect.revoke(this);
+                return true;
+            }
+        });
     }
 
     boolean canTakeTurn() {
@@ -124,8 +135,12 @@ public class Bot {
         return speed;
     }
 
-    int getArmor() {
+    public int getArmor() {
         return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
     }
 
     double getEvasion() {
@@ -140,7 +155,11 @@ public class Bot {
         return resistance;
     }
 
-    public double getEffectiveness() {
+    public void setResistance(double resistance) {
+        this.resistance = resistance;
+    }
+
+    double getEffectiveness() {
         return effectiveness;
     }
 
