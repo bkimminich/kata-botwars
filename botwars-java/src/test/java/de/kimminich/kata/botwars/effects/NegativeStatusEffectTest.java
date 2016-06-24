@@ -1,7 +1,6 @@
-package de.kimminich.kata.botwars;
+package de.kimminich.kata.botwars.effects;
 
-import de.kimminich.kata.botwars.effects.NegativeStatusEffect;
-import de.kimminich.kata.botwars.effects.NoNegativeStatusEffect;
+import de.kimminich.kata.botwars.Bot;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.DynamicTest;
 import org.junit.gen5.api.Test;

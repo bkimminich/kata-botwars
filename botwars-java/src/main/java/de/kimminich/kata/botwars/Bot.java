@@ -53,7 +53,7 @@ public class Bot {
     private int integrity;
     private int turnMeter = 0;
 
-    AttackMessage attack(Bot target) {
+    public AttackMessage attack(Bot target) {
         int damage = random.nextInt(power / 2) + power / 2;
         boolean landedCriticalHit = false;
 
@@ -99,7 +99,7 @@ public class Bot {
         turnMeter = 0;
     }
 
-    void preMoveActions() {
+    public void preMoveActions() {
         turnMeter -= 1000;
         negativeStatusEffects.forEach(NegativeStatusEffect::activate);
     }
