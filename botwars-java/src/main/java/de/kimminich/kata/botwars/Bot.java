@@ -44,7 +44,7 @@ public class Bot {
     private int power;
     private int armor;
     private int speed;
-    private final double evasion;
+    private double evasion;
     private final double criticalHit;
     private double resistance;
     private final double effectiveness;
@@ -71,7 +71,7 @@ public class Bot {
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
     }
 
-    DamageMessage takeDamage(int damage) {
+    public DamageMessage takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
             integrity = Math.max(0, integrity - damage);
@@ -81,7 +81,7 @@ public class Bot {
         }
     }
 
-    int getIntegrity() {
+    public int getIntegrity() {
         return integrity;
     }
 
@@ -153,8 +153,12 @@ public class Bot {
         this.armor = armor;
     }
 
-    double getEvasion() {
+    public double getEvasion() {
         return evasion;
+    }
+
+    public void setEvasion(double evasion) {
+        this.evasion = evasion;
     }
 
     double getCriticalHit() {
