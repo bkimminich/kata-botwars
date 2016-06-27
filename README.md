@@ -130,7 +130,7 @@ Offense Down | Reduces the _Power_ of a bot by 25%. Can not be inflicted on bots
 Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker - armor of affected bot``` each turn until it expires. Can be stacked multiple times on the same bot.
 Bomb | Performs a delayed _Standard Attack_ on the affected bot when its duration expires. Can be stacked multiple times on the same bot.
 Speed Down | Slows the Turn Meter down by 25% which reduces the amount of actions a bot can take during battle.
-Stun | Stunned bots will miss their next turn.
+Stun | Stunned bots will miss their moves while under this effect. Furthermore a stunned bot cannot evade attacks.
 
 * The attacking bot first needs to beat his own _Effectivity_ and then beat the _Resistance_ of its target to actually inflict an effect.
 * Remember that only some negative effects can be stacked multiple times on the same bot.

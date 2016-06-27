@@ -51,7 +51,6 @@ public class Bot {
     private final StatusEffectFactory effectOnAttack;
     private List<StatusEffect> statusEffects = new ArrayList<>();
 
-
     private int integrity;
     private int turnMeter = 0;
 

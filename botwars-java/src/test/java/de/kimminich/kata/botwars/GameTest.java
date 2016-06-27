@@ -6,10 +6,7 @@ import de.kimminich.kata.botwars.ui.answers.FirstBotFromOpponentTeam;
 import de.kimminich.kata.botwars.ui.answers.UniquePlayerName;
 import de.kimminich.kata.botwars.ui.answers.TeamOfUpToThreeBotsFromRoster;
 import de.kimminich.kata.botwars.ui.UserInterface;
-import org.junit.gen5.api.BeforeEach;
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.Nested;
-import org.junit.gen5.api.Test;
+import org.junit.gen5.api.*;
 import org.junit.gen5.api.extension.ExtendWith;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;

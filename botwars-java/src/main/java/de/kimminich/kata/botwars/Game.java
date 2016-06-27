@@ -22,7 +22,7 @@ public class Game {
                  new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
     }
 
-    Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
+    public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
         this.ui = ui;
         this.player1 = player1;
         this.player2 = player2;
@@ -49,7 +49,7 @@ public class Game {
         });
     }
 
-    void turn() {
+    public void turn() {
         for (Iterator<Bot> it = bots.iterator(); it.hasNext();) {
             Bot bot = it.next();
             if (bot.isDestroyed()) {
