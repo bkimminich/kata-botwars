@@ -1,6 +1,14 @@
 package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.NoStatusEffect;
+import de.kimminich.kata.botwars.effects.StatusEffect;
+import de.kimminich.kata.botwars.effects.StatusEffectFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 
 public final class BotBuilder {
 
@@ -11,6 +19,11 @@ public final class BotBuilder {
     private int integrity = 100;
     private double evasion = 0.0;
     private double criticalHit = 0.0;
+    private double resistance = 0.0;
+    private double effectiveness = 0.0;
+    private StatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
+            0, NoStatusEffect.class);
+    private ArrayList<StatusEffect> statusEffects = new ArrayList<>();
 
     private BotBuilder() {
     }
@@ -54,11 +67,46 @@ public final class BotBuilder {
         return this;
     }
 
+    public BotBuilder withResistance(double resistance) {
+        this.resistance = resistance;
+        return this;
+    }
+
+    public BotBuilder withEffectiveness(double effectiveness) {
+        this.effectiveness = effectiveness;
+        return this;
+    }
+
+    public BotBuilder withStatusEffects() {
+        this.statusEffects = new ArrayList<>();
+        return this;
+    }
+
+    public BotBuilder withStatusEffects(StatusEffect... effects) {
+        statusEffects.addAll(Arrays.asList(effects));
+        return this;
+    }
+
+    public BotBuilder withAttackEffectAndDuration(Class<? extends StatusEffect> effect, int duration) {
+        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effect);
+        return this;
+    }
+
+    public BotBuilder withRandomlyChosenAttackEffectAndDuration(
+            Class<? extends StatusEffect>[] effects, int duration) {
+        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effects);
+        return this;
+    }
+
     public Bot build() {
-        return new Bot(name, power, armor, speed, integrity, evasion, criticalHit);
+        Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
+                resistance, effectiveness, effectOnAttack);
+        bot.getStatusEffects().addAll(statusEffects);
+        return bot;
     }
 
     public static Bot anyBot() {
         return aBot().build();
     }
+
 }
