@@ -1,8 +1,12 @@
 package de.kimminich.kata.botwars;
 
 import de.kimminich.kata.botwars.effects.StatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NoStatusEffect;
-import de.kimminich.kata.botwars.effects.negative.*;
+import de.kimminich.kata.botwars.effects.negative.Bomb;
+import de.kimminich.kata.botwars.effects.negative.ContinuousDamage;
+import de.kimminich.kata.botwars.effects.negative.DefenseDown;
+import de.kimminich.kata.botwars.effects.negative.OffenseDown;
+import de.kimminich.kata.botwars.effects.negative.SpeedDown;
+import de.kimminich.kata.botwars.effects.negative.Stun;
 
 import java.util.Arrays;
 import java.util.Set;
