@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars.effects.negative;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.StatusEffect;
 import de.kimminich.kata.botwars.effects.negative.Bomb;
+import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
@@ -10,6 +11,7 @@ import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.gen5.api.Assertions.fail;
 
 @DisplayName("The Bomb negative status effect")
 public class BombTest {
@@ -29,6 +31,13 @@ public class BombTest {
 
         assertEquals(0, target.getStatusEffects().size());
 
+    }
+
+    @Test
+    @DisplayName("causes damage within attack damage range of invoking bot")
+    @Disabled
+    void causesDamageWithinAttackDamageRangeOfInvoker() {
+        fail("Not yet implemented");
     }
 
 }
