@@ -16,7 +16,7 @@ import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
 
 @DisplayName("Wrapped into AoE")
-public class AreaOfEffectTest {
+public class AreaOfEffectDecoratorTest {
 
     @Test
     @DisplayName("Bomb causes damage to the entire team when it expires")

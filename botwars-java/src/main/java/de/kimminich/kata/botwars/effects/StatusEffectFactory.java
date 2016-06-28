@@ -29,7 +29,7 @@ public final class StatusEffectFactory {
         try {
             Constructor ctor = effect.getDeclaredConstructor(Integer.class);
             StatusEffect instance = (StatusEffect) ctor.newInstance(duration);
-            return isAoE ? new AreaOfEffect(instance) : instance;
+            return isAoE ? new AreaOfEffectDecorator(instance) : instance;
         } catch (NoSuchMethodException | IllegalAccessException
                 | InstantiationException | InvocationTargetException e) {
             throw new AssertionError("Instance of " + effect + " could not be created: " + e.getMessage(), e);
