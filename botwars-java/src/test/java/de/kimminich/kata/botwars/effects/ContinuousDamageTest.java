@@ -14,19 +14,20 @@ import static org.junit.gen5.api.Assertions.assertTrue;
 public class ContinuousDamageTest {
 
     @Test
-    @DisplayName("causes damage each turn during its duration")
+    @DisplayName("causes damage each turn while the effect is active")
     void causesDamageEachTurn() {
-        Bot invoker = aBot().withPower(50).build();
         StatusEffect effect = createFactoryForEffectWithDuration(
                 2, ContinuousDamage.class).newInstance();
-        Bot target = aBot().withIntegrity(100).withArmor(10).withStatusEffects(effect).build();
+        Bot target = aBot().withIntegrity(100).withArmor(0).withStatusEffects(effect).build();
 
         target.preMoveActions();
-        assertTrue(target.getIntegrity() == 60);
+        int integrityAfterFirstMove = target.getIntegrity();
+        assertTrue(integrityAfterFirstMove < 100);
         target.postMoveActions();
 
         target.preMoveActions();
-        assertTrue(target.getIntegrity() == 20);
+        int integrityAfterSecondMove = target.getIntegrity();
+        assertTrue(integrityAfterSecondMove < integrityAfterFirstMove);
         target.postMoveActions();
 
         assertEquals(0, target.getStatusEffects().size());
