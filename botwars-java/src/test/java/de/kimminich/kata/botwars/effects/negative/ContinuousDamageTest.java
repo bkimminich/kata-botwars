@@ -2,16 +2,13 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.StatusEffect;
-import de.kimminich.kata.botwars.effects.negative.ContinuousDamage;
 import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.junit.gen5.api.Assertions.fail;
+import static org.junit.gen5.api.Assertions.*;
 
 @DisplayName("The Continuous Damage negative status effect")
 public class ContinuousDamageTest {

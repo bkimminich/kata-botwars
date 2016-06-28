@@ -5,7 +5,6 @@ import de.kimminich.extensions.MockitoExtension;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Game;
 import de.kimminich.kata.botwars.effects.StatusEffect;
-import de.kimminich.kata.botwars.effects.negative.Stun;
 import de.kimminich.kata.botwars.ui.UserInterface;
 import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;

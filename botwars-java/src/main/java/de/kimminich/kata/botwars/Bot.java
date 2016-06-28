@@ -1,15 +1,15 @@
 package de.kimminich.kata.botwars;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import de.kimminich.kata.botwars.effects.NoStatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NoStatusEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 

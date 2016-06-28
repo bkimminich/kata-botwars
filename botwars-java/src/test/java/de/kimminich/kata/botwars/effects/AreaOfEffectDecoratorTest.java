@@ -1,7 +1,6 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.Game;
 import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.effects.negative.Bomb;
 import org.junit.gen5.api.DisplayName;
@@ -9,8 +8,6 @@ import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static de.kimminich.kata.botwars.builders.PlayerBuilder.anyPlayer;
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDurationAndAoE;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;

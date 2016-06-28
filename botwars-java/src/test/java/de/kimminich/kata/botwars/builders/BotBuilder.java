@@ -1,9 +1,9 @@
 package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.effects.NoStatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffectFactory;
-import de.kimminich.kata.botwars.effects.NoStatusEffect;
 
 import java.util.ArrayList;
 import java.util.Arrays;

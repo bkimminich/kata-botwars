@@ -11,15 +11,12 @@ import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 import org.junit.gen5.api.extension.ExtendWith;
 
-
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.anyPlayer;
 import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anySetOf;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

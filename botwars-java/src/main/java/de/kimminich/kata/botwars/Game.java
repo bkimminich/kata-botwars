@@ -3,11 +3,7 @@ package de.kimminich.kata.botwars;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInterface;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {

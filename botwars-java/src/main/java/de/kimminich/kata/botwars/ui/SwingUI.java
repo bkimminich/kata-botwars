@@ -5,8 +5,7 @@ import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

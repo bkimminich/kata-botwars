@@ -10,9 +10,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static de.kimminich.kata.botwars.BotTypes.*;
-import static org.junit.gen5.api.Assertions.assertAll;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.gen5.api.Assertions.*;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
 @DisplayName("A bot factory")
