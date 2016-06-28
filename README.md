@@ -126,23 +126,23 @@ Kamikaze Bot | 500 | 50 | 40 | 0 | 0% | 20%
 Negative Effect | Description
 --------------- | -----------
 Defense Down | Reduces the _Armor_ and _Resistance_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
-Offense Down | Reduces all caused _Damage_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
+Offense Down | Reduces the _Power_ of a bot by 25%. Can not be inflicted on bots who are already under this effect.
 Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker - armor of affected bot``` each turn until it expires. Can be stacked multiple times on the same bot.
 Bomb | Performs a delayed _Standard Attack_ on the affected bot when its duration expires. Can be stacked multiple times on the same bot.
 Speed Down | Slows the Turn Meter down by 25% which reduces the amount of actions a bot can take during battle.
-Stun | Stunned bots will miss their next turn.
+Stun | Stunned bots will miss their moves while under this effect. Furthermore a stunned bot cannot evade attacks.
 
-* The attacking bot first needs to beat his own _Effect Chance_ and then beat the _Resistance_ of its target to actually inflict an effect.
+* The attacking bot first needs to beat his own _Effectivity_ and then beat the _Resistance_ of its target to actually inflict an effect.
 * Remember that only some negative effects can be stacked multiple times on the same bot.
 
-Bot | Resistance | Effect Chance | Negative Effect | Duration
+Bot | Resistance | Effectivity | Negative Effect | Duration
 --- | ---------- | ------------- | ------------------ | --------
 Aggro Bot | 10% | 30% | Defense Down _or_ Stun | 1
 Stealth Bot | 0% | 40% | Speed Down _or_ Offense Down | 2
 Glass Bot | 5% | 65% | Continuous Damage _(*)_ | 2
 Tank Bot | 20% | 25% | Bomb | 3
 Beaverette Bot | 10% | - | - | -
-Kamikaze Bot | 0% | 65% | Bomb _(*)_ | 1
+Kamikaze Bot | 0% | 65% | Bomb _(*)_ | 2
 
 * Effects marked with a _(*)_ in the table above are inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
 * If more than one effect is listed for a bot in the table above, one of the effects is randomly inflicted.

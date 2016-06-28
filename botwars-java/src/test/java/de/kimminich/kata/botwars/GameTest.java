@@ -2,10 +2,10 @@ package de.kimminich.kata.botwars;
 
 import de.kimminich.extensions.InjectMock;
 import de.kimminich.extensions.MockitoExtension;
-import de.kimminich.kata.botwars.ui.answers.FirstBotFromOpponentTeam;
-import de.kimminich.kata.botwars.ui.answers.UniquePlayerName;
-import de.kimminich.kata.botwars.ui.answers.TeamOfUpToThreeBotsFromRoster;
 import de.kimminich.kata.botwars.ui.UserInterface;
+import de.kimminich.kata.botwars.ui.answers.FirstBotFromOpponentTeam;
+import de.kimminich.kata.botwars.ui.answers.TeamOfUpToThreeBotsFromRoster;
+import de.kimminich.kata.botwars.ui.answers.UniquePlayerName;
 import org.junit.gen5.api.BeforeEach;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Nested;
@@ -16,9 +16,7 @@ import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
 import static org.junit.gen5.api.Assertions.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anySetOf;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

@@ -3,11 +3,7 @@ package de.kimminich.kata.botwars;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInterface;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -22,7 +18,7 @@ public class Game {
                  new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
     }
 
-    Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
+    public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
         this.ui = ui;
         this.player1 = player1;
         this.player2 = player2;
@@ -49,15 +45,15 @@ public class Game {
         });
     }
 
-    void turn() {
+    public void turn() {
         for (Iterator<Bot> it = bots.iterator(); it.hasNext();) {
             Bot bot = it.next();
             if (bot.isDestroyed()) {
                 it.remove();
             } else {
-                bot.fillTurnMeter();
+                bot.gainTurnMeter();
                 if (bot.canTakeTurn()) {
-                    bot.depleteTurnMeter();
+                    bot.preMoveActions();
                     performAttack(bot);
                 }
             }

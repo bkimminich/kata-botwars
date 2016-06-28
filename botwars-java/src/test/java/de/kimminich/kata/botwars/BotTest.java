@@ -33,7 +33,7 @@ public class BotTest {
         assertEquals(40, bot.getIntegrity());
 
         bot.takeDamage(5);
-        assertEquals(40, bot.getIntegrity(), "Armor will not reduce damage below zero");
+        assertEquals(40, bot.getIntegrity(), "Armor should not reduce damage below zero");
 
     }
 

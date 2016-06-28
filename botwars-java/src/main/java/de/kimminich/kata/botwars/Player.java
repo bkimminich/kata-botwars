@@ -12,11 +12,11 @@ public class Player {
         this.team = team;
     }
 
-    List<Bot> getTeam() {
+    public List<Bot> getTeam() {
         return team;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 

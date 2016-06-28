@@ -16,14 +16,8 @@ import java.util.Optional;
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static org.junit.gen5.api.Assertions.assertAll;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anySetOf;
-import static org.mockito.Matchers.eq;
+import static org.junit.gen5.api.Assertions.*;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,9 +44,9 @@ public class AttackTest {
         game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
                 aPlayer().withTeam(opponent, anyBot(), anyBot()).build());
         game.turn();
-        assertEquals(100, opponent.getIntegrity(), "Bot has not attacked in first turn");
+        assertEquals(100, opponent.getIntegrity(), "Bot should not attack in first turn");
         game.turn();
-        assertTrue(opponent.getIntegrity() < 100, "Bot has attacked and damaged opponent");
+        assertTrue(opponent.getIntegrity() < 100, "Bot should attack and damage opponent in second turn");
 
     }
 
@@ -71,8 +65,8 @@ public class AttackTest {
         game.turn();
         assertAll(
                 () -> assertTrue(opponent1.getIntegrity() < 100),
-                () -> assertTrue(opponent2.getIntegrity() == 100, "Opponent 2 was not attacked"),
-                () -> assertTrue(opponent3.getIntegrity() == 100, "Opponent 3 was not attacked")
+                () -> assertTrue(opponent2.getIntegrity() == 100, "Opponent 2 should not be attacked"),
+                () -> assertTrue(opponent3.getIntegrity() == 100, "Opponent 3 should not be attacked")
         );
 
     }
