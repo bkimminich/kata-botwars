@@ -16,13 +16,12 @@ public class BombTest {
     @Test
     @DisplayName("causes damage when it expires")
     void causesDamageWhenExpiring() {
-        Bot invoker = aBot().build();
         StatusEffect effect = createFactoryForEffectWithDuration(
                 1, Bomb.class).newInstance();
         Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(effect).build();
 
         target.preMoveActions();
-        assertTrue(target.getIntegrity() == 100, "Bomb should not cause damage while effect is active");
+        assertEquals(100, target.getIntegrity(), "Bomb should not cause damage while effect is active");
         target.postMoveActions();
 
         assertTrue(target.getIntegrity() < 100, "Bomb should causes damage when the effect expired");

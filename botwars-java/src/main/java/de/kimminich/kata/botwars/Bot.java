@@ -120,7 +120,7 @@ public class Bot {
         return turnMeter >= 1000;
     }
 
-    void setOwner(Player owner) {
+    public void setOwner(Player owner) {
         this.owner = owner;
     }
 

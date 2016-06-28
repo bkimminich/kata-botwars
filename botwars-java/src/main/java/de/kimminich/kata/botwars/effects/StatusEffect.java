@@ -10,6 +10,10 @@ public abstract class StatusEffect {
         this.duration = duration;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
     public boolean isExpired() {
         return duration == 0;
     }
@@ -26,4 +30,5 @@ public abstract class StatusEffect {
     }
 
     public abstract void revokeEffect(Bot target);
+
 }
