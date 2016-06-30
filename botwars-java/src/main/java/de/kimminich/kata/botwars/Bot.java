@@ -19,7 +19,7 @@ public class Bot {
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit,
-               double resistance, double effectiveness, StatusEffectFactory effectOnAttack) {
+               double resistance, double effectiveness) {
         this.name = name;
         this.power = power;
         this.armor = armor;
@@ -29,13 +29,12 @@ public class Bot {
         this.criticalHit = criticalHit;
         this.resistance = resistance;
         this.effectiveness = effectiveness;
-        this.effectOnAttack = effectOnAttack;
     }
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
-        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
-                0.0, createFactoryForEffectWithDuration(0, NoStatusEffect.class));
+        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
+        this.effectOnAttack = createFactoryForEffectWithDuration(0, NoStatusEffect.class);
     }
 
     private Player owner;
@@ -48,11 +47,15 @@ public class Bot {
     private final double criticalHit;
     private double resistance;
     private final double effectiveness;
-    private final StatusEffectFactory effectOnAttack;
+    private StatusEffectFactory effectOnAttack;
     private List<StatusEffect> statusEffects = new ArrayList<>();
 
     private int integrity;
     private int turnMeter = 0;
+
+    public void addEffectOnAttack(StatusEffectFactory effect) {
+        effectOnAttack = effect;
+    }
 
     public AttackMessage attack(Bot target) {
         int damage = random.nextInt(power / 2) + power / 2;

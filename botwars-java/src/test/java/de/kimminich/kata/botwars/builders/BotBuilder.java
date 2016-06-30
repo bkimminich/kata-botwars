@@ -92,15 +92,10 @@ public final class BotBuilder {
         return this;
     }
 
-    public BotBuilder withRandomlyChosenAttackEffectAndDuration(
-            Class<? extends StatusEffect>[] effects, int duration) {
-        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effects);
-        return this;
-    }
-
     public Bot build() {
         Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
-                resistance, effectiveness, effectOnAttack);
+                resistance, effectiveness);
+        bot.addEffectOnAttack(effectOnAttack);
         bot.getStatusEffects().addAll(statusEffects);
         return bot;
     }
