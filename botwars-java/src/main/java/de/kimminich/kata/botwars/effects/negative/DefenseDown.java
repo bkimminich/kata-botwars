@@ -7,12 +7,12 @@ public class DefenseDown extends AbstractStatusEffect {
 
     private boolean applied = false;
 
-    public DefenseDown(Integer duration) {
-        super(duration);
+    public DefenseDown(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
         if (!applied) {
             target.setArmor(target.getArmor() / 2);
             target.setResistance(target.getResistance() / 2);
@@ -21,7 +21,7 @@ public class DefenseDown extends AbstractStatusEffect {
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
         target.setArmor(target.getArmor() * 2);
         target.setResistance(target.getResistance() * 2);
     }

@@ -7,17 +7,17 @@ public class AreaOfEffectDecorator extends AbstractStatusEffect {
     private StatusEffect effect;
 
     public AreaOfEffectDecorator(AbstractStatusEffect effect) {
-        super(effect.getDuration());
+        super(effect.getInvoker(), effect.getDuration());
         this.effect = effect;
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
         target.getOwner().getTeam().forEach(effect::apply);
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
         target.getOwner().getTeam().forEach(effect::revoke);
     }
 }

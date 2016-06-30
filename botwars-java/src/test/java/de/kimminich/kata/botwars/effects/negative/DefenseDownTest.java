@@ -6,6 +6,7 @@ import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static org.junit.gen5.api.Assertions.assertEquals;
 
@@ -15,7 +16,7 @@ public class DefenseDownTest {
     @Test
     @DisplayName("reduces armor by 50% during its duration")
     void reducesArmorBy50Percent() {
-        StatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
                 1, DefenseDown.class).newInstance();
         Bot bot = aBot().withArmor(10).withStatusEffects(effect).build();
 
@@ -30,7 +31,7 @@ public class DefenseDownTest {
     @Test
     @DisplayName("reduces resistance by 50% during its duration")
     void reducesResistanceBy50Percent() {
-        StatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
                 1, DefenseDown.class).newInstance();
         Bot bot = aBot().withResistance(0.1).withStatusEffects(effect).build();
 

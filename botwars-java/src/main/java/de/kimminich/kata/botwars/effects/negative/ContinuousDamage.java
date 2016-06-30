@@ -5,12 +5,12 @@ import de.kimminich.kata.botwars.effects.AbstractStatusEffect;
 
 public class ContinuousDamage extends AbstractStatusEffect {
 
-    public ContinuousDamage(Integer duration) {
-        super(duration);
+    public ContinuousDamage(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
         double evasion = target.getEvasion();
         target.setEvasion(0.0);
         target.takeDamage(50);
@@ -18,7 +18,7 @@ public class ContinuousDamage extends AbstractStatusEffect {
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
     }
 
 }

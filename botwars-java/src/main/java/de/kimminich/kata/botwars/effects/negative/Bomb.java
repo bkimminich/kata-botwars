@@ -5,16 +5,16 @@ import de.kimminich.kata.botwars.effects.AbstractStatusEffect;
 
 public class Bomb extends AbstractStatusEffect {
 
-    public Bomb(Integer duration) {
-        super(duration);
+    public Bomb(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
         target.takeDamage(50);
     }
 

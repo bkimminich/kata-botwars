@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static org.junit.gen5.api.Assertions.*;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
@@ -54,7 +55,7 @@ public class StatusEffectTest {
 
         return IntStream.range(1, 4).mapToObj(duration ->
                 dynamicTest(duration + " moves of the affected bot", () -> {
-                    StatusEffect effect = createFactoryForEffectWithDuration(
+                    StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
                             duration, NoStatusEffect.class).newInstance();
                     Bot target = aBot().withStatusEffects(effect).build();
 
@@ -72,7 +73,7 @@ public class StatusEffectTest {
     void picksOneRandomStatusEffectFromSuppliedList() {
         int offenseDownChosen = 0;
         int defenseDownChosen = 0;
-        StatusEffectFactory factory = createFactoryForEffectWithDuration(1,
+        StatusEffectFactory factory = createFactoryForEffectWithDuration(anyBot(), 1,
                 OffenseDown.class, DefenseDown.class);
 
         for (int i = 0; i < 1000; i++) {

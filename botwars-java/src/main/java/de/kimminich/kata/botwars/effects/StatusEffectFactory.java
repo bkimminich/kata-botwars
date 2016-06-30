@@ -1,5 +1,7 @@
 package de.kimminich.kata.botwars.effects;
 
+import de.kimminich.kata.botwars.Bot;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
@@ -8,17 +10,19 @@ public final class StatusEffectFactory {
 
     private Random random = new Random();
 
+    private Bot invoker;
     private Class<? extends StatusEffect>[] effects;
     private int duration;
     private boolean isAoE;
 
     @SafeVarargs
-    private StatusEffectFactory(int duration, Class<? extends StatusEffect>... effects) {
-       this(duration, false, effects);
+    private StatusEffectFactory(Bot invoker, int duration, Class<? extends StatusEffect>... effects) {
+       this(invoker, duration, false, effects);
     }
 
     @SafeVarargs
-    private StatusEffectFactory(int duration, boolean isAoE, Class<? extends StatusEffect>... effects) {
+    private StatusEffectFactory(Bot invoker, int duration, boolean isAoE, Class<? extends StatusEffect>... effects) {
+        this.invoker = invoker;
         this.effects = effects;
         this.duration = duration;
         this.isAoE = isAoE;
@@ -27,8 +31,8 @@ public final class StatusEffectFactory {
     public StatusEffect newInstance() {
         Class<? extends StatusEffect> effect = effects[random.nextInt(effects.length)];
         try {
-            Constructor ctor = effect.getDeclaredConstructor(Integer.class);
-            AbstractStatusEffect instance = (AbstractStatusEffect) ctor.newInstance(duration);
+            Constructor ctor = effect.getDeclaredConstructor(Bot.class, Integer.class);
+            AbstractStatusEffect instance = (AbstractStatusEffect) ctor.newInstance(invoker, duration);
             return isAoE ? new AreaOfEffectDecorator(instance) : instance;
         } catch (NoSuchMethodException | IllegalAccessException
                 | InstantiationException | InvocationTargetException e) {
@@ -38,14 +42,14 @@ public final class StatusEffectFactory {
 
     @SafeVarargs
     public static StatusEffectFactory createFactoryForEffectWithDuration(
-            int duration, Class<? extends StatusEffect>... effects) {
-        return new StatusEffectFactory(duration, effects);
+            Bot invoker, int duration, Class<? extends StatusEffect>... effects) {
+        return new StatusEffectFactory(invoker, duration, effects);
     }
 
     @SafeVarargs
     public static StatusEffectFactory createFactoryForEffectWithDurationAndAoE(
-            int duration, Class<? extends StatusEffect>... effects) {
-        return new StatusEffectFactory(duration, true, effects);
+            Bot invoker, int duration, Class<? extends StatusEffect>... effects) {
+        return new StatusEffectFactory(invoker, duration, true, effects);
     }
 
 

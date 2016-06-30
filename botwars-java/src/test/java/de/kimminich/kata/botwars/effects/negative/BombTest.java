@@ -7,6 +7,7 @@ import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static org.junit.gen5.api.Assertions.*;
 
@@ -16,7 +17,7 @@ public class BombTest {
     @Test
     @DisplayName("causes damage when it expires")
     void causesDamageWhenExpiring() {
-        StatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
                 1, Bomb.class).newInstance();
         Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(effect).build();
 

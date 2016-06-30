@@ -34,7 +34,7 @@ public class Bot {
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
-        this.effectOnAttack = createFactoryForEffectWithDuration(0, NoStatusEffect.class);
+        this.effectOnAttack = createFactoryForEffectWithDuration(this, 0, NoStatusEffect.class);
     }
 
     private Player owner;

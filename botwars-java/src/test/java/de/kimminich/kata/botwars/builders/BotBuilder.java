@@ -3,7 +3,6 @@ package de.kimminich.kata.botwars.builders;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.NoStatusEffect;
 import de.kimminich.kata.botwars.effects.StatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffectFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,9 +20,9 @@ public final class BotBuilder {
     private double criticalHit = 0.0;
     private double resistance = 0.0;
     private double effectiveness = 0.0;
-    private StatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
-            0, NoStatusEffect.class);
     private ArrayList<StatusEffect> statusEffects = new ArrayList<>();
+    private Class<? extends StatusEffect> effectOnAttack = NoStatusEffect.class;
+    private int effectDuration = 0;
 
     private BotBuilder() {
     }
@@ -88,14 +87,15 @@ public final class BotBuilder {
     }
 
     public BotBuilder withAttackEffectAndDuration(Class<? extends StatusEffect> effect, int duration) {
-        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effect);
+        this.effectOnAttack = effect;
+        this.effectDuration = duration;
         return this;
     }
 
     public Bot build() {
         Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
                 resistance, effectiveness);
-        bot.addEffectOnAttack(effectOnAttack);
+        bot.addEffectOnAttack(createFactoryForEffectWithDuration(bot, effectDuration, effectOnAttack));
         bot.getStatusEffects().addAll(statusEffects);
         return bot;
     }

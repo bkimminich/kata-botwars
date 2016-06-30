@@ -7,6 +7,7 @@ import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
+import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDurationAndAoE;
 import static org.junit.gen5.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ public class AreaOfEffectDecoratorTest {
     @Test
     @DisplayName("Bomb causes damage to the entire team when it expires")
     void causesDamageToTeamWhenExpiring() {
-        StatusEffect bomb = createFactoryForEffectWithDurationAndAoE(
+        StatusEffect bomb = createFactoryForEffectWithDurationAndAoE(anyBot(),
                 1, Bomb.class).newInstance();
 
         Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(bomb).build();

@@ -7,12 +7,12 @@ public class OffenseDown extends AbstractStatusEffect {
 
     private boolean applied = false;
 
-    public OffenseDown(Integer duration) {
-        super(duration);
+    public OffenseDown(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
         if (!applied) {
             target.setPower((int) (target.getPower() * 0.75));
             applied = true;
@@ -20,7 +20,7 @@ public class OffenseDown extends AbstractStatusEffect {
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
         target.setPower((int) (target.getPower() / 0.75));
     }
 

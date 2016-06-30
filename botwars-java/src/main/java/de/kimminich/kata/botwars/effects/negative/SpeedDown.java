@@ -7,12 +7,12 @@ public class SpeedDown extends AbstractStatusEffect {
 
     private boolean applied = false;
 
-    public SpeedDown(Integer duration) {
-        super(duration);
+    public SpeedDown(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
         if (!applied) {
             target.setSpeed((int) (target.getSpeed() * 0.75));
             applied = true;
@@ -20,7 +20,7 @@ public class SpeedDown extends AbstractStatusEffect {
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
         target.setSpeed((int) (target.getSpeed() / 0.75));
     }
 

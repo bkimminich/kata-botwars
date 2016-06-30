@@ -30,7 +30,7 @@ public class StunTest {
     @DisplayName("lets the affected bot miss its next move")
     @Disabled
     void stunnedBotMissesNextMove(@InjectMock UserInterface ui) {
-        StatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
                 1, Stun.class).newInstance();
         Bot stunnedBot = aBot().withSpeed(1000).withStatusEffects(effect).build();
         Bot target = aBot().withIntegrity(100).build();
@@ -51,7 +51,7 @@ public class StunTest {
     @Test
     @DisplayName("reduces evasion to 0% during its duration")
     void stunnedBotWillNeverEvade() {
-        StatusEffect effect = createFactoryForEffectWithDuration(
+        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
                 1, Stun.class).newInstance();
         Bot bot = aBot().withIntegrity(100).withEvasion(0.1).withStatusEffects(effect).build();
 

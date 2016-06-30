@@ -4,9 +4,11 @@ import de.kimminich.kata.botwars.Bot;
 
 public abstract class AbstractStatusEffect implements StatusEffect {
 
+    private Bot invoker;
     private int duration;
 
-    public AbstractStatusEffect(Integer duration) {
+    public AbstractStatusEffect(Bot invoker, Integer duration) {
+        this.invoker = invoker;
         this.duration = duration;
     }
 
@@ -21,17 +23,20 @@ public abstract class AbstractStatusEffect implements StatusEffect {
 
     @Override
     public void apply(Bot target) {
-        applyEffect(target);
+        applyEffect(invoker, target);
         duration--;
     }
 
     @Override
     public void revoke(Bot target) {
-        revokeEffect(target);
+        revokeEffect(invoker, target);
     }
 
-    public abstract void applyEffect(Bot target);
+    public abstract void applyEffect(Bot invoker, Bot target);
 
-    public abstract void revokeEffect(Bot target);
+    public abstract void revokeEffect(Bot invoker, Bot target);
 
+    public Bot getInvoker() {
+        return invoker;
+    }
 }

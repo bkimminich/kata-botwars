@@ -7,18 +7,18 @@ public class Stun extends AbstractStatusEffect {
 
     private double evasion;
 
-    public Stun(Integer duration) {
-        super(duration);
+    public Stun(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public void applyEffect(Bot invoker, Bot target) {
         evasion = target.getEvasion();
         target.setEvasion(0.0);
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public void revokeEffect(Bot invoker, Bot target) {
         target.setEvasion(evasion);
     }
 
