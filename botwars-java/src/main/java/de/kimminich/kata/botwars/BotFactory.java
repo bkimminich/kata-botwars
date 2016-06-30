@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import static de.kimminich.kata.botwars.BotTypes.*;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDurationAndAoE;
 
 final class BotFactory {
 
@@ -43,7 +42,8 @@ final class BotFactory {
                 break;
             case KAMIKAZE_BOT:
                 bot = new Bot(KAMIKAZE_BOT.toString(), 50, 0, 40, 500, 0.0, 0.2, 0.0, 0.65);
-                bot.addEffectOnAttack(createFactoryForEffectWithDurationAndAoE(bot, 2, Bomb.class));
+                bot.addEffectOnAttack(createFactoryForEffectWithDuration(bot, 2, Bomb.class));
+                // TODO Bomb for Kamikaze Bot requires AoE modification
                 break;
             default: throw new AssertionError("Unexpected BotType: " + type);
         }
