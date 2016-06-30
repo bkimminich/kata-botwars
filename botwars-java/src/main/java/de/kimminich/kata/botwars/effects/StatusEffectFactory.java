@@ -28,7 +28,7 @@ public final class StatusEffectFactory {
         Class<? extends StatusEffect> effect = effects[random.nextInt(effects.length)];
         try {
             Constructor ctor = effect.getDeclaredConstructor(Integer.class);
-            StatusEffect instance = (StatusEffect) ctor.newInstance(duration);
+            AbstractStatusEffect instance = (AbstractStatusEffect) ctor.newInstance(duration);
             return isAoE ? new AreaOfEffectDecorator(instance) : instance;
         } catch (NoSuchMethodException | IllegalAccessException
                 | InstantiationException | InvocationTargetException e) {

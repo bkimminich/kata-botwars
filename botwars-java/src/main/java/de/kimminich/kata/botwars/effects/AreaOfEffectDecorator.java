@@ -2,11 +2,11 @@ package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
 
-public class AreaOfEffectDecorator extends StatusEffect {
+public class AreaOfEffectDecorator extends AbstractStatusEffect {
 
     private StatusEffect effect;
 
-    public AreaOfEffectDecorator(StatusEffect effect) {
+    public AreaOfEffectDecorator(AbstractStatusEffect effect) {
         super(effect.getDuration());
         this.effect = effect;
     }

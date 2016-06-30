@@ -2,33 +2,12 @@ package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
 
-public abstract class StatusEffect {
+public interface StatusEffect {
 
-    private int duration;
+    boolean isExpired();
 
-    public StatusEffect(Integer duration) {
-        this.duration = duration;
-    }
+    void apply(Bot target);
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public boolean isExpired() {
-        return duration == 0;
-    }
-
-    public void apply(Bot target) {
-        applyEffect(target);
-        duration--;
-    }
-
-    public abstract void applyEffect(Bot target);
-
-    public void revoke(Bot target) {
-        revokeEffect(target);
-    }
-
-    public abstract void revokeEffect(Bot target);
+    void revoke(Bot target);
 
 }
