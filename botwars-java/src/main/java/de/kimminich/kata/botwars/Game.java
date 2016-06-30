@@ -52,7 +52,7 @@ public class Game {
                 it.remove();
             } else {
                 bot.gainTurnMeter();
-                if (bot.canTakeTurn()) {
+                if (bot.canMakeMove()) {
                     bot.preMoveActions();
                     performAttack(bot);
                 }

@@ -116,7 +116,7 @@ public class Bot {
         });
     }
 
-    boolean canTakeTurn() {
+    boolean canMakeMove() {
         return turnMeter >= 1000;
     }
 
