@@ -13,7 +13,7 @@ public class ContinuousDamage extends AbstractStatusEffect {
     public void applyEffect(Bot invoker, Bot target) {
         double evasion = target.getEvasion();
         target.setEvasion(0.0);
-        target.takeDamage(50);
+        target.takeDamage(invoker.getPower());
         target.setEvasion(evasion);
     }
 

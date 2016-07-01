@@ -2,7 +2,6 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.StatusEffect;
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
@@ -31,15 +30,33 @@ public class ContinuousDamageTest {
         assertTrue(integrityAfterSecondMove < integrityAfterFirstMove);
         target.postMoveActions();
 
-        assertEquals(0, target.getStatusEffects().size());
+        assertEquals(0, target.getStatusEffects().size(), "Continuous Damage should expire after 2 moves");
 
     }
 
     @Test
     @DisplayName("causes fixed damage equal to power of invoking bot")
-    @Disabled
     void causesFixedDamageEqualToPowerOfInvoker() {
-        fail("Not yet implemented");
+        Bot invoker = aBot().withPower(200).build();
+        StatusEffect effect = createFactoryForEffectWithDuration(invoker,
+                1, ContinuousDamage.class).newInstance();
+        Bot target = aBot().withIntegrity(500).withArmor(0).withStatusEffects(effect).build();
+
+        target.preMoveActions();
+        assertEquals(300, target.getIntegrity());
+    }
+
+    @Test
+    @DisplayName("is reduced by armor")
+    void damageIsReducedByArmor() {
+        Bot invoker = aBot().withPower(100).build();
+        StatusEffect effect = createFactoryForEffectWithDuration(invoker,
+                1, ContinuousDamage.class).newInstance();
+        Bot target = aBot().withIntegrity(150).withArmor(10).withStatusEffects(effect).build();
+
+        target.preMoveActions();
+        assertEquals(60, target.getIntegrity());
+
     }
 
 }
