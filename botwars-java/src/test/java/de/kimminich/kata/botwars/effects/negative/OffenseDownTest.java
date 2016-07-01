@@ -24,8 +24,6 @@ public class OffenseDownTest {
         assertEquals(75, bot.getPower());
         bot.postMoveActions();
         assertEquals(100, bot.getPower(), "Power should have been restored after effect expired");
-        assertEquals(0, bot.getStatusEffects().size());
-
     }
 
 }

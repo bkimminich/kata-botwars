@@ -2,7 +2,6 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.StatusEffect;
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
@@ -24,18 +23,52 @@ public class BombTest {
         target.preMoveActions();
         assertEquals(100, target.getIntegrity(), "Bomb should not cause damage while effect is active");
         target.postMoveActions();
-
         assertTrue(target.getIntegrity() < 100, "Bomb should causes damage when the effect expired");
-
-        assertEquals(0, target.getStatusEffects().size());
 
     }
 
     @Test
     @DisplayName("causes damage within attack damage range of invoking bot")
-    @Disabled
     void causesDamageWithinAttackDamageRangeOfInvoker() {
-        fail("Not yet implemented");
+        Bot invoker = aBot().withPower(100).withCriticalHit(0.0).build();
+
+        for (int i = 0; i < 1000; i++) {
+            StatusEffect effect = createFactoryForEffectWithDuration(invoker,
+                    1, Bomb.class).newInstance();
+            Bot target = aBot().withIntegrity(200).withArmor(0).withStatusEffects(effect).build();
+
+            target.preMoveActions();
+            assertTrue(target.getIntegrity() <= 150);
+            assertTrue(target.getIntegrity() >= 100);
+        }
+    }
+
+    @Test
+    @DisplayName("reduces damage by target armor")
+    void reducesDamageByTargetArmor() {
+        Bot invoker = aBot().withPower(100).withCriticalHit(0.0).build();
+
+        StatusEffect effect = createFactoryForEffectWithDuration(invoker,
+                1, Bomb.class).newInstance();
+        Bot target = aBot().withIntegrity(200).withArmor(60).withStatusEffects(effect).build();
+
+        target.preMoveActions();
+        assertTrue(target.getIntegrity() <= 200);
+        assertTrue(target.getIntegrity() >= 160);
+    }
+
+    @Test
+    @DisplayName("doubles damage for critical hits")
+    void doublesDamageForCriticalHits() {
+        Bot invoker = aBot().withPower(100).withCriticalHit(1.0).build();
+
+        StatusEffect effect = createFactoryForEffectWithDuration(invoker,
+                1, Bomb.class).newInstance();
+        Bot target = aBot().withIntegrity(201).withArmor(0).withStatusEffects(effect).build();
+
+        target.preMoveActions();
+        assertTrue(target.getIntegrity() <= 101);
+        assertTrue(target.getIntegrity() >= 1);
     }
 
 }

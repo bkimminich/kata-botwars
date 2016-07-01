@@ -24,8 +24,6 @@ public class SpeedDownTest {
         assertEquals(75, bot.getSpeed());
         bot.postMoveActions();
         assertEquals(100, bot.getSpeed(), "Speed should have been restored after effect expired");
-        assertEquals(0, bot.getStatusEffects().size());
-
     }
 
 }

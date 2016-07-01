@@ -28,9 +28,6 @@ public class ContinuousDamageTest {
         target.preMoveActions();
         int integrityAfterSecondMove = target.getIntegrity();
         assertTrue(integrityAfterSecondMove < integrityAfterFirstMove);
-        target.postMoveActions();
-
-        assertEquals(0, target.getStatusEffects().size(), "Continuous Damage should expire after 2 moves");
 
     }
 

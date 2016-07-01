@@ -24,8 +24,6 @@ public class DefenseDownTest {
         assertEquals(5, bot.getArmor());
         bot.postMoveActions();
         assertEquals(10, bot.getArmor(), "Armor should have been restored");
-        assertEquals(0, bot.getStatusEffects().size());
-
     }
 
     @Test
@@ -39,8 +37,6 @@ public class DefenseDownTest {
         assertEquals(0.05, bot.getResistance());
         bot.postMoveActions();
         assertEquals(0.1, bot.getResistance(), "Resistance should have been restored after effect expired");
-        assertEquals(0, bot.getStatusEffects().size());
-
     }
 
 }

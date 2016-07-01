@@ -44,8 +44,6 @@ public class StunTest {
         game.turn();
 
         assertEquals(100, target.getIntegrity(), "Stunned bot should not damage opponent bot");
-        assertEquals(0, stunnedBot.getStatusEffects().size());
-
     }
 
     @Test
@@ -59,8 +57,6 @@ public class StunTest {
         assertEquals(0.0, bot.getEvasion());
         bot.postMoveActions();
         assertEquals(0.1, bot.getEvasion(), "Evasion should have been restored after effect expired");
-        assertEquals(0, bot.getStatusEffects().size());
-
     }
 
 
