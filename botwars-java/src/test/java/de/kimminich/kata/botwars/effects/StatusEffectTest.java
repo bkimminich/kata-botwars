@@ -27,7 +27,7 @@ public class StatusEffectTest {
     @DisplayName("is mitigated when an attacked bot resists it")
     void resistanceMitigatesStatusEffect() {
         Bot bot = aBot().withEffectiveness(1.0).build();
-        Bot opponent = aBot().withResistance(1.0).withStatusEffects().build();
+        Bot opponent = aBot().withResistance(1.0).withNoStatusEffects().build();
 
         bot.attack(opponent);
 
@@ -39,7 +39,7 @@ public class StatusEffectTest {
     @DisplayName("is inflicted on an attacked bot if it does not resist")
     void failingToResistInflictsStatusEffect() {
         Bot bot = aBot().withEffectiveness(1.0).withAttackEffect(NoStatusEffect.class).withEffectDuration(1).build();
-        Bot opponent = aBot().withResistance(0.0).withStatusEffects().build();
+        Bot opponent = aBot().withResistance(0.0).withNoStatusEffects().build();
 
         bot.attack(opponent);
 
@@ -97,5 +97,17 @@ public class StatusEffectTest {
                 () -> assertTrue(totalDefenseDownChosen > 300)
         );
     }
+
+    @Test
+    @DisplayName("is never inflicted on a bot that successfully evaded")
+    void neverInflictedOnEvadingBot() {
+        Bot attacker = aBot().withEffectiveness(1.0).withAttackEffect(NoStatusEffect.class).build();
+        Bot target = aBot().withEvasion(1.0).withResistance(0.0).withNoStatusEffects().build();
+
+        attacker.attack(target);
+
+        assertEquals(0, target.getStatusEffects().size());
+    }
+
 
 }

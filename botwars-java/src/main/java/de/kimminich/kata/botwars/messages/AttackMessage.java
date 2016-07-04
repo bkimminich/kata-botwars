@@ -9,14 +9,19 @@ public class AttackMessage {
 
     private StringBuilder text = new StringBuilder();
 
-    public AttackMessage(Bot attacker, Bot target, DamageMessage damage, boolean criticalHit,
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public AttackMessage(Bot attacker, Bot target, Optional<DamageMessage> damageMessage, boolean criticalHit,
                          List<Optional<NegativeEffectInflictedMessage>> statusEffectMessages) {
         text.append(attacker).append(" attacks ").append(target);
         if (criticalHit) {
             text.append(" with Critical Hit!!");
         }
         text.append("! ");
-        text.append(damage);
+        if (damageMessage.isPresent()) {
+            text.append(damageMessage);
+        } else {
+            text.append(target).append(" successfully evaded!");
+        }
         statusEffectMessages.stream().filter(Optional::isPresent).map(Optional::get).forEach(text::append);
     }
 

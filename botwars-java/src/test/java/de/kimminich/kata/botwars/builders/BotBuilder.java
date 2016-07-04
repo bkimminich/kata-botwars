@@ -82,7 +82,7 @@ public final class BotBuilder {
         return this;
     }
 
-    public BotBuilder withStatusEffects() {
+    public BotBuilder withNoStatusEffects() {
         this.statusEffects = new ArrayList<>();
         return this;
     }

@@ -63,15 +63,17 @@ public class Bot {
             damage *= 2;
             landedCriticalHit = true;
         }
-        DamageMessage damageMessage = target.takeDamage(damage);
+        Optional<DamageMessage> damageMessage = target.takeDamage(damage);
 
         List<Optional<NegativeEffectInflictedMessage>> statusEffectMessages = new ArrayList<>();
-        if (effectOnAttack.isAoE()) {
-            target.getOwner().getTeam().forEach((t) -> {
-                statusEffectMessages.add(invokeStatusEffect(t));
-            });
-        } else {
-            statusEffectMessages.add(invokeStatusEffect(target));
+        if (damageMessage.isPresent()) {
+            if (effectOnAttack.isAoE()) {
+                target.getOwner().getTeam().forEach((t) -> {
+                    statusEffectMessages.add(invokeStatusEffect(t));
+                });
+            } else {
+                statusEffectMessages.add(invokeStatusEffect(target));
+            }
         }
 
         return new AttackMessage(this, target, damageMessage, landedCriticalHit, statusEffectMessages);
@@ -86,13 +88,13 @@ public class Bot {
         return Optional.empty();
     }
 
-    public DamageMessage takeDamage(int damage) {
+    public Optional<DamageMessage> takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
             integrity = Math.max(0, integrity - damage);
-            return new DamageMessage(this, damage, false);
+            return Optional.of(new DamageMessage(this, damage));
         } else {
-            return new DamageMessage(this, 0, true);
+            return Optional.empty();
         }
     }
 
