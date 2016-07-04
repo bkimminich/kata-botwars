@@ -22,11 +22,11 @@ import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactor
 
 final class BotFactory {
 
-    static Set<Bot> createDefaultRoster() {
-        return Arrays.stream(BotTypes.values()).map(BotFactory::create).collect(Collectors.toSet());
+    private BotFactory() {
     }
 
-    private BotFactory() {
+    static Set<Bot> createDefaultRoster() {
+        return Arrays.stream(BotTypes.values()).map(BotFactory::create).collect(Collectors.toSet());
     }
 
     static Bot create(BotTypes type) {
@@ -55,7 +55,8 @@ final class BotFactory {
                 bot = new Bot(KAMIKAZE_BOT.toString(), 50, 0, 40, 500, 0.0, 0.2, 0.0, 0.65);
                 bot.addEffectOnAttack(createFactoryForEffectWithDurationAndAoE(bot, 2, Bomb.class));
                 break;
-            default: throw new AssertionError("Unexpected BotType: " + type);
+            default:
+                throw new AssertionError("Unexpected BotType: " + type);
         }
         return bot;
     }

@@ -17,7 +17,7 @@ public final class StatusEffectFactory {
 
     @SafeVarargs
     private StatusEffectFactory(Bot invoker, int duration, Class<? extends StatusEffect>... effects) {
-       this(invoker, duration, false, effects);
+        this(invoker, duration, false, effects);
     }
 
     @SafeVarargs
@@ -26,17 +26,6 @@ public final class StatusEffectFactory {
         this.effects = effects;
         this.duration = duration;
         this.isAoE = isAoE;
-    }
-
-    public StatusEffect newInstance() {
-        Class<? extends StatusEffect> effect = effects[random.nextInt(effects.length)];
-        try {
-            Constructor ctor = effect.getDeclaredConstructor(Bot.class, Integer.class);
-            return (StatusEffect) ctor.newInstance(invoker, duration);
-        } catch (NoSuchMethodException | IllegalAccessException
-                | InstantiationException | InvocationTargetException e) {
-            throw new AssertionError("Instance of " + effect + " could not be created: " + e.getMessage(), e);
-        }
     }
 
     @SafeVarargs
@@ -49,6 +38,17 @@ public final class StatusEffectFactory {
     public static StatusEffectFactory createFactoryForEffectWithDurationAndAoE(
             Bot invoker, int duration, Class<? extends StatusEffect>... effects) {
         return new StatusEffectFactory(invoker, duration, true, effects);
+    }
+
+    public StatusEffect newInstance() {
+        Class<? extends StatusEffect> effect = effects[random.nextInt(effects.length)];
+        try {
+            Constructor ctor = effect.getDeclaredConstructor(Bot.class, Integer.class);
+            return (StatusEffect) ctor.newInstance(invoker, duration);
+        } catch (NoSuchMethodException | IllegalAccessException
+                | InstantiationException | InvocationTargetException e) {
+            throw new AssertionError("Instance of " + effect + " could not be created: " + e.getMessage(), e);
+        }
     }
 
     public boolean isAoE() {

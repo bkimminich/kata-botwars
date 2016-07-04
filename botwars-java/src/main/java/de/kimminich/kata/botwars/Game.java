@@ -19,7 +19,7 @@ public class Game {
 
     Game(UserInterface ui) throws IllegalArgumentException {
         this(ui, new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())),
-                 new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
+                new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
     }
 
     public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
@@ -33,16 +33,20 @@ public class Game {
         prepareTeam(player2);
     }
 
+    public static void main(String... args) {
+        new Game(new SwingUI()).loop();
+    }
+
     private void prepareTeam(Player player) throws IllegalArgumentException {
         if (player.getTeam().size() != 3) {
             throw new IllegalArgumentException(player + " team size is invalid: " + player.getTeam().size());
         }
-       player.getTeam().stream().filter(i -> Collections.frequency(player.getTeam(), i) > 1)
+        player.getTeam().stream().filter(i -> Collections.frequency(player.getTeam(), i) > 1)
                 .collect(Collectors.toSet()).forEach(bot -> {
-           throw new IllegalArgumentException(player + " has duplicate bot in team: " + bot);
-       });
+            throw new IllegalArgumentException(player + " has duplicate bot in team: " + bot);
+        });
 
-       player.getTeam().stream().forEach(bot -> {
+        player.getTeam().stream().forEach(bot -> {
             bot.setOwner(player);
             bot.resetBot();
             bots.add(bot);
@@ -93,10 +97,6 @@ public class Game {
         } else {
             return Optional.empty();
         }
-    }
-
-    public static void main(String... args) {
-        new Game(new SwingUI()).loop();
     }
 
 }

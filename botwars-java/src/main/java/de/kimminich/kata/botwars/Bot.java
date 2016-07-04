@@ -15,7 +15,20 @@ import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactor
 
 public class Bot {
 
+    private final String name;
+    private final double criticalHit;
+    private final double effectiveness;
     private Random random = new Random();
+    private Player owner;
+    private int power;
+    private int armor;
+    private int speed;
+    private double evasion;
+    private double resistance;
+    private StatusEffectFactory effectOnAttack;
+    private List<StatusEffect> statusEffects = new ArrayList<>();
+    private int integrity;
+    private int turnMeter = 0;
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit,
@@ -30,28 +43,11 @@ public class Bot {
         this.resistance = resistance;
         this.effectiveness = effectiveness;
     }
-
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
         this.effectOnAttack = createFactoryForEffectWithDuration(this, 0, NoStatusEffect.class);
     }
-
-    private Player owner;
-
-    private final String name;
-    private int power;
-    private int armor;
-    private int speed;
-    private double evasion;
-    private final double criticalHit;
-    private double resistance;
-    private final double effectiveness;
-    private StatusEffectFactory effectOnAttack;
-    private List<StatusEffect> statusEffects = new ArrayList<>();
-
-    private int integrity;
-    private int turnMeter = 0;
 
     public void addEffectOnAttack(StatusEffectFactory effect) {
         effectOnAttack = effect;
@@ -131,12 +127,12 @@ public class Bot {
         return turnMeter >= 1000;
     }
 
-    public void setOwner(Player owner) {
-        this.owner = owner;
-    }
-
     public Player getOwner() {
         return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     public int getPower() {

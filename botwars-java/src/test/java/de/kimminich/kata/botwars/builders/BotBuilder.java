@@ -33,6 +33,10 @@ public final class BotBuilder {
         return new BotBuilder();
     }
 
+    public static Bot anyBot() {
+        return aBot().build();
+    }
+
     public BotBuilder withPower(int power) {
         this.power = power;
         return this;
@@ -114,10 +118,6 @@ public final class BotBuilder {
         }
         bot.getStatusEffects().addAll(statusEffects);
         return bot;
-    }
-
-    public static Bot anyBot() {
-        return aBot().build();
     }
 
 }
