@@ -6,9 +6,11 @@ import de.kimminich.kata.botwars.effects.StatusEffectFactory;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
+import de.kimminich.kata.botwars.messages.NegativeEffectInflictedMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
@@ -61,20 +63,27 @@ public class Bot {
             damage *= 2;
             landedCriticalHit = true;
         }
+        DamageMessage damageMessage = target.takeDamage(damage);
 
+        List<Optional<NegativeEffectInflictedMessage>> statusEffectMessages = new ArrayList<>();
         if (effectOnAttack.isAoE()) {
-            target.getOwner().getTeam().forEach(t -> {
-                if (random.nextDouble() < effectiveness && random.nextDouble() > t.getResistance()) {
-                    t.getStatusEffects().add(effectOnAttack.newInstance());
-                }
+            target.getOwner().getTeam().forEach((t) -> {
+                statusEffectMessages.add(invokeStatusEffect(t));
             });
         } else {
-            if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
-                target.getStatusEffects().add(effectOnAttack.newInstance());
-            }
+            statusEffectMessages.add(invokeStatusEffect(target));
         }
 
-        return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
+        return new AttackMessage(this, target, damageMessage, landedCriticalHit, statusEffectMessages);
+    }
+
+    private Optional<NegativeEffectInflictedMessage> invokeStatusEffect(Bot target) {
+        if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
+            StatusEffect effect = effectOnAttack.newInstance();
+            target.getStatusEffects().add(effect);
+            return Optional.of(new NegativeEffectInflictedMessage(target, effect));
+        }
+        return Optional.empty();
     }
 
     public DamageMessage takeDamage(int damage) {
