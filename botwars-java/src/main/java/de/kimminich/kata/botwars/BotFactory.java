@@ -1,12 +1,22 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.kata.botwars.effects.negative.*;
+import de.kimminich.kata.botwars.effects.negative.Bomb;
+import de.kimminich.kata.botwars.effects.negative.ContinuousDamage;
+import de.kimminich.kata.botwars.effects.negative.DefenseDown;
+import de.kimminich.kata.botwars.effects.negative.OffenseDown;
+import de.kimminich.kata.botwars.effects.negative.SpeedDown;
+import de.kimminich.kata.botwars.effects.negative.Stun;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static de.kimminich.kata.botwars.BotTypes.*;
+import static de.kimminich.kata.botwars.BotTypes.AGGRO_BOT;
+import static de.kimminich.kata.botwars.BotTypes.BEAVERETTE_BOT;
+import static de.kimminich.kata.botwars.BotTypes.GLASS_BOT;
+import static de.kimminich.kata.botwars.BotTypes.KAMIKAZE_BOT;
+import static de.kimminich.kata.botwars.BotTypes.STEALTH_BOT;
+import static de.kimminich.kata.botwars.BotTypes.TANK_BOT;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDurationAndAoE;
 

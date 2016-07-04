@@ -14,7 +14,10 @@ import java.util.stream.Stream;
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
-import static org.junit.gen5.api.Assertions.*;
+import static org.junit.gen5.api.Assertions.assertAll;
+import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.gen5.api.Assertions.assertFalse;
+import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
 @DisplayName("A status effect")
@@ -35,7 +38,7 @@ public class StatusEffectTest {
     @Test
     @DisplayName("is inflicted on an attacked bot if it does not resist")
     void failingToResistInflictsStatusEffect() {
-        Bot bot = aBot().withEffectiveness(1.0).withAttackEffectAndDuration(NoStatusEffect.class, 1).build();
+        Bot bot = aBot().withEffectiveness(1.0).withAttackEffect(NoStatusEffect.class).withEffectDuration(1).build();
         Bot opponent = aBot().withResistance(0.0).withStatusEffects().build();
 
         bot.attack(opponent);

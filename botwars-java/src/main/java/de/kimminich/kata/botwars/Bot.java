@@ -66,8 +66,16 @@ public class Bot {
             landedCriticalHit = true;
         }
 
-        if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
-            target.getStatusEffects().add(effectOnAttack.newInstance());
+        if (effectOnAttack.isAoE()) {
+            target.getOwner().getTeam().forEach(t -> {
+                if (random.nextDouble() < effectiveness && random.nextDouble() > t.getResistance()) {
+                    t.getStatusEffects().add(effectOnAttack.newInstance());
+                }
+            });
+        } else {
+            if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
+                target.getStatusEffects().add(effectOnAttack.newInstance());
+            }
         }
 
         return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);

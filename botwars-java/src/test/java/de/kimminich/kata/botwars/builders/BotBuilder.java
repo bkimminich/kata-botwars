@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDurationAndAoE;
 
 public final class BotBuilder {
 
@@ -23,6 +24,7 @@ public final class BotBuilder {
     private ArrayList<StatusEffect> statusEffects = new ArrayList<>();
     private Class<? extends StatusEffect> effectOnAttack = NoStatusEffect.class;
     private int effectDuration = 0;
+    private boolean effectAoE = false;
 
     private BotBuilder() {
     }
@@ -86,16 +88,30 @@ public final class BotBuilder {
         return this;
     }
 
-    public BotBuilder withAttackEffectAndDuration(Class<? extends StatusEffect> effect, int duration) {
+    public BotBuilder withAttackEffect(Class<? extends StatusEffect> effect) {
         this.effectOnAttack = effect;
+        this.effectDuration = this.effectDuration == 0 ? 1 : this.effectDuration;
+        return this;
+    }
+
+    public BotBuilder withEffectDuration(int duration) {
         this.effectDuration = duration;
+        return this;
+    }
+
+    public BotBuilder withAoE() {
+        this.effectAoE = true;
         return this;
     }
 
     public Bot build() {
         Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
                 resistance, effectiveness);
-        bot.addEffectOnAttack(createFactoryForEffectWithDuration(bot, effectDuration, effectOnAttack));
+        if (effectAoE) {
+            bot.addEffectOnAttack(createFactoryForEffectWithDurationAndAoE(bot, effectDuration, effectOnAttack));
+        } else {
+            bot.addEffectOnAttack(createFactoryForEffectWithDuration(bot, effectDuration, effectOnAttack));
+        }
         bot.getStatusEffects().addAll(statusEffects);
         return bot;
     }

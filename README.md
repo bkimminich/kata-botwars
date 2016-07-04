@@ -144,7 +144,7 @@ Tank Bot | 20% | 25% | Bomb | 3
 Beaverette Bot | 10% | - | - | -
 Kamikaze Bot | 0% | 65% | Bomb _(*)_ | 2
 
-* Effects marked with a _(*)_ in the table above are inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
+* Effects marked with a _(*)_ in the table above are (individually) inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
 * If more than one effect is listed for a bot in the table above, one of the effects is randomly inflicted.
 
 ### Feature 7: Positive Status Effects

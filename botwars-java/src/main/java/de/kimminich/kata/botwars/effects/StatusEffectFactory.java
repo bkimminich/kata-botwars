@@ -32,8 +32,7 @@ public final class StatusEffectFactory {
         Class<? extends StatusEffect> effect = effects[random.nextInt(effects.length)];
         try {
             Constructor ctor = effect.getDeclaredConstructor(Bot.class, Integer.class);
-            AbstractStatusEffect instance = (AbstractStatusEffect) ctor.newInstance(invoker, duration);
-            return isAoE ? new AreaOfEffectDecorator(instance) : instance;
+            return (StatusEffect) ctor.newInstance(invoker, duration);
         } catch (NoSuchMethodException | IllegalAccessException
                 | InstantiationException | InvocationTargetException e) {
             throw new AssertionError("Instance of " + effect + " could not be created: " + e.getMessage(), e);
@@ -52,5 +51,7 @@ public final class StatusEffectFactory {
         return new StatusEffectFactory(invoker, duration, true, effects);
     }
 
-
+    public boolean isAoE() {
+        return isAoE;
+    }
 }
