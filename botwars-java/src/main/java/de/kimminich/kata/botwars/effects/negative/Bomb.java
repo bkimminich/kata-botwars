@@ -19,7 +19,10 @@ public class Bomb extends AbstractEffect {
 
     @Override
     public Message revokeEffect(Bot invoker, Bot target) {
-        Message damage = target.takeDamage(50);
+        double resistance = target.getResistance();
+        target.setResistance(1.0);
+        Message damage = invoker.attack(target);
+        target.setResistance(resistance);
         return new GenericTextMessage("Caused by Bomb, " + damage);
     }
 

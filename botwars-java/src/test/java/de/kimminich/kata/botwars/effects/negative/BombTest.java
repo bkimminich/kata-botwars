@@ -3,7 +3,6 @@ package de.kimminich.kata.botwars.effects.negative;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.effects.Effect;
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Nested;
 import org.junit.gen5.api.Test;
@@ -11,12 +10,10 @@ import org.junit.gen5.api.Test;
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static de.kimminich.kata.botwars.effects.EffectFactory.createAoEEffectFactoryFor;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.junit.gen5.api.Assertions.fail;
 
 @DisplayName("The Bomb effect")
 public class BombTest {
@@ -24,9 +21,9 @@ public class BombTest {
     @Test
     @DisplayName("causes damage when it expires")
     void causesDamageWhenExpiring() {
-        Effect effect = createEffectFactoryFor(anyBot(),
+        Effect bomb = createEffectFactoryFor(anyBot(),
                 1, Bomb.class).newInstance();
-        Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(effect).build();
+        Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(bomb).build();
 
         target.applyEffects();
         assertEquals(100, target.getIntegrity(), "Bomb should not cause damage while effect is active");
@@ -40,9 +37,19 @@ public class BombTest {
 
     @Test
     @DisplayName("causes damage within attack damage range of invoking bot")
-    @Disabled
     void causesDamageWithinAttackDamageRangeOfInvoker() {
-        fail("Not yet implemented");
+        for (int i = 0; i < 1000; i++) {
+            Effect bomb = createEffectFactoryFor(aBot().withPower(100).withCriticalHit(0.0).build(),
+                    0, Bomb.class).newInstance();
+            Bot target = aBot().withIntegrity(100).withArmor(10).withEvasion(0.0).withStatusEffects(bomb).build();
+
+            target.expireEffects();
+
+            assertAll(
+                    () -> assertTrue(target.getIntegrity() >= 10, "Damage should be max. 90 from (50 to 100)-10 armor"),
+                    () -> assertTrue(target.getIntegrity() <= 60, "Damage should be min. 40 from (50 to 100)-10 armor")
+            );
+        }
     }
 
     @Nested
@@ -52,8 +59,6 @@ public class BombTest {
         @Test
         @DisplayName("is applied individually to the entire opponent team")
         void isAppliedIndividuallyToTheOpponentTeam() {
-            Effect bomb = createAoEEffectFactoryFor(anyBot(),
-                    1, Bomb.class).newInstance();
             Bot attacker = aBot().withEffectiveness(1.0).withAttackEffect(Bomb.class).withAoE().build();
 
             Bot target = aBot().withEvasion(0.0).withResistance(0.0).build();
