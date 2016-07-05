@@ -2,7 +2,6 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.AbstractEffect;
-import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.EmptyMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
 import de.kimminich.kata.botwars.messages.Message;
