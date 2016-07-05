@@ -20,7 +20,7 @@ import static org.junit.gen5.api.Assertions.assertFalse;
 import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
-@DisplayName("A status effect")
+@DisplayName("An effect")
 public class EffectTest {
 
     @Test

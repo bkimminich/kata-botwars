@@ -18,7 +18,7 @@ import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.junit.gen5.api.Assertions.fail;
 
-@DisplayName("The Bomb negative status effect")
+@DisplayName("The Bomb effect")
 public class BombTest {
 
     @Test

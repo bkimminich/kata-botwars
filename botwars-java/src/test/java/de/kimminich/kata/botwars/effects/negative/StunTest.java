@@ -23,7 +23,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("The Stun negative status effect")
+@DisplayName("The Stun effect")
 public class StunTest {
 
     @Test
