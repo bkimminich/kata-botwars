@@ -21,7 +21,7 @@ import static org.junit.gen5.api.Assertions.assertTrue;
 import static org.junit.gen5.api.DynamicTest.dynamicTest;
 
 @DisplayName("A status effect")
-public class StatusEffectTest {
+public class EffectTest {
 
     @Test
     @DisplayName("is mitigated when an attacked bot resists it")
