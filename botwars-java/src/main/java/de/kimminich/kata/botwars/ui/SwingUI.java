@@ -75,7 +75,7 @@ public class SwingUI implements UserInterface {
     private void showEffectsStatusDialog(String title, List<Message> messages) {
         String text = messages.stream().map(Object::toString).collect(Collectors.joining("\n"));
         if (!text.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, text, title, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, text.trim(), title, JOptionPane.WARNING_MESSAGE);
         }
     }
 
