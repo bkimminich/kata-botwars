@@ -3,7 +3,7 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
-import de.kimminich.kata.botwars.messages.AttackMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 import javax.swing.*;
 import java.util.List;
@@ -18,7 +18,7 @@ public class SwingUI implements UserInterface {
     @Override
     public Optional<Bot> selectTarget(Bot attacker, List<Bot> opponentTeam) {
         int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attack!\n"
-                + toStats(opponentTeam), attacker + " makes a move!",
+                        + toStats(opponentTeam), attacker + " makes a move!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
@@ -51,7 +51,7 @@ public class SwingUI implements UserInterface {
     }
 
     @Override
-    public void attackPerformed(AttackMessage message) {
+    public void attackPerformed(Message message) {
         JOptionPane.showMessageDialog(null, message, "Attack Report", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -60,4 +60,22 @@ public class SwingUI implements UserInterface {
         JOptionPane.showMessageDialog(null, target + " has been destroyed!!!",
                 target + " destroyed!", JOptionPane.ERROR_MESSAGE);
     }
+
+    @Override
+    public void appliedEffects(List<Message> messages) {
+        showEffectsStatusDialog("Applied Effects", messages);
+    }
+
+    @Override
+    public void expiredEffects(List<Message> messages) {
+        showEffectsStatusDialog("Expired Effects", messages);
+    }
+
+    private void showEffectsStatusDialog(String title, List<Message> messages) {
+        String text = messages.stream().map(Object::toString).collect(Collectors.joining("\n"));
+        if (!text.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, text.trim(), title, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
 }

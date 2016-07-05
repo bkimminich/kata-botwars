@@ -1,58 +1,50 @@
 package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.StatusEffect;
+import de.kimminich.kata.botwars.effects.Effect;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
-import static org.junit.gen5.api.Assertions.*;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
+import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.gen5.api.Assertions.assertTrue;
 
-@DisplayName("The Continuous Damage negative status effect")
+@DisplayName("The Continuous Damage effect")
 public class ContinuousDamageTest {
 
     @Test
     @DisplayName("causes damage each turn while the effect is active")
     void causesDamageEachTurn() {
-        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
+        Effect continuousDamage = createEffectFactoryFor(anyBot(),
                 2, ContinuousDamage.class).newInstance();
-        Bot target = aBot().withIntegrity(100).withArmor(0).withStatusEffects(effect).build();
+        Bot target = aBot().withIntegrity(100).withArmor(0).withStatusEffects(continuousDamage).build();
 
-        target.preMoveActions();
+        target.applyEffects();
         int integrityAfterFirstMove = target.getIntegrity();
         assertTrue(integrityAfterFirstMove < 100);
-        target.postMoveActions();
+        target.expireEffects();
 
-        target.preMoveActions();
+        target.applyEffects();
         int integrityAfterSecondMove = target.getIntegrity();
         assertTrue(integrityAfterSecondMove < integrityAfterFirstMove);
+        target.expireEffects();
+
+        assertEquals(0, target.getEffects().size());
 
     }
 
     @Test
     @DisplayName("causes fixed damage equal to power of invoking bot")
     void causesFixedDamageEqualToPowerOfInvoker() {
-        Bot invoker = aBot().withPower(200).build();
-        StatusEffect effect = createFactoryForEffectWithDuration(invoker,
-                1, ContinuousDamage.class).newInstance();
-        Bot target = aBot().withIntegrity(500).withArmor(0).withStatusEffects(effect).build();
+        Effect continuousDamage = createEffectFactoryFor(
+                aBot().withPower(100).build(), 1, ContinuousDamage.class).newInstance();
+        Bot target = aBot().withIntegrity(200).withArmor(30).withStatusEffects(continuousDamage).build();
 
-        target.preMoveActions();
-        assertEquals(300, target.getIntegrity());
-    }
+        target.applyEffects();
 
-    @Test
-    @DisplayName("is reduced by armor")
-    void damageIsReducedByArmor() {
-        Bot invoker = aBot().withPower(100).build();
-        StatusEffect effect = createFactoryForEffectWithDuration(invoker,
-                1, ContinuousDamage.class).newInstance();
-        Bot target = aBot().withIntegrity(150).withArmor(10).withStatusEffects(effect).build();
-
-        target.preMoveActions();
-        assertEquals(60, target.getIntegrity());
+        assertEquals(130, target.getIntegrity(), "Should have caused 70 damage from 100-30 armor");
 
     }
 

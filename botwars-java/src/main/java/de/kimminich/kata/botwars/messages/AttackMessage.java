@@ -2,21 +2,31 @@ package de.kimminich.kata.botwars.messages;
 
 import de.kimminich.kata.botwars.Bot;
 
-public class AttackMessage {
+import java.util.List;
+
+public class AttackMessage implements Message {
 
     private StringBuilder text = new StringBuilder();
 
-    public AttackMessage(Bot attacker, Bot target, DamageMessage damage, boolean criticalHit) {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public AttackMessage(Bot attacker, Bot target, Message damageMessage, boolean criticalHit,
+                         List<Message> statusEffectMessages) {
         text.append(attacker).append(" attacks ").append(target);
         if (criticalHit) {
             text.append(" with Critical Hit!!");
         }
         text.append("! ");
-        text.append(damage);
+        text.append(damageMessage);
+        statusEffectMessages.stream().forEach(text::append);
+    }
+
+    @Override
+    public String getMessage() {
+        return text.toString();
     }
 
     @Override
     public String toString() {
-        return text.toString();
+        return getMessage();
     }
 }
