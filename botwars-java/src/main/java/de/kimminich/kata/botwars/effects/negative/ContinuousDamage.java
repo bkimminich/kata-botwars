@@ -16,7 +16,7 @@ public class ContinuousDamage extends AbstractEffect {
     public Message applyEffect(Bot invoker, Bot target) {
         double evasion = target.getEvasion();
         target.setEvasion(0.0);
-        Message damage = target.takeDamage(50);
+        Message damage = target.takeDamage(invoker.getPower());
         target.setEvasion(evasion);
         return new GenericTextMessage("Caused by Continuous Damage, " + damage);
     }
