@@ -1,6 +1,7 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.Utils;
 import de.kimminich.kata.botwars.messages.Message;
 
 public abstract class AbstractEffect implements Effect {
@@ -35,6 +36,6 @@ public abstract class AbstractEffect implements Effect {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "(" + duration + ")";
+        return Utils.unCamelCase(this.getClass().getSimpleName()) + "(" + duration + ")";
     }
 }

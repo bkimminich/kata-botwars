@@ -1,6 +1,7 @@
 package de.kimminich.kata.botwars.messages;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.Utils;
 import de.kimminich.kata.botwars.effects.Effect;
 
 public class NegativeEffectInflictedMessage implements Message {
@@ -9,7 +10,8 @@ public class NegativeEffectInflictedMessage implements Message {
 
     public NegativeEffectInflictedMessage(Bot target, Effect effect) {
         text.append("\n");
-        text.append(effect.getClass().getSimpleName()).append(" was inflicted on ").append(target).append("!");
+        text.append(Utils.unCamelCase(effect.getClass().getSimpleName()));
+        text.append(" was inflicted on ").append(target).append("!");
     }
 
     @Override
