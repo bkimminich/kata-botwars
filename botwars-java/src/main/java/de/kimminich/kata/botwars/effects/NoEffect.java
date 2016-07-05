@@ -1,6 +1,8 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 public class NoEffect extends AbstractEffect {
 
@@ -9,12 +11,13 @@ public class NoEffect extends AbstractEffect {
     }
 
     @Override
-    public void applyEffect(Bot invoker, Bot target) {
+    public Message applyEffect(Bot invoker, Bot target) {
+        return new EmptyMessage();
     }
 
     @Override
-    public void revokeEffect(Bot invoker, Bot target) {
-
+    public Message revokeEffect(Bot invoker, Bot target) {
+        return new EmptyMessage();
     }
 
 }

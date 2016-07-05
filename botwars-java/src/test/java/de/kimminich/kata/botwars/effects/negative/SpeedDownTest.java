@@ -20,9 +20,9 @@ public class SpeedDownTest {
                 1, SpeedDown.class).newInstance();
         Bot bot = aBot().withSpeed(100).withStatusEffects(effect).build();
 
-        bot.preMoveActions();
+        bot.applyEffects();
         assertEquals(75, bot.getSpeed());
-        bot.postMoveActions();
+        bot.expireEffects();
         assertEquals(100, bot.getSpeed(), "Speed should have been restored after effect expired");
         assertEquals(0, bot.getEffects().size());
 

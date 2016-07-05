@@ -23,15 +23,15 @@ public class ContinuousDamageTest {
                 2, ContinuousDamage.class).newInstance();
         Bot target = aBot().withIntegrity(100).withArmor(0).withStatusEffects(effect).build();
 
-        target.preMoveActions();
+        target.applyEffects();
         int integrityAfterFirstMove = target.getIntegrity();
         assertTrue(integrityAfterFirstMove < 100);
-        target.postMoveActions();
+        target.expireEffects();
 
-        target.preMoveActions();
+        target.applyEffects();
         int integrityAfterSecondMove = target.getIntegrity();
         assertTrue(integrityAfterSecondMove < integrityAfterFirstMove);
-        target.postMoveActions();
+        target.expireEffects();
 
         assertEquals(0, target.getEffects().size());
 

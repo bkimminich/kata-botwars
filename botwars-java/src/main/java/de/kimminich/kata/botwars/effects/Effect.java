@@ -1,13 +1,14 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.messages.Message;
 
 public interface Effect {
 
     boolean isExpired();
 
-    void apply(Bot target);
+    Message apply(Bot target);
 
-    void revoke(Bot target);
+    Message revoke(Bot target);
 
 }

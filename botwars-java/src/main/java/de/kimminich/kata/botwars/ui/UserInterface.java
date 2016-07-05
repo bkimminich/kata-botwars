@@ -2,7 +2,7 @@ package de.kimminich.kata.botwars.ui;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Player;
-import de.kimminich.kata.botwars.messages.AttackMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,11 @@ public interface UserInterface {
 
     void gameOver(Player winner);
 
-    void attackPerformed(AttackMessage message);
+    void attackPerformed(Message message);
 
     void botDestroyed(Bot target);
+
+    void appliedEffects(List<Message> messages);
+
+    void expiredEffects(List<Message> messages);
 }

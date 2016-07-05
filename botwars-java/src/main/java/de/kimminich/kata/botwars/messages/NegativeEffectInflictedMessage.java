@@ -3,7 +3,7 @@ package de.kimminich.kata.botwars.messages;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.Effect;
 
-public class NegativeEffectInflictedMessage {
+public class NegativeEffectInflictedMessage implements Message {
 
     private StringBuilder text = new StringBuilder();
 
@@ -13,8 +13,13 @@ public class NegativeEffectInflictedMessage {
     }
 
     @Override
-    public String toString() {
+    public String getMessage() {
         return text.toString();
+    }
+
+    @Override
+    public String toString() {
+        return getMessage();
     }
 
 }

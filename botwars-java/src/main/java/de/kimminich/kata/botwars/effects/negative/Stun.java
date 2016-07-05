@@ -2,6 +2,8 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.AbstractEffect;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 public class Stun extends AbstractEffect {
 
@@ -12,14 +14,16 @@ public class Stun extends AbstractEffect {
     }
 
     @Override
-    public void applyEffect(Bot invoker, Bot target) {
+    public Message applyEffect(Bot invoker, Bot target) {
         evasion = target.getEvasion();
         target.setEvasion(0.0);
+        return new EmptyMessage();
     }
 
     @Override
-    public void revokeEffect(Bot invoker, Bot target) {
+    public Message revokeEffect(Bot invoker, Bot target) {
         target.setEvasion(evasion);
+        return new EmptyMessage();
     }
 
 }

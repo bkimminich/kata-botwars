@@ -1,14 +1,14 @@
 package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.NoEffect;
 import de.kimminich.kata.botwars.effects.Effect;
+import de.kimminich.kata.botwars.effects.NoEffect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createAoEEffectFactoryFor;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 
 public final class BotBuilder {
 

@@ -17,8 +17,8 @@ import static de.kimminich.kata.botwars.BotTypes.GLASS_BOT;
 import static de.kimminich.kata.botwars.BotTypes.KAMIKAZE_BOT;
 import static de.kimminich.kata.botwars.BotTypes.STEALTH_BOT;
 import static de.kimminich.kata.botwars.BotTypes.TANK_BOT;
-import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createAoEEffectFactoryFor;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 
 final class BotFactory {
 

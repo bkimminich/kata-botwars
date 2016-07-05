@@ -3,30 +3,30 @@ package de.kimminich.kata.botwars.messages;
 import de.kimminich.kata.botwars.Bot;
 
 import java.util.List;
-import java.util.Optional;
 
-public class AttackMessage {
+public class AttackMessage implements Message {
 
     private StringBuilder text = new StringBuilder();
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public AttackMessage(Bot attacker, Bot target, Optional<DamageMessage> damageMessage, boolean criticalHit,
-                         List<Optional<NegativeEffectInflictedMessage>> statusEffectMessages) {
+    public AttackMessage(Bot attacker, Bot target, Message damageMessage, boolean criticalHit,
+                         List<Message> statusEffectMessages) {
         text.append(attacker).append(" attacks ").append(target);
         if (criticalHit) {
             text.append(" with Critical Hit!!");
         }
         text.append("! ");
-        if (damageMessage.isPresent()) {
-            text.append(damageMessage.get());
-        } else {
-            text.append(target).append(" successfully evaded!");
-        }
-        statusEffectMessages.stream().filter(Optional::isPresent).map(Optional::get).forEach(text::append);
+        text.append(damageMessage);
+        statusEffectMessages.stream().forEach(text::append);
+    }
+
+    @Override
+    public String getMessage() {
+        return text.toString();
     }
 
     @Override
     public String toString() {
-        return text.toString();
+        return getMessage();
     }
 }

@@ -61,9 +61,10 @@ public class Game {
             } else {
                 bot.gainTurnMeter();
                 if (bot.canMakeMove()) {
-                    bot.preMoveActions();
+                    bot.depleteTurnMeter();
+                    ui.appliedEffects(bot.applyEffects());
                     performAttack(bot);
-                    bot.postMoveActions();
+                    ui.expiredEffects(bot.expireEffects());
                 }
             }
         }

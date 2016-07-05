@@ -2,6 +2,8 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.AbstractEffect;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 public class SpeedDown extends AbstractEffect {
 
@@ -12,16 +14,18 @@ public class SpeedDown extends AbstractEffect {
     }
 
     @Override
-    public void applyEffect(Bot invoker, Bot target) {
+    public Message applyEffect(Bot invoker, Bot target) {
         if (!applied) {
             target.setSpeed((int) (target.getSpeed() * 0.75));
             applied = true;
         }
+        return new EmptyMessage();
     }
 
     @Override
-    public void revokeEffect(Bot invoker, Bot target) {
+    public Message revokeEffect(Bot invoker, Bot target) {
         target.setSpeed((int) (target.getSpeed() / 0.75));
+        return new EmptyMessage();
     }
 
 }

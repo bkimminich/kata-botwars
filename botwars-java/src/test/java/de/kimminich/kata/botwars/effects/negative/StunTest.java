@@ -55,9 +55,9 @@ public class StunTest {
                 1, Stun.class).newInstance();
         Bot bot = aBot().withIntegrity(100).withEvasion(0.1).withStatusEffects(effect).build();
 
-        bot.preMoveActions();
+        bot.applyEffects();
         assertEquals(0.0, bot.getEvasion());
-        bot.postMoveActions();
+        bot.expireEffects();
         assertEquals(0.1, bot.getEvasion(), "Evasion should have been restored after effect expired");
         assertEquals(0, bot.getEffects().size());
 

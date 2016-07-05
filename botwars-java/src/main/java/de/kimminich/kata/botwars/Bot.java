@@ -1,16 +1,17 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.kata.botwars.effects.NoEffect;
 import de.kimminich.kata.botwars.effects.Effect;
 import de.kimminich.kata.botwars.effects.EffectFactory;
+import de.kimminich.kata.botwars.effects.NoEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
+import de.kimminich.kata.botwars.messages.Message;
 import de.kimminich.kata.botwars.messages.NegativeEffectInflictedMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
@@ -55,7 +56,7 @@ public class Bot {
         effectOnAttack = effect;
     }
 
-    public AttackMessage attack(Bot target) {
+    public Message attack(Bot target) {
         int damage = random.nextInt(power / 2) + power / 2;
         boolean landedCriticalHit = false;
 
@@ -63,10 +64,10 @@ public class Bot {
             damage *= 2;
             landedCriticalHit = true;
         }
-        Optional<DamageMessage> damageMessage = target.takeDamage(damage);
+        Message damageMessage = target.takeDamage(damage);
 
-        List<Optional<NegativeEffectInflictedMessage>> effectMessages = new ArrayList<>();
-        if (damageMessage.isPresent()) {
+        List<Message> effectMessages = new ArrayList<>();
+        if (damageMessage instanceof DamageMessage) {
             if (effectOnAttack.isAoE()) {
                 target.getOwner().getTeam().forEach((t) -> {
                     effectMessages.add(invokeStatusEffect(t));
@@ -79,22 +80,22 @@ public class Bot {
         return new AttackMessage(this, target, damageMessage, landedCriticalHit, effectMessages);
     }
 
-    private Optional<NegativeEffectInflictedMessage> invokeStatusEffect(Bot target) {
+    private Message invokeStatusEffect(Bot target) {
         if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
             Effect effect = effectOnAttack.newInstance();
             target.getEffects().add(effect);
-            return Optional.of(new NegativeEffectInflictedMessage(target, effect));
+            return new NegativeEffectInflictedMessage(target, effect);
         }
-        return Optional.empty();
+        return new EmptyMessage();
     }
 
-    public Optional<DamageMessage> takeDamage(int damage) {
+    public Message takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
             integrity = Math.max(0, integrity - damage);
-            return Optional.of(new DamageMessage(this, damage));
+            return new DamageMessage(this, damage);
         } else {
-            return Optional.empty();
+            return new GenericTextMessage(this.getName() + " successfully evaded!");
         }
     }
 
@@ -118,20 +119,29 @@ public class Bot {
         turnMeter = 0;
     }
 
-    public void preMoveActions() {
+    void depleteTurnMeter() {
         turnMeter -= 1000;
-        effects.forEach((effect) -> effect.apply(this));
     }
 
-    public void postMoveActions() {
+    public List<Message> applyEffects() {
+        List<Message> messages = new ArrayList<>();
+        effects.forEach((effect) -> {
+            messages.add(effect.apply(this));
+        });
+        return messages;
+    }
+
+    public List<Message> expireEffects() {
+        List<Message> messages = new ArrayList<>();
         effects.removeIf((effect) -> {
             if (!effect.isExpired()) {
                 return false;
             } else {
-                effect.revoke(this);
+                messages.add(effect.revoke(this));
                 return true;
             }
         });
+        return messages;
     }
 
     boolean canMakeMove() {

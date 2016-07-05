@@ -11,8 +11,8 @@ import org.junit.gen5.api.Test;
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createAoEEffectFactoryFor;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
@@ -28,9 +28,9 @@ public class BombTest {
                 1, Bomb.class).newInstance();
         Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(effect).build();
 
-        target.preMoveActions();
+        target.applyEffects();
         assertEquals(100, target.getIntegrity(), "Bomb should not cause damage while effect is active");
-        target.postMoveActions();
+        target.expireEffects();
 
         assertTrue(target.getIntegrity() < 100, "Bomb should causes damage when the effect expired");
 

@@ -64,7 +64,7 @@ public class StatusEffectTest {
 
                     for (int i = 0; i < duration; i++) {
                         assertFalse(effect.isExpired(), "Effect should not expire after " + i + " moves");
-                        target.preMoveActions();
+                        target.applyEffects();
                     }
                     assertTrue(effect.isExpired());
                 }));

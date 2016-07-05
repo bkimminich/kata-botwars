@@ -3,7 +3,7 @@ package de.kimminich.kata.botwars.ui;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.BotTypes;
 import de.kimminich.kata.botwars.Player;
-import de.kimminich.kata.botwars.messages.AttackMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 import javax.swing.*;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.awt.SystemColor.text;
 import static javax.swing.JOptionPane.CLOSED_OPTION;
 
 public class SwingUI implements UserInterface {
@@ -51,7 +52,7 @@ public class SwingUI implements UserInterface {
     }
 
     @Override
-    public void attackPerformed(AttackMessage message) {
+    public void attackPerformed(Message message) {
         JOptionPane.showMessageDialog(null, message, "Attack Report", JOptionPane.WARNING_MESSAGE);
     }
 
@@ -60,4 +61,22 @@ public class SwingUI implements UserInterface {
         JOptionPane.showMessageDialog(null, target + " has been destroyed!!!",
                 target + " destroyed!", JOptionPane.ERROR_MESSAGE);
     }
+
+    @Override
+    public void appliedEffects(List<Message> messages) {
+        showEffectsStatusDialog("Applied Effects", messages);
+    }
+
+    @Override
+    public void expiredEffects(List<Message> messages) {
+        showEffectsStatusDialog("Expired Effects", messages);
+    }
+
+    private void showEffectsStatusDialog(String title, List<Message> messages) {
+        String text = messages.stream().map(Object::toString).collect(Collectors.joining("\n"));
+        if (!text.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, text, title, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
 }

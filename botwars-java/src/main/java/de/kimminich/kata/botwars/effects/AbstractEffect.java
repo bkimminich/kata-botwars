@@ -1,6 +1,7 @@
 package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.messages.Message;
 
 public abstract class AbstractEffect implements Effect {
 
@@ -22,19 +23,19 @@ public abstract class AbstractEffect implements Effect {
     }
 
     @Override
-    public void apply(Bot target) {
-        applyEffect(invoker, target);
+    public Message apply(Bot target) {
         duration--;
+        return applyEffect(invoker, target);
     }
 
     @Override
-    public void revoke(Bot target) {
-        revokeEffect(invoker, target);
+    public Message revoke(Bot target) {
+        return revokeEffect(invoker, target);
     }
 
-    public abstract void applyEffect(Bot invoker, Bot target);
+    public abstract Message applyEffect(Bot invoker, Bot target);
 
-    public abstract void revokeEffect(Bot invoker, Bot target);
+    public abstract Message revokeEffect(Bot invoker, Bot target);
 
     @Override
     public String toString() {

@@ -2,6 +2,9 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.AbstractEffect;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.GenericTextMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 public class Bomb extends AbstractEffect {
 
@@ -10,12 +13,14 @@ public class Bomb extends AbstractEffect {
     }
 
     @Override
-    public void applyEffect(Bot invoker, Bot target) {
+    public Message applyEffect(Bot invoker, Bot target) {
+        return new EmptyMessage();
     }
 
     @Override
-    public void revokeEffect(Bot invoker, Bot target) {
-        target.takeDamage(50);
+    public Message revokeEffect(Bot invoker, Bot target) {
+        Message damage = target.takeDamage(50);
+        return new GenericTextMessage("Caused by Bomb, " + damage);
     }
 
 }

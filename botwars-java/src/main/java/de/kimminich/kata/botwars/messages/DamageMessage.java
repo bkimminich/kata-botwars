@@ -2,7 +2,7 @@ package de.kimminich.kata.botwars.messages;
 
 import de.kimminich.kata.botwars.Bot;
 
-public class DamageMessage {
+public class DamageMessage implements Message {
 
     private StringBuilder text = new StringBuilder();
 
@@ -11,8 +11,13 @@ public class DamageMessage {
     }
 
     @Override
-    public String toString() {
+    public String getMessage() {
         return text.toString();
+    }
+
+    @Override
+    public String toString() {
+        return getMessage();
     }
 
 }

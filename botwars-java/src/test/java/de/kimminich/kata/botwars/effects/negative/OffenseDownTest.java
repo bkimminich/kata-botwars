@@ -20,9 +20,9 @@ public class OffenseDownTest {
                 1, OffenseDown.class).newInstance();
         Bot bot = aBot().withPower(100).withStatusEffects(effect).build();
 
-        bot.preMoveActions();
+        bot.applyEffects();
         assertEquals(75, bot.getPower());
-        bot.postMoveActions();
+        bot.expireEffects();
         assertEquals(100, bot.getPower(), "Power should have been restored after effect expired");
         assertEquals(0, bot.getEffects().size());
 

@@ -2,6 +2,10 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.AbstractEffect;
+import de.kimminich.kata.botwars.messages.DamageMessage;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.GenericTextMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
 public class ContinuousDamage extends AbstractEffect {
 
@@ -10,15 +14,17 @@ public class ContinuousDamage extends AbstractEffect {
     }
 
     @Override
-    public void applyEffect(Bot invoker, Bot target) {
+    public Message applyEffect(Bot invoker, Bot target) {
         double evasion = target.getEvasion();
         target.setEvasion(0.0);
-        target.takeDamage(50);
+        Message damage = target.takeDamage(50);
         target.setEvasion(evasion);
+        return new GenericTextMessage("Caused by Continuous Damage, " + damage);
     }
 
     @Override
-    public void revokeEffect(Bot invoker, Bot target) {
+    public Message revokeEffect(Bot invoker, Bot target) {
+        return new EmptyMessage();
     }
 
 }

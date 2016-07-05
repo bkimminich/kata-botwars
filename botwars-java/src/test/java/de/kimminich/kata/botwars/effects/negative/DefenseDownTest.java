@@ -20,9 +20,9 @@ public class DefenseDownTest {
                 1, DefenseDown.class).newInstance();
         Bot bot = aBot().withArmor(10).withStatusEffects(effect).build();
 
-        bot.preMoveActions();
+        bot.applyEffects();
         assertEquals(5, bot.getArmor());
-        bot.postMoveActions();
+        bot.expireEffects();
         assertEquals(10, bot.getArmor(), "Armor should have been restored");
         assertEquals(0, bot.getEffects().size());
 
@@ -35,9 +35,9 @@ public class DefenseDownTest {
                 1, DefenseDown.class).newInstance();
         Bot bot = aBot().withResistance(0.1).withStatusEffects(effect).build();
 
-        bot.preMoveActions();
+        bot.applyEffects();
         assertEquals(0.05, bot.getResistance());
-        bot.postMoveActions();
+        bot.expireEffects();
         assertEquals(0.1, bot.getResistance(), "Resistance should have been restored after effect expired");
         assertEquals(0, bot.getEffects().size());
 
