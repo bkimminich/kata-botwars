@@ -13,10 +13,6 @@ public abstract class AbstractEffect implements Effect {
         this.duration = duration;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
     @Override
     public boolean isExpired() {
         return duration == 0;
