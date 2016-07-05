@@ -1,8 +1,8 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.kata.botwars.effects.NoStatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffectFactory;
+import de.kimminich.kata.botwars.effects.NoEffect;
+import de.kimminich.kata.botwars.effects.Effect;
+import de.kimminich.kata.botwars.effects.EffectFactory;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 
 public class Bot {
 
@@ -27,8 +27,8 @@ public class Bot {
     private int speed;
     private double evasion;
     private double resistance;
-    private StatusEffectFactory effectOnAttack;
-    private List<StatusEffect> statusEffects = new ArrayList<>();
+    private EffectFactory effectOnAttack;
+    private List<Effect> effects = new ArrayList<>();
     private int integrity;
     private int turnMeter = 0;
 
@@ -48,10 +48,10 @@ public class Bot {
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
         this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
-        this.effectOnAttack = createFactoryForEffectWithDuration(this, 0, NoStatusEffect.class);
+        this.effectOnAttack = createEffectFactoryFor(this, 0, NoEffect.class);
     }
 
-    public void addEffectOnAttack(StatusEffectFactory effect) {
+    public void addEffectOnAttack(EffectFactory effect) {
         effectOnAttack = effect;
     }
 
@@ -65,24 +65,24 @@ public class Bot {
         }
         Optional<DamageMessage> damageMessage = target.takeDamage(damage);
 
-        List<Optional<NegativeEffectInflictedMessage>> statusEffectMessages = new ArrayList<>();
+        List<Optional<NegativeEffectInflictedMessage>> effectMessages = new ArrayList<>();
         if (damageMessage.isPresent()) {
             if (effectOnAttack.isAoE()) {
                 target.getOwner().getTeam().forEach((t) -> {
-                    statusEffectMessages.add(invokeStatusEffect(t));
+                    effectMessages.add(invokeStatusEffect(t));
                 });
             } else {
-                statusEffectMessages.add(invokeStatusEffect(target));
+                effectMessages.add(invokeStatusEffect(target));
             }
         }
 
-        return new AttackMessage(this, target, damageMessage, landedCriticalHit, statusEffectMessages);
+        return new AttackMessage(this, target, damageMessage, landedCriticalHit, effectMessages);
     }
 
     private Optional<NegativeEffectInflictedMessage> invokeStatusEffect(Bot target) {
         if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
-            StatusEffect effect = effectOnAttack.newInstance();
-            target.getStatusEffects().add(effect);
+            Effect effect = effectOnAttack.newInstance();
+            target.getEffects().add(effect);
             return Optional.of(new NegativeEffectInflictedMessage(target, effect));
         }
         return Optional.empty();
@@ -120,11 +120,11 @@ public class Bot {
 
     public void preMoveActions() {
         turnMeter -= 1000;
-        statusEffects.forEach((effect) -> effect.apply(this));
+        effects.forEach((effect) -> effect.apply(this));
     }
 
     public void postMoveActions() {
-        statusEffects.removeIf((effect) -> {
+        effects.removeIf((effect) -> {
             if (!effect.isExpired()) {
                 return false;
             } else {
@@ -198,8 +198,8 @@ public class Bot {
         return name;
     }
 
-    public List<StatusEffect> getStatusEffects() {
-        return statusEffects;
+    public List<Effect> getEffects() {
+        return effects;
     }
 
     public GenericTextMessage getStatus() {
@@ -214,7 +214,7 @@ public class Bot {
                 ", criticalHit=" + (criticalHit * 100) + "%" +
                 ", resistance=" + (resistance * 100) + "%" +
                 ", effectiveness=" + (effectiveness * 100) + "%" +
-                ", statusEffects=" + statusEffects +
+                ", statusEffects=" + effects +
                 '}');
     }
 

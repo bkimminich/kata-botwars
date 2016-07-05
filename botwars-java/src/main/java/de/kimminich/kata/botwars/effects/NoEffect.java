@@ -2,9 +2,9 @@ package de.kimminich.kata.botwars.effects;
 
 import de.kimminich.kata.botwars.Bot;
 
-public class NoStatusEffect extends AbstractStatusEffect {
+public class NoEffect extends AbstractEffect {
 
-    public NoStatusEffect(Bot invoker, Integer duration) {
+    public NoEffect(Bot invoker, Integer duration) {
         super(invoker, duration);
     }
 

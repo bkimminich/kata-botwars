@@ -18,7 +18,7 @@ public class AttackMessage {
         }
         text.append("! ");
         if (damageMessage.isPresent()) {
-            text.append(damageMessage);
+            text.append(damageMessage.get());
         } else {
             text.append(target).append(" successfully evaded!");
         }

@@ -2,7 +2,7 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Player;
-import de.kimminich.kata.botwars.effects.StatusEffect;
+import de.kimminich.kata.botwars.effects.Effect;
 import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Nested;
@@ -11,8 +11,8 @@ import org.junit.gen5.api.Test;
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDurationAndAoE;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createAoEEffectFactoryFor;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
@@ -24,7 +24,7 @@ public class BombTest {
     @Test
     @DisplayName("causes damage when it expires")
     void causesDamageWhenExpiring() {
-        StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
+        Effect effect = createEffectFactoryFor(anyBot(),
                 1, Bomb.class).newInstance();
         Bot target = aBot().withIntegrity(100).withArmor(0).withEvasion(0.0).withStatusEffects(effect).build();
 
@@ -34,7 +34,7 @@ public class BombTest {
 
         assertTrue(target.getIntegrity() < 100, "Bomb should causes damage when the effect expired");
 
-        assertEquals(0, target.getStatusEffects().size());
+        assertEquals(0, target.getEffects().size());
 
     }
 
@@ -52,7 +52,7 @@ public class BombTest {
         @Test
         @DisplayName("is applied individually to the entire opponent team")
         void isAppliedIndividuallyToTheOpponentTeam() {
-            StatusEffect bomb = createFactoryForEffectWithDurationAndAoE(anyBot(),
+            Effect bomb = createAoEEffectFactoryFor(anyBot(),
                     1, Bomb.class).newInstance();
             Bot attacker = aBot().withEffectiveness(1.0).withAttackEffect(Bomb.class).withAoE().build();
 
@@ -68,14 +68,14 @@ public class BombTest {
             attacker.attack(target);
 
             assertAll(
-                    () -> assertEquals(1, target.getStatusEffects().size()),
-                    () -> assertEquals(1, teammate.getStatusEffects().size(), "Teammate should have Bomb effect"),
-                    () -> assertEquals(0, immuneTeammate.getStatusEffects().size(), "Should resist Bomb effect")
+                    () -> assertEquals(1, target.getEffects().size()),
+                    () -> assertEquals(1, teammate.getEffects().size(), "Teammate should have Bomb effect"),
+                    () -> assertEquals(0, immuneTeammate.getEffects().size(), "Should resist Bomb effect")
             );
 
             assertAll(
-                    () -> assertTrue(target.getStatusEffects().get(0) instanceof Bomb),
-                    () -> assertTrue(teammate.getStatusEffects().get(0) instanceof Bomb)
+                    () -> assertTrue(target.getEffects().get(0) instanceof Bomb),
+                    () -> assertTrue(teammate.getEffects().get(0) instanceof Bomb)
             );
         }
     }

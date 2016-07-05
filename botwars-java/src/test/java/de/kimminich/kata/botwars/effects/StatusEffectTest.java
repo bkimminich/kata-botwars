@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertFalse;
@@ -31,22 +31,22 @@ public class StatusEffectTest {
 
         bot.attack(opponent);
 
-        assertEquals(0, opponent.getStatusEffects().size());
+        assertEquals(0, opponent.getEffects().size());
 
     }
 
     @Test
     @DisplayName("is inflicted on an attacked bot if it does not resist")
     void failingToResistInflictsStatusEffect() {
-        Bot bot = aBot().withEffectiveness(1.0).withAttackEffect(NoStatusEffect.class).withEffectDuration(1).build();
+        Bot bot = aBot().withEffectiveness(1.0).withAttackEffect(NoEffect.class).withEffectDuration(1).build();
         Bot opponent = aBot().withResistance(0.0).withNoStatusEffects().build();
 
         bot.attack(opponent);
 
         assertAll(
-                () -> assertEquals(1, opponent.getStatusEffects().size()),
-                () -> assertTrue(NoStatusEffect.class.isAssignableFrom(
-                        opponent.getStatusEffects().get(0).getClass()),
+                () -> assertEquals(1, opponent.getEffects().size()),
+                () -> assertTrue(NoEffect.class.isAssignableFrom(
+                        opponent.getEffects().get(0).getClass()),
                         "Inflicted effect should have type NoNegativeStatusEffect")
         );
 
@@ -58,8 +58,8 @@ public class StatusEffectTest {
 
         return IntStream.range(1, 4).mapToObj(duration ->
                 dynamicTest(duration + " moves of the affected bot", () -> {
-                    StatusEffect effect = createFactoryForEffectWithDuration(anyBot(),
-                            duration, NoStatusEffect.class).newInstance();
+                    Effect effect = createEffectFactoryFor(anyBot(),
+                            duration, NoEffect.class).newInstance();
                     Bot target = aBot().withStatusEffects(effect).build();
 
                     for (int i = 0; i < duration; i++) {
@@ -76,11 +76,11 @@ public class StatusEffectTest {
     void picksOneRandomStatusEffectFromSuppliedList() {
         int offenseDownChosen = 0;
         int defenseDownChosen = 0;
-        StatusEffectFactory factory = createFactoryForEffectWithDuration(anyBot(), 1,
+        EffectFactory factory = createEffectFactoryFor(anyBot(), 1,
                 OffenseDown.class, DefenseDown.class);
 
         for (int i = 0; i < 1000; i++) {
-            StatusEffect effect = factory.newInstance();
+            Effect effect = factory.newInstance();
             assertTrue(effect instanceof OffenseDown || effect instanceof DefenseDown);
             if (effect instanceof OffenseDown) {
                 offenseDownChosen++;
@@ -101,12 +101,12 @@ public class StatusEffectTest {
     @Test
     @DisplayName("is never inflicted on a bot that successfully evaded")
     void neverInflictedOnEvadingBot() {
-        Bot attacker = aBot().withEffectiveness(1.0).withAttackEffect(NoStatusEffect.class).build();
+        Bot attacker = aBot().withEffectiveness(1.0).withAttackEffect(NoEffect.class).build();
         Bot target = aBot().withEvasion(1.0).withResistance(0.0).withNoStatusEffects().build();
 
         attacker.attack(target);
 
-        assertEquals(0, target.getStatusEffects().size());
+        assertEquals(0, target.getEffects().size());
     }
 
 

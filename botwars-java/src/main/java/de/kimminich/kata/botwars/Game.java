@@ -63,6 +63,7 @@ public class Game {
                 if (bot.canMakeMove()) {
                     bot.preMoveActions();
                     performAttack(bot);
+                    bot.postMoveActions();
                 }
             }
         }

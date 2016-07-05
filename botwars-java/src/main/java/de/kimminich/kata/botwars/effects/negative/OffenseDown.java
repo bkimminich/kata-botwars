@@ -1,9 +1,9 @@
 package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.AbstractStatusEffect;
+import de.kimminich.kata.botwars.effects.AbstractEffect;
 
-public class OffenseDown extends AbstractStatusEffect {
+public class OffenseDown extends AbstractEffect {
 
     private boolean applied = false;
 

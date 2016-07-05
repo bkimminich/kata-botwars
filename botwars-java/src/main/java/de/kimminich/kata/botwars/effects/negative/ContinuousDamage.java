@@ -1,9 +1,9 @@
 package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.AbstractStatusEffect;
+import de.kimminich.kata.botwars.effects.AbstractEffect;
 
-public class ContinuousDamage extends AbstractStatusEffect {
+public class ContinuousDamage extends AbstractEffect {
 
     public ContinuousDamage(Bot invoker, Integer duration) {
         super(invoker, duration);
