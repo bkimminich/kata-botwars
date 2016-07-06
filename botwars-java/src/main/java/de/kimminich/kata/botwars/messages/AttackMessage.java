@@ -17,6 +17,7 @@ public class AttackMessage implements Message {
         }
         text.append("! ");
         text.append(damageMessage);
+        text.append("!");
         statusEffectMessages.stream().forEach(text::append);
     }
 

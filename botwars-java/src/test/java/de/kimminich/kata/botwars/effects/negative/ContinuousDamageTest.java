@@ -36,15 +36,15 @@ public class ContinuousDamageTest {
     }
 
     @Test
-    @DisplayName("causes fixed damage equal to power of invoking bot")
+    @DisplayName("causes fixed damage equal to power of invoking bot ignoring its armor")
     void causesFixedDamageEqualToPowerOfInvoker() {
         Effect continuousDamage = createEffectFactoryFor(
                 aBot().withPower(100).build(), 1, ContinuousDamage.class).newInstance();
-        Bot target = aBot().withIntegrity(200).withArmor(30).withStatusEffects(continuousDamage).build();
+        Bot target = aBot().withIntegrity(150).withArmor(30).withStatusEffects(continuousDamage).build();
 
         target.applyEffects();
 
-        assertEquals(130, target.getIntegrity(), "Should have caused 70 damage from 100-30 armor");
+        assertEquals(50, target.getIntegrity(), "Should have caused 100 damage ignoring the 30 armor");
 
     }
 
