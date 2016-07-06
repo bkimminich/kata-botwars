@@ -95,7 +95,7 @@ public class Bot {
             integrity = Math.max(0, integrity - damage);
             return new DamageMessage(this, damage);
         } else {
-            return new GenericTextMessage(this.getName() + " successfully evaded!");
+            return new GenericTextMessage(this.getName() + " successfully evaded");
         }
     }
 

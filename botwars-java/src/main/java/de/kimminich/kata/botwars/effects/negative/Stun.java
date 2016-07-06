@@ -3,6 +3,7 @@ package de.kimminich.kata.botwars.effects.negative;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.AbstractEffect;
 import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.GenericTextMessage;
 import de.kimminich.kata.botwars.messages.Message;
 
 public class Stun extends AbstractEffect {
@@ -17,7 +18,7 @@ public class Stun extends AbstractEffect {
     public Message applyEffect(Bot invoker, Bot target) {
         evasion = target.getEvasion();
         target.setEvasion(0.0);
-        return new EmptyMessage();
+        return new GenericTextMessage("Stunned " + target + " is unable to attack!");
     }
 
     @Override

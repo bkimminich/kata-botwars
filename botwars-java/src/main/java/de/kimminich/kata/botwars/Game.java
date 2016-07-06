@@ -1,5 +1,6 @@
 package de.kimminich.kata.botwars;
 
+import de.kimminich.kata.botwars.effects.negative.Stun;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInterface;
 
@@ -63,11 +64,17 @@ public class Game {
                 if (bot.canMakeMove()) {
                     bot.depleteTurnMeter();
                     ui.appliedEffects(bot.applyEffects());
-                    performAttack(bot);
+                    if (notStunned(bot)) {
+                        performAttack(bot);
+                    }
                     ui.expiredEffects(bot.expireEffects());
                 }
             }
         }
+    }
+
+    private boolean notStunned(Bot bot) {
+        return bot.getEffects().stream().filter(e -> e instanceof Stun).count() == 0;
     }
 
     private void performAttack(Bot attacker) {

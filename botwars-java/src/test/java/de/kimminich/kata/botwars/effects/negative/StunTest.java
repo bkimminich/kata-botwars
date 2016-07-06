@@ -6,7 +6,6 @@ import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Game;
 import de.kimminich.kata.botwars.effects.Effect;
 import de.kimminich.kata.botwars.ui.UserInterface;
-import org.junit.gen5.api.Disabled;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
 import org.junit.gen5.api.extension.ExtendWith;
@@ -28,7 +27,6 @@ public class StunTest {
 
     @Test
     @DisplayName("lets the affected bot miss its next move")
-    @Disabled
     void stunnedBotMissesNextMove(@InjectMock UserInterface ui) {
         Effect effect = createEffectFactoryFor(anyBot(),
                 1, Stun.class).newInstance();
