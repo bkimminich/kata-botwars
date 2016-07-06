@@ -15,7 +15,7 @@ import static org.junit.gen5.api.Assertions.assertAll;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
 
-@DisplayName("The Bomb effect")
+@DisplayName("A Bomb effect")
 public class BombTest {
 
     @Test

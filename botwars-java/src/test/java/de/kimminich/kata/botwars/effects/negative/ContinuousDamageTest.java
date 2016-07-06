@@ -1,17 +1,29 @@
 package de.kimminich.kata.botwars.effects.negative;
 
+import de.kimminich.extensions.InjectMock;
+import de.kimminich.extensions.MockitoExtension;
 import de.kimminich.kata.botwars.Bot;
+import de.kimminich.kata.botwars.Game;
 import de.kimminich.kata.botwars.effects.Effect;
+import de.kimminich.kata.botwars.ui.UserInterface;
 import org.junit.gen5.api.DisplayName;
 import org.junit.gen5.api.Test;
+import org.junit.gen5.api.extension.ExtendWith;
+
+import java.util.Optional;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
+import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static org.junit.gen5.api.Assertions.assertEquals;
 import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
-@DisplayName("The Continuous Damage effect")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("A Continuous Damage effect")
 public class ContinuousDamageTest {
 
     @Test
@@ -47,5 +59,26 @@ public class ContinuousDamageTest {
         assertEquals(50, target.getIntegrity(), "Should have caused 100 damage ignoring the 30 armor");
 
     }
+
+    @Test
+    @DisplayName("that destroys its target will have that bot removed from its team before it can attack")
+    void botDestroyedFromContinuousDamageWillBeRemovedBeforeItsAttack(@InjectMock UserInterface ui) {
+        Effect continuousDamage = createEffectFactoryFor(aBot().withPower(9999).build(),
+                1, ContinuousDamage.class).newInstance();
+        Bot bot = aBot().withIntegrity(1).withStatusEffects(continuousDamage).withPower(100).withSpeed(1000).build();
+        Bot target = aBot().withIntegrity(100).build();
+
+        when(ui.selectTarget(eq(bot), anyListOf(Bot.class))).thenReturn(Optional.of(target));
+
+        Game game = new Game(ui, aPlayer().withTeam(bot, anyBot(), anyBot()).build(),
+                aPlayer().withTeam(target, anyBot(), anyBot()).build());
+
+        game.turn();
+
+        assertEquals(100, target.getIntegrity(),
+                "Bot should have been destroyed by Continuous Damage before is had a chance to attack");
+
+    }
+
 
 }

@@ -64,10 +64,14 @@ public class Game {
                 if (bot.canMakeMove()) {
                     bot.depleteTurnMeter();
                     ui.appliedEffects(bot.applyEffects());
-                    if (notStunned(bot)) {
-                        performAttack(bot);
+                    if (bot.isDestroyed()) {
+                        it.remove();
+                    } else {
+                        if (notStunned(bot)) {
+                            performAttack(bot);
+                        }
+                        ui.expiredEffects(bot.expireEffects());
                     }
-                    ui.expiredEffects(bot.expireEffects());
                 }
             }
         }

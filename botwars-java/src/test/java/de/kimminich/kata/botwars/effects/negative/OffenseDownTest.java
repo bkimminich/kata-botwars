@@ -10,7 +10,7 @@ import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 import static org.junit.gen5.api.Assertions.assertEquals;
 
-@DisplayName("The Offense Down effect")
+@DisplayName("An Offense Down effect")
 public class OffenseDownTest {
 
     @Test
