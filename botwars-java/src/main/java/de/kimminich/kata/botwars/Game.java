@@ -71,11 +71,16 @@ public class Game {
     private void playTurn(Bot bot) {
         bot.depleteTurnMeter();
         ui.appliedEffects(bot.applyEffects());
-        if (!bot.isDestroyed()) {
+        boolean botDestroyed = bot.isDestroyed();
+        if (!botDestroyed) {
             if (notStunned(bot)) {
                 performAttack(bot);
             }
             ui.expiredEffects(bot.expireEffects());
+            botDestroyed = bot.isDestroyed();
+        }
+        if (botDestroyed) {
+            ui.botDestroyed(bot);
         }
     }
 

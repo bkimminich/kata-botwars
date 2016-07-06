@@ -6,6 +6,7 @@ import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.messages.Message;
 
 import javax.swing.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -17,9 +18,9 @@ public class SwingUI implements UserInterface {
 
     @Override
     public Optional<Bot> selectTarget(Bot attacker, List<Bot> opponentTeam) {
-        int choice = JOptionPane.showOptionDialog(null, attacker.getOwner() + ", select bot to attack!\n"
-                        + toStats(opponentTeam), attacker + " makes a move!",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+        int choice = JOptionPane.showOptionDialog(null,
+                attacker.getOwner() + ", select bot to attack with " + attacker + "!\n" + toStats(opponentTeam),
+                attacker + " plays its turn!", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, opponentTeam.toArray(), opponentTeam.get(0));
 
         return choice == CLOSED_OPTION ? Optional.empty() : Optional.of(opponentTeam.get(choice));
