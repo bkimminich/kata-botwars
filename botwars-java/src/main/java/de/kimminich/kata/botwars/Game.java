@@ -61,19 +61,21 @@ public class Game {
                 it.remove();
             } else {
                 bot.gainTurnMeter();
-                if (bot.canMakeMove()) {
-                    bot.depleteTurnMeter();
-                    ui.appliedEffects(bot.applyEffects());
-                    if (bot.isDestroyed()) {
-                        it.remove();
-                    } else {
-                        if (notStunned(bot)) {
-                            performAttack(bot);
-                        }
-                        ui.expiredEffects(bot.expireEffects());
-                    }
+                if (bot.canPlayTurn()) {
+                    playTurn(bot);
                 }
             }
+        }
+    }
+
+    private void playTurn(Bot bot) {
+        bot.depleteTurnMeter();
+        ui.appliedEffects(bot.applyEffects());
+        if (!bot.isDestroyed()) {
+            if (notStunned(bot)) {
+                performAttack(bot);
+            }
+            ui.expiredEffects(bot.expireEffects());
         }
     }
 

@@ -144,7 +144,7 @@ public class Bot {
         return messages;
     }
 
-    boolean canMakeMove() {
+    boolean canPlayTurn() {
         return turnMeter >= 1000;
     }
 
