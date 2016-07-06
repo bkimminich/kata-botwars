@@ -6,7 +6,6 @@ import de.kimminich.kata.botwars.Player;
 import de.kimminich.kata.botwars.messages.Message;
 
 import javax.swing.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
