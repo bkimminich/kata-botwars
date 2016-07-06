@@ -33,7 +33,7 @@ For training purposes the game offers AI opponents to battle against. This allow
 The damage calculation works like this (in pseudo-code):
 
 ```
-damage to opponent = (random(1/2*power of attacker - 1*power of attacker) - armor of opponent)
+damage to opponent = random(between 0,5 and 1) * power of attacker - armor of opponent
 ```
 
 ### Feature 2: Destroying Opponents
@@ -127,8 +127,8 @@ Negative Effect | Description
 --------------- | -----------
 Defense Down | Reduces the _Armor_ and _Resistance_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
 Offense Down | Reduces the _Power_ of a bot by 25%. Can not be inflicted on bots who are already under this effect.
-Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker - armor of affected bot``` each turn until it expires. Can be stacked multiple times on the same bot.
-Bomb | Performs a delayed _Standard Attack_ on the affected bot when its duration expires. Can be stacked multiple times on the same bot. Bomb detonation does not reapply Bomb effect.
+Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker``` each turn until it expires. Can be stacked multiple times on the same bot.
+Bomb | Causes ```random(between 0,5 and 1) * power of attacker - armor of affected bot``` damage to the affected bot _when the effect expires_. Can be stacked multiple times on the same bot.
 Speed Down | Slows the Turn Meter down by 25% which reduces the amount of actions a bot can take during battle.
 Stun | Stunned bots will miss their moves while under this effect. Furthermore a stunned bot cannot evade attacks.
 
