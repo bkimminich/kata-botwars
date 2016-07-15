@@ -1,25 +1,41 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.kata.botwars.effects.NoStatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffectFactory;
+import de.kimminich.kata.botwars.effects.Effect;
+import de.kimminich.kata.botwars.effects.EffectFactory;
+import de.kimminich.kata.botwars.effects.NoEffect;
 import de.kimminich.kata.botwars.messages.AttackMessage;
 import de.kimminich.kata.botwars.messages.DamageMessage;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
 import de.kimminich.kata.botwars.messages.GenericTextMessage;
+import de.kimminich.kata.botwars.messages.Message;
+import de.kimminich.kata.botwars.messages.NegativeEffectInflictedMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 
 public class Bot {
 
+    private final String name;
+    private final double criticalHit;
+    private final double effectiveness;
     private Random random = new Random();
+    private Player owner;
+    private int power;
+    private int armor;
+    private int speed;
+    private double evasion;
+    private double resistance;
+    private EffectFactory effectOnAttack;
+    private List<Effect> effects = new ArrayList<>();
+    private int integrity;
+    private int turnMeter = 0;
 
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit,
-               double resistance, double effectiveness, StatusEffectFactory effectOnAttack) {
+               double resistance, double effectiveness) {
         this.name = name;
         this.power = power;
         this.armor = armor;
@@ -29,32 +45,18 @@ public class Bot {
         this.criticalHit = criticalHit;
         this.resistance = resistance;
         this.effectiveness = effectiveness;
-        this.effectOnAttack = effectOnAttack;
     }
-
     public Bot(String name, int power, int armor, int speed, int integrity,
                double evasion, double criticalHit, double resistance) {
-        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance,
-                0.0, createFactoryForEffectWithDuration(0, NoStatusEffect.class));
+        this(name, power, armor, speed, integrity, evasion, criticalHit, resistance, 0.0);
+        this.effectOnAttack = createEffectFactoryFor(this, 0, NoEffect.class);
     }
 
-    private Player owner;
+    public void addEffectOnAttack(EffectFactory effect) {
+        effectOnAttack = effect;
+    }
 
-    private final String name;
-    private int power;
-    private int armor;
-    private int speed;
-    private double evasion;
-    private final double criticalHit;
-    private double resistance;
-    private final double effectiveness;
-    private final StatusEffectFactory effectOnAttack;
-    private List<StatusEffect> statusEffects = new ArrayList<>();
-
-    private int integrity;
-    private int turnMeter = 0;
-
-    public AttackMessage attack(Bot target) {
+    public Message attack(Bot target) {
         int damage = random.nextInt(power / 2) + power / 2;
         boolean landedCriticalHit = false;
 
@@ -62,21 +64,38 @@ public class Bot {
             damage *= 2;
             landedCriticalHit = true;
         }
+        Message damageMessage = target.takeDamage(damage);
 
-        if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
-            target.getStatusEffects().add(effectOnAttack.newInstance());
+        List<Message> effectMessages = new ArrayList<>();
+        if (damageMessage instanceof DamageMessage) {
+            if (effectOnAttack.isAoE()) {
+                target.getOwner().getTeam().forEach((t) -> {
+                    effectMessages.add(invokeStatusEffect(t));
+                });
+            } else {
+                effectMessages.add(invokeStatusEffect(target));
+            }
         }
 
-        return new AttackMessage(this, target, target.takeDamage(damage), landedCriticalHit);
+        return new AttackMessage(this, target, damageMessage, landedCriticalHit, effectMessages);
     }
 
-    public DamageMessage takeDamage(int damage) {
+    private Message invokeStatusEffect(Bot target) {
+        if (random.nextDouble() < effectiveness && random.nextDouble() > target.getResistance()) {
+            Effect effect = effectOnAttack.newInstance();
+            target.getEffects().add(effect);
+            return new NegativeEffectInflictedMessage(target, effect);
+        }
+        return new EmptyMessage();
+    }
+
+    public Message takeDamage(int damage) {
         if (random.nextDouble() > evasion) {
             damage = Math.max(0, damage - armor);
             integrity = Math.max(0, integrity - damage);
-            return new DamageMessage(this, damage, false);
+            return new DamageMessage(this, damage);
         } else {
-            return new DamageMessage(this, 0, true);
+            return new GenericTextMessage(this.getName() + " successfully evaded");
         }
     }
 
@@ -100,32 +119,41 @@ public class Bot {
         turnMeter = 0;
     }
 
-    public void preMoveActions() {
+    void depleteTurnMeter() {
         turnMeter -= 1000;
-        statusEffects.forEach((effect) -> effect.apply(this));
     }
 
-    public void postMoveActions() {
-        statusEffects.removeIf((effect) -> {
+    public List<Message> applyEffects() {
+        List<Message> messages = new ArrayList<>();
+        effects.forEach((effect) -> {
+            messages.add(effect.apply(this));
+        });
+        return messages;
+    }
+
+    public List<Message> expireEffects() {
+        List<Message> messages = new ArrayList<>();
+        effects.removeIf((effect) -> {
             if (!effect.isExpired()) {
                 return false;
             } else {
-                effect.revoke(this);
+                messages.add(effect.revoke(this));
                 return true;
             }
         });
+        return messages;
     }
 
-    boolean canTakeTurn() {
+    boolean canPlayTurn() {
         return turnMeter >= 1000;
-    }
-
-    public void setOwner(Player owner) {
-        this.owner = owner;
     }
 
     public Player getOwner() {
         return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     public int getPower() {
@@ -180,8 +208,8 @@ public class Bot {
         return name;
     }
 
-    public List<StatusEffect> getStatusEffects() {
-        return statusEffects;
+    public List<Effect> getEffects() {
+        return effects;
     }
 
     public GenericTextMessage getStatus() {
@@ -196,7 +224,7 @@ public class Bot {
                 ", criticalHit=" + (criticalHit * 100) + "%" +
                 ", resistance=" + (resistance * 100) + "%" +
                 ", effectiveness=" + (effectiveness * 100) + "%" +
-                ", statusEffects=" + statusEffects +
+                ", statusEffects=" + effects +
                 '}');
     }
 

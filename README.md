@@ -33,7 +33,7 @@ For training purposes the game offers AI opponents to battle against. This allow
 The damage calculation works like this (in pseudo-code):
 
 ```
-damage to opponent = (random(1/2*power of attacker - 1*power of attacker) - armor of opponent)
+damage to opponent = random(between 0,5 and 1) * power of attacker - armor of opponent
 ```
 
 ### Feature 2: Destroying Opponents
@@ -114,11 +114,11 @@ Kamikaze Bot | 500 | 50 | 40 | 0 | 0% | 20%
 
 ## Sprint 2: Advanced Combat Mechanics
 
-### Feature 6: Negative Status Effects
+### Feature 6: Negative Effects
 
 > As a malevolent bot I want my attacks to put negative effects over time on my victims so that they get less useful in battle
 
-* Some bot's attacks have a chance to inflict a _Negative Status Effect_ on the target that lasts for a certain number of turns.
+* Some bot's attacks have a chance to inflict a _Negative Effect_ on the target that lasts for a certain number of turns.
 * A negative effect expires when its _Duration_ counter reaches zero.
 * The _Duration_ counter is set in the turn where the effect was inflicted and decreases by one with every turn the affected bot takes.
 * Negative Status Effects have a ```Resistance%```-chance to be prevented based on the _Resistance_ stat of the target bot.
@@ -127,8 +127,8 @@ Negative Effect | Description
 --------------- | -----------
 Defense Down | Reduces the _Armor_ and _Resistance_ of a bot by 50%. Can not be inflicted on bots who are already under this effect.
 Offense Down | Reduces the _Power_ of a bot by 25%. Can not be inflicted on bots who are already under this effect.
-Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker - armor of affected bot``` each turn until it expires. Can be stacked multiple times on the same bot.
-Bomb | Performs a delayed _Standard Attack_ on the affected bot when its duration expires. Can be stacked multiple times on the same bot.
+Continuous Damage | Damage over Time (DoT) effect that reduces a bot's integrity by ```power of attacker``` each turn until it expires. Can be stacked multiple times on the same bot.
+Bomb | Causes ```random(between 0,5 and 1) * power of attacker - armor of affected bot``` damage to the affected bot _when the effect expires_. Can be stacked multiple times on the same bot.
 Speed Down | Slows the Turn Meter down by 25% which reduces the amount of actions a bot can take during battle.
 Stun | Stunned bots will miss their moves while under this effect. Furthermore a stunned bot cannot evade attacks.
 
@@ -144,14 +144,14 @@ Tank Bot | 20% | 25% | Bomb | 3
 Beaverette Bot | 10% | - | - | -
 Kamikaze Bot | 0% | 65% | Bomb _(*)_ | 2
 
-* Effects marked with a _(*)_ in the table above are inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
+* Effects marked with a _(*)_ in the table above are (individually) inflicted on the whole enemy team instead of just the targeted bot. Each enemy bot still has its own ```Resistance%```-chance to resist the effect.
 * If more than one effect is listed for a bot in the table above, one of the effects is randomly inflicted.
 
-### Feature 7: Positive Status Effects
+### Feature 7: Positive Effects
 
-> As a benevolent support bot I want special skills with positive status effects so that I can buff my team in combat
+> As a benevolent support bot I want special skills with positive effects so that I can buff my team in combat
 
-* Some bots have secondary skills that buff themselves and/or teammates with a _Positive Status Effect_ that lasts for a certain number of turns.
+* Some bots have secondary skills that buff themselves and/or teammates with a _Positive Effect_ that lasts for a certain number of turns.
 * A positive effect expires when its _Duration_ counter reaches zero.
 * The _Duration_ counter is set in the turn where the effect was cast and decreases by one with every turn the affected bot takes.
 

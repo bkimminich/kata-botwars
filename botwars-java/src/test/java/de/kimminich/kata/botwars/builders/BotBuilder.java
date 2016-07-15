@@ -1,14 +1,14 @@
 package de.kimminich.kata.botwars.builders;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.NoStatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffect;
-import de.kimminich.kata.botwars.effects.StatusEffectFactory;
+import de.kimminich.kata.botwars.effects.Effect;
+import de.kimminich.kata.botwars.effects.NoEffect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static de.kimminich.kata.botwars.effects.StatusEffectFactory.createFactoryForEffectWithDuration;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createAoEEffectFactoryFor;
+import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
 
 public final class BotBuilder {
 
@@ -21,15 +21,20 @@ public final class BotBuilder {
     private double criticalHit = 0.0;
     private double resistance = 0.0;
     private double effectiveness = 0.0;
-    private StatusEffectFactory effectOnAttack = createFactoryForEffectWithDuration(
-            0, NoStatusEffect.class);
-    private ArrayList<StatusEffect> statusEffects = new ArrayList<>();
+    private ArrayList<Effect> effects = new ArrayList<>();
+    private Class<? extends Effect> effectOnAttack = NoEffect.class;
+    private int effectDuration = 0;
+    private boolean effectAoE = false;
 
     private BotBuilder() {
     }
 
     public static BotBuilder aBot() {
         return new BotBuilder();
+    }
+
+    public static Bot anyBot() {
+        return aBot().build();
     }
 
     public BotBuilder withPower(int power) {
@@ -77,36 +82,42 @@ public final class BotBuilder {
         return this;
     }
 
-    public BotBuilder withStatusEffects() {
-        this.statusEffects = new ArrayList<>();
+    public BotBuilder withNoStatusEffects() {
+        this.effects = new ArrayList<>();
         return this;
     }
 
-    public BotBuilder withStatusEffects(StatusEffect... effects) {
-        statusEffects.addAll(Arrays.asList(effects));
+    public BotBuilder withStatusEffects(Effect... effects) {
+        this.effects.addAll(Arrays.asList(effects));
         return this;
     }
 
-    public BotBuilder withAttackEffectAndDuration(Class<? extends StatusEffect> effect, int duration) {
-        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effect);
+    public BotBuilder withAttackEffect(Class<? extends Effect> effect) {
+        this.effectOnAttack = effect;
+        this.effectDuration = this.effectDuration == 0 ? 1 : this.effectDuration;
         return this;
     }
 
-    public BotBuilder withRandomlyChosenAttackEffectAndDuration(
-            Class<? extends StatusEffect>[] effects, int duration) {
-        this.effectOnAttack = createFactoryForEffectWithDuration(duration, effects);
+    public BotBuilder withEffectDuration(int duration) {
+        this.effectDuration = duration;
+        return this;
+    }
+
+    public BotBuilder withAoE() {
+        this.effectAoE = true;
         return this;
     }
 
     public Bot build() {
         Bot bot = new Bot(name, power, armor, speed, integrity, evasion, criticalHit,
-                resistance, effectiveness, effectOnAttack);
-        bot.getStatusEffects().addAll(statusEffects);
+                resistance, effectiveness);
+        if (effectAoE) {
+            bot.addEffectOnAttack(createAoEEffectFactoryFor(bot, effectDuration, effectOnAttack));
+        } else {
+            bot.addEffectOnAttack(createEffectFactoryFor(bot, effectDuration, effectOnAttack));
+        }
+        bot.getEffects().addAll(effects);
         return bot;
-    }
-
-    public static Bot anyBot() {
-        return aBot().build();
     }
 
 }

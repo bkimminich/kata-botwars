@@ -1,17 +1,24 @@
 package de.kimminich.kata.botwars;
 
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.DynamicTest;
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.TestFactory;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static de.kimminich.kata.botwars.BotTypes.*;
-import static org.junit.gen5.api.Assertions.*;
-import static org.junit.gen5.api.DynamicTest.dynamicTest;
+import static de.kimminich.kata.botwars.BotTypes.AGGRO_BOT;
+import static de.kimminich.kata.botwars.BotTypes.BEAVERETTE_BOT;
+import static de.kimminich.kata.botwars.BotTypes.GLASS_BOT;
+import static de.kimminich.kata.botwars.BotTypes.KAMIKAZE_BOT;
+import static de.kimminich.kata.botwars.BotTypes.STEALTH_BOT;
+import static de.kimminich.kata.botwars.BotTypes.TANK_BOT;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 @DisplayName("A bot factory")
 public class BotFactoryTest {

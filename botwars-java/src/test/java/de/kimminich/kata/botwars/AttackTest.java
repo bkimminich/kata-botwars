@@ -1,23 +1,29 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.extensions.InjectMock;
 import de.kimminich.extensions.MockitoExtension;
 import de.kimminich.kata.botwars.ui.UserInterface;
 import de.kimminich.kata.botwars.ui.answers.FirstBotFromOpponentTeam;
 import de.kimminich.kata.botwars.ui.answers.TeamOfUpToThreeBotsFromRoster;
 import de.kimminich.kata.botwars.ui.answers.UniquePlayerName;
-import org.junit.gen5.api.BeforeEach;
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 
 import java.util.Optional;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static org.junit.gen5.api.Assertions.*;
-import static org.mockito.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyListOf;
+import static org.mockito.ArgumentMatchers.anySetOf;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,7 +33,7 @@ public class AttackTest {
     private Game game;
 
     @BeforeEach
-    void initUserInterface(@InjectMock UserInterface ui) {
+    void initUserInterface(@Mock UserInterface ui) {
         when(ui.enterName()).thenAnswer(new UniquePlayerName());
         when(ui.selectTeam(anySetOf(Bot.class))).thenAnswer(new TeamOfUpToThreeBotsFromRoster());
         when(ui.selectTarget(any(Bot.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
@@ -35,7 +41,7 @@ public class AttackTest {
 
     @Test
     @DisplayName("is performed when a bot makes its move")
-    void botAttacksWhenMakingMove(@InjectMock UserInterface ui) {
+    void botAttacksWhenMakingMove(@Mock UserInterface ui) {
         Bot bot = aBot().withSpeed(500).build();
         Bot opponent = aBot().withIntegrity(100).build();
 
@@ -52,7 +58,7 @@ public class AttackTest {
 
     @Test
     @DisplayName("is only performed against the selected target")
-    void botAttacksOnlyTheSelectedTarget(@InjectMock UserInterface ui) {
+    void botAttacksOnlyTheSelectedTarget(@Mock UserInterface ui) {
         Bot bot = aBot().withSpeed(1000).build();
         Bot opponent1 = aBot().withIntegrity(100).build();
         Bot opponent2 = aBot().withIntegrity(100).build();
@@ -73,7 +79,7 @@ public class AttackTest {
 
     @Test
     @DisplayName("destroying a bot gets it removed from its team")
-    void botDestroyedFromAttackIsRemovedFromTeam(@InjectMock UserInterface ui) {
+    void botDestroyedFromAttackIsRemovedFromTeam(@Mock UserInterface ui) {
         Bot bot = aBot().withPower(100).withSpeed(1000).build();
         Bot opponent = aBot().withIntegrity(1).build();
 

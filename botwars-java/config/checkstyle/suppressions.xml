@@ -7,6 +7,7 @@
 <suppressions>
     <suppress checks="MagicNumberCheck" files=".*[Test|Builder].java"/>
     <suppress checks="HiddenField" files=".*Builder.java"/>
+    <suppress checks="HiddenField" files="AbstractEffect.java"/>
     <suppress checks="StarImport" files=".*Test.java"/>
 
     <suppress checks="LineLength" files="BotFactory.java"/>

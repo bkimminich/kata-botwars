@@ -1,24 +1,29 @@
 package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
-import de.kimminich.kata.botwars.effects.StatusEffect;
+import de.kimminich.kata.botwars.effects.AbstractEffect;
+import de.kimminich.kata.botwars.messages.EmptyMessage;
+import de.kimminich.kata.botwars.messages.GenericTextMessage;
+import de.kimminich.kata.botwars.messages.Message;
 
-public class ContinuousDamage extends StatusEffect {
+public class ContinuousDamage extends AbstractEffect {
 
-    public ContinuousDamage(Integer duration) {
-        super(duration);
+    public ContinuousDamage(Bot invoker, Integer duration) {
+        super(invoker, duration);
     }
 
     @Override
-    public void applyEffect(Bot target) {
+    public Message applyEffect(Bot invoker, Bot target) {
         double evasion = target.getEvasion();
         target.setEvasion(0.0);
-        target.takeDamage(50);
+        Message damage = target.takeDamage(invoker.getPower() + target.getArmor());
         target.setEvasion(evasion);
+        return new GenericTextMessage(damage + " from Continuous Damage effect!");
     }
 
     @Override
-    public void revokeEffect(Bot target) {
+    public Message revokeEffect(Bot invoker, Bot target) {
+        return new EmptyMessage();
     }
 
 }

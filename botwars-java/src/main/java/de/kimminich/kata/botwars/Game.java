@@ -1,9 +1,14 @@
 package de.kimminich.kata.botwars;
 
+import de.kimminich.kata.botwars.effects.negative.Stun;
 import de.kimminich.kata.botwars.ui.SwingUI;
 import de.kimminich.kata.botwars.ui.UserInterface;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -15,7 +20,7 @@ public class Game {
 
     Game(UserInterface ui) throws IllegalArgumentException {
         this(ui, new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())),
-                 new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
+                new Player(ui.enterName(), ui.selectTeam(BotFactory.createDefaultRoster())));
     }
 
     public Game(UserInterface ui, Player player1, Player player2) throws IllegalArgumentException {
@@ -29,16 +34,20 @@ public class Game {
         prepareTeam(player2);
     }
 
+    public static void main(String... args) {
+        new Game(new SwingUI()).loop();
+    }
+
     private void prepareTeam(Player player) throws IllegalArgumentException {
         if (player.getTeam().size() != 3) {
             throw new IllegalArgumentException(player + " team size is invalid: " + player.getTeam().size());
         }
-       player.getTeam().stream().filter(i -> Collections.frequency(player.getTeam(), i) > 1)
+        player.getTeam().stream().filter(i -> Collections.frequency(player.getTeam(), i) > 1)
                 .collect(Collectors.toSet()).forEach(bot -> {
-           throw new IllegalArgumentException(player + " has duplicate bot in team: " + bot);
-       });
+            throw new IllegalArgumentException(player + " has duplicate bot in team: " + bot);
+        });
 
-       player.getTeam().stream().forEach(bot -> {
+        player.getTeam().stream().forEach(bot -> {
             bot.setOwner(player);
             bot.resetBot();
             bots.add(bot);
@@ -52,12 +61,31 @@ public class Game {
                 it.remove();
             } else {
                 bot.gainTurnMeter();
-                if (bot.canTakeTurn()) {
-                    bot.preMoveActions();
-                    performAttack(bot);
+                if (bot.canPlayTurn()) {
+                    playTurn(bot);
                 }
             }
         }
+    }
+
+    private void playTurn(Bot bot) {
+        bot.depleteTurnMeter();
+        ui.appliedEffects(bot.applyEffects());
+        boolean botDestroyed = bot.isDestroyed();
+        if (!botDestroyed) {
+            if (notStunned(bot)) {
+                performAttack(bot);
+            }
+            ui.expiredEffects(bot.expireEffects());
+            botDestroyed = bot.isDestroyed();
+        }
+        if (botDestroyed) {
+            ui.botDestroyed(bot);
+        }
+    }
+
+    private boolean notStunned(Bot bot) {
+        return bot.getEffects().stream().filter(e -> e instanceof Stun).count() == 0;
     }
 
     private void performAttack(Bot attacker) {
@@ -89,10 +117,6 @@ public class Game {
         } else {
             return Optional.empty();
         }
-    }
-
-    public static void main(String... args) {
-        new Game(new SwingUI()).loop();
     }
 
 }

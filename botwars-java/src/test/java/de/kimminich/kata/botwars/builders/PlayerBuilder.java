@@ -24,6 +24,10 @@ public final class PlayerBuilder {
         return new PlayerBuilder();
     }
 
+    public static Player anyPlayer() {
+        return aPlayer().build();
+    }
+
     public PlayerBuilder withTeam(Bot... team) {
         this.team = new ArrayList<>();
         Collections.addAll(this.team, team);
@@ -37,10 +41,6 @@ public final class PlayerBuilder {
 
     public Player build() {
         return new Player(name, team);
-    }
-
-    public static Player anyPlayer() {
-        return aPlayer().build();
     }
 
 }
