@@ -3,10 +3,10 @@ package de.kimminich.kata.botwars.effects;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.negative.DefenseDown;
 import de.kimminich.kata.botwars.effects.negative.OffenseDown;
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.DynamicTest;
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.TestFactory;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -14,11 +14,11 @@ import java.util.stream.Stream;
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
-import static org.junit.gen5.api.Assertions.assertAll;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.junit.gen5.api.DynamicTest.dynamicTest;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 @DisplayName("An effect")
 public class EffectTest {

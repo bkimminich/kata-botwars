@@ -1,14 +1,14 @@
 package de.kimminich.kata.botwars.effects.negative;
 
-import de.kimminich.extensions.InjectMock;
 import de.kimminich.extensions.MockitoExtension;
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.Game;
 import de.kimminich.kata.botwars.effects.Effect;
 import de.kimminich.kata.botwars.ui.UserInterface;
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.extension.ExtendWith;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 
 import java.util.Optional;
 
@@ -16,8 +16,8 @@ import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -62,7 +62,7 @@ public class ContinuousDamageTest {
 
     @Test
     @DisplayName("that destroys its target will have that bot removed from its team before it can attack")
-    void botDestroyedFromContinuousDamageWillBeRemovedBeforeItsAttack(@InjectMock UserInterface ui) {
+    void botDestroyedFromContinuousDamageWillBeRemovedBeforeItsAttack(@Mock UserInterface ui) {
         Effect continuousDamage = createEffectFactoryFor(aBot().withPower(9999).build(),
                 1, ContinuousDamage.class).newInstance();
         Bot bot = aBot().withIntegrity(1).withStatusEffects(continuousDamage).withPower(100).withSpeed(1000).build();

@@ -1,25 +1,25 @@
 package de.kimminich.kata.botwars;
 
-import de.kimminich.extensions.InjectMock;
 import de.kimminich.extensions.MockitoExtension;
 import de.kimminich.kata.botwars.ui.UserInterface;
 import de.kimminich.kata.botwars.ui.answers.FirstBotFromOpponentTeam;
 import de.kimminich.kata.botwars.ui.answers.TeamOfUpToThreeBotsFromRoster;
 import de.kimminich.kata.botwars.ui.answers.UniquePlayerName;
-import org.junit.gen5.api.BeforeEach;
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.Nested;
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.extension.ExtendWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.builders.PlayerBuilder.aPlayer;
-import static org.junit.gen5.api.Assertions.assertAll;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.junit.gen5.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anySetOf;
@@ -32,7 +32,7 @@ public class GameTest {
     private Game game;
 
     @BeforeEach
-    void initUserInterface(@InjectMock UserInterface ui) {
+    void initUserInterface(@Mock UserInterface ui) {
         when(ui.enterName()).thenAnswer(new UniquePlayerName());
         when(ui.selectTeam(anySetOf(Bot.class))).thenAnswer(new TeamOfUpToThreeBotsFromRoster());
         when(ui.selectTarget(any(Bot.class), anyListOf(Bot.class))).thenAnswer(new FirstBotFromOpponentTeam());
@@ -44,7 +44,7 @@ public class GameTest {
 
         @Test()
         @DisplayName("a winner")
-        void gameEndsWithAWinner(@InjectMock UserInterface ui) {
+        void gameEndsWithAWinner(@Mock UserInterface ui) {
             game = new Game(ui);
             game.loop();
             assertTrue(game.getWinner().isPresent());
@@ -52,7 +52,7 @@ public class GameTest {
 
         @Test()
         @DisplayName("the considerably stronger player winning")
-        void strongerPlayerWinsGame(@InjectMock UserInterface ui) {
+        void strongerPlayerWinsGame(@Mock UserInterface ui) {
             Player strongPlayer = aPlayer().withTeam(
                     aBot().withPower(1000).build(), aBot().withPower(1000).build(), aBot().withPower(1000).build())
                     .build();
@@ -67,7 +67,7 @@ public class GameTest {
 
         @Test()
         @DisplayName("the considerably faster player winning")
-        void fasterPlayerWinsGame(@InjectMock UserInterface ui) {
+        void fasterPlayerWinsGame(@Mock UserInterface ui) {
             Player fastPlayer = aPlayer().withTeam(
                     aBot().withSpeed(200).build(), aBot().withSpeed(300).build(), aBot().withSpeed(400).build())
                     .build();
@@ -89,7 +89,7 @@ public class GameTest {
         @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
         @Test
         @DisplayName("when a player has a team of less than 3 bots")
-        void cannotCreateGameWithIncompleteTeamSetup(@InjectMock UserInterface ui) {
+        void cannotCreateGameWithIncompleteTeamSetup(@Mock UserInterface ui) {
             Player playerWithCompleteTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
             Player playerWithIncompleteTeam = aPlayer().withTeam(anyBot(), anyBot()).build();
 
@@ -106,7 +106,7 @@ public class GameTest {
         @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
         @Test
         @DisplayName("when a player has the same bot twice in his team")
-        void cannotCreateGameWithDuplicateBotInTeam(@InjectMock UserInterface ui) {
+        void cannotCreateGameWithDuplicateBotInTeam(@Mock UserInterface ui) {
             Bot duplicateBot = anyBot();
             Player playerWithDuplicateBotInTeam = aPlayer().withTeam(duplicateBot, duplicateBot, anyBot()).build();
             Player playerWithValidTeam = aPlayer().withTeam(anyBot(), anyBot(), anyBot()).build();
@@ -124,7 +124,7 @@ public class GameTest {
         @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
         @Test
         @DisplayName("when both players chose the same name")
-        void playersCannotHaveSameName(@InjectMock UserInterface ui) {
+        void playersCannotHaveSameName(@Mock UserInterface ui) {
             Player horst = aPlayer().withName("Horst").build();
             Player theOtherHorst = aPlayer().withName("Horst").build();
 

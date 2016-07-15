@@ -2,13 +2,13 @@ package de.kimminich.kata.botwars.effects.negative;
 
 import de.kimminich.kata.botwars.Bot;
 import de.kimminich.kata.botwars.effects.Effect;
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
 import static de.kimminich.kata.botwars.builders.BotBuilder.anyBot;
 import static de.kimminich.kata.botwars.effects.EffectFactory.createEffectFactoryFor;
-import static org.junit.gen5.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("A Defense Down effect")
 public class DefenseDownTest {

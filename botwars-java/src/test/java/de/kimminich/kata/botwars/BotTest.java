@@ -1,12 +1,12 @@
 package de.kimminich.kata.botwars;
 
-import org.junit.gen5.api.DisplayName;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static de.kimminich.kata.botwars.builders.BotBuilder.aBot;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("A bot")
 public class BotTest {
