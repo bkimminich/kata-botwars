@@ -13,7 +13,6 @@ repositories {
 
 ext.junitPlatformVersion = '1.0.0-M1'
 ext.junitJupiterVersion  = '5.0.0-M1'
-ext.log4JVersion         = '2.5'
 
 apply plugin: 'java'
 apply plugin: 'application'
