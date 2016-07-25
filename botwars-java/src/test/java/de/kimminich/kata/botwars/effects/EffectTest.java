@@ -53,7 +53,7 @@ public class EffectTest {
     }
 
     @TestFactory
-    @DisplayName("expires after the duration of ")
+    @DisplayName("expires after the duration of")
     Stream<DynamicTest> statusEffectsExpireAfterDuration() {
 
         return IntStream.range(1, 4).mapToObj(duration ->
