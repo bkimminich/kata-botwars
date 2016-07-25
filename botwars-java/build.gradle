@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M1'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M2'
     }
 }
 
@@ -11,8 +11,8 @@ repositories {
     jcenter()
 }
 
-ext.junitPlatformVersion = '1.0.0-M1'
-ext.junitJupiterVersion  = '5.0.0-M1'
+ext.junitPlatformVersion = '1.0.0-M2'
+ext.junitJupiterVersion  = '5.0.0-M2'
 
 apply plugin: 'java'
 apply plugin: 'application'
